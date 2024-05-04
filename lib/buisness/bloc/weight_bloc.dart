@@ -13,7 +13,7 @@ class WeightBloc extends Bloc<BaseAction, WeightState> {
           const WeightState.empty(),
         ) {
     on<WeightSetAction>((event, emit) async {
-      emit(const WeightState.loading());
+      // emit(const WeightState.loading());
 
       await _weightDAO.insertWeight(
         weight: WeightModel(
@@ -21,7 +21,6 @@ class WeightBloc extends Bloc<BaseAction, WeightState> {
           date: event.date,
         ),
       );
-
       emit(
         WeightState(
           isLoading: false,
@@ -29,7 +28,7 @@ class WeightBloc extends Bloc<BaseAction, WeightState> {
             {event.weight, event.date},
           ],
           error: null,
-          currentWeightPickerValue: null,
+          currentWeightPickerValue: event.weight,
         ),
       );
     });
@@ -39,13 +38,12 @@ class WeightBloc extends Bloc<BaseAction, WeightState> {
       if (weightList.isEmpty) {
         emit(const WeightState.empty());
       }
-      print(weightList);
       emit(
         WeightState(
           isLoading: false,
           data: weightList,
           error: null,
-          currentWeightPickerValue: null,
+          currentWeightPickerValue: weightList[weightList.length - 1].weight,
         ),
       );
     });

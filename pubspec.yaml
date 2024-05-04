@@ -18,6 +18,7 @@ dependencies:
   sqflite: ^2.3.3
   # Components
   numberpicker: ^2.1.2
+  fl_chart: ^0.67.0
 
 
 dev_dependencies:

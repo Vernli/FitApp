@@ -28,13 +28,4 @@ class WeightDAO {
     }
     return weights;
   }
-
-  Future<void> setCurrentWeight({required double weight}) async {
-    final database = await dbProvider.database;
-    await database.insert(
-      'current_weight',
-      {'weight': weight},
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-  }
 }

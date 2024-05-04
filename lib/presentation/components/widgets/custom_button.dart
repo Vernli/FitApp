@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 
-class AddButton extends StatelessWidget {
+class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;
-  const AddButton({super.key, required this.onPressed});
+  final Color color;
+  final String text;
+  final Size size;
+  const CustomButton({
+    super.key,
+    required this.onPressed,
+    required this.text,
+    required this.color,
+    required this.size,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor:
-            Theme.of(context).colorScheme.primary.withOpacity(0.98),
+        minimumSize: size,
+        backgroundColor: color,
         shape: RoundedRectangleBorder(
           side: const BorderSide(
             color: Colors.black,
@@ -20,11 +29,11 @@ class AddButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         shadowColor: Colors.black.withOpacity(0.8),
-        elevation: 2,
+        elevation: 3,
       ),
-      child: const Text(
-        'Dodaj',
-        style: TextStyle(fontSize: 16, color: Colors.white),
+      child: Text(
+        text,
+        style: const TextStyle(fontSize: 16, color: Colors.white),
       ),
     );
   }

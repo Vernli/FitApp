@@ -1,16 +1,26 @@
 import 'dart:ui';
+import 'package:app/presentation/controllers/picker_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class WeightPicker extends StatefulWidget {
-  const WeightPicker({super.key});
+  const WeightPicker({super.key, required this.controller});
+
+  final PickerContoller controller;
 
   @override
   State<WeightPicker> createState() => _WeightPickerState();
 }
 
 class _WeightPickerState extends State<WeightPicker> {
-  double _currentValue = 64.4;
+  @override
+  void initState() {
+    widget.controller.addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -56,12 +66,12 @@ class _WeightPickerState extends State<WeightPicker> {
               fontSize: 18,
               fontWeight: FontWeight.w400,
             ),
-            value: _currentValue,
+            value: widget.controller.pickerValue,
             minValue: 0,
             maxValue: 200,
-            decimalPlaces: 1,
+            decimalPlaces: 2,
             onChanged: (value) => {
-              setState(() => _currentValue = value),
+              setState(() => widget.controller.setPickerValue(value)),
             },
           ),
         ],

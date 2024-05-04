@@ -15,15 +15,3 @@ class WeightGetAction implements BaseAction {
 
   get weight => null;
 }
-
-@immutable
-class WeightSetCurrentWeight implements BaseAction {
-  final double weight;
-
-  const WeightSetCurrentWeight({required this.weight});
-}
-
-@immutable
-class WeightGetCurrentWeight implements BaseAction {
-  const WeightGetCurrentWeight();
-}
