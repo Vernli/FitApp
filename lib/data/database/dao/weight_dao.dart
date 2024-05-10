@@ -1,5 +1,6 @@
-import 'package:app/database/app_database.dart';
-import 'package:app/models/weight/weight_model.dart';
+import 'package:app/data/database/app_database.dart';
+import 'package:app/data/models/weight/weight_model.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:sqflite/sqflite.dart';
 
 class WeightDAO {
@@ -17,15 +18,20 @@ class WeightDAO {
     );
   }
 
-  Future<List<WeightModel>> getAllWeights() async {
+  Future<List<Map<String, dynamic>>> getAllWeights() async {
     final database = await dbProvider.database;
     final List<Map<String, dynamic>> weightMaps =
         await database.query('weight');
-    final List<WeightModel> weights = [];
-    for (final weightMap in weightMaps) {
-      final WeightModel weight = WeightModel.fromMap(weightMap);
-      weights.add(weight);
+    return weightMaps;
+  }
+
+  //TODO
+  Future<List<FlSpot>> getWeightSpots() async {
+    final List<Map<String, dynamic>> weights = await getAllWeights();
+    final List<FlSpot> spots = [];
+    for (int index = 0; index < weights.length; ++index) {
+      spots.add(FlSpot(weights[index]['weight'], index * 10.0));
     }
-    return weights;
+    return spots;
   }
 }

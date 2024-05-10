@@ -21,7 +21,7 @@ class TabAppBar extends StatelessWidget implements PreferredSizeWidget {
         decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary,
             borderRadius:
-                const BorderRadius.vertical(bottom: Radius.circular(20))),
+                const BorderRadius.vertical(bottom: Radius.circular(20)),),
         child: Column(
           children: [
             // Przestrzeń

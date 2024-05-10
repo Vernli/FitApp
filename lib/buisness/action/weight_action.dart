@@ -5,13 +5,23 @@ import 'package:flutter/foundation.dart';
 class WeightSetAction implements BaseAction {
   final double weight;
   final String date;
+  final String time;
 
-  const WeightSetAction({required this.weight, required this.date});
+  const WeightSetAction({
+    required this.weight,
+    required this.date,
+    required this.time,
+  });
 }
 
 @immutable
 class WeightGetAction implements BaseAction {
   const WeightGetAction();
 
-  get weight => null;
+  // get weight => null;
+}
+
+@immutable
+class InitEvent implements BaseAction {
+  const InitEvent();
 }

@@ -1,15 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class WeightChart extends StatelessWidget {
-  const WeightChart({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Chart();
-  }
-}
-
+/// A widget that displays a line chart.
 class Chart extends StatefulWidget {
   const Chart({super.key});
 
@@ -18,73 +10,55 @@ class Chart extends StatefulWidget {
 }
 
 class _ChartState extends State<Chart> {
-  bool showAvg = false;
-
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
         AspectRatio(
-          aspectRatio: 2.0,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              right: 10,
-              left: 10,
-              top: 0,
-              bottom: 10,
-            ),
-            child: LineChart(
-              mainData(),
-            ),
+          aspectRatio: 1.0,
+          child: LineChart(
+            mainData(),
           ),
         ),
       ],
     );
   }
 
+  /// Returns the data for the line chart.
   LineChartData mainData() {
     return LineChartData(
-      gridData: FlGridData(
-        show: false,
-        drawVerticalLine: false,
-        horizontalInterval: 1,
-        verticalInterval: 1,
-        getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: Colors.white10,
-            strokeWidth: 1,
-          );
-        },
-      ),
+      lineTouchData: const LineTouchData(enabled: false),
+      gridData: const FlGridData(show: false),
       titlesData: const FlTitlesData(show: false),
-      borderData: FlBorderData(
-        show: false,
-      ),
+      borderData: FlBorderData(show: false),
       minX: 0,
-      maxX: 24,
+      maxX: 20,
       minY: 50,
       maxY: 60,
       lineBarsData: [
         LineChartBarData(
           // color: Theme.of(context).colorScheme.onPrimary,
           color: Colors.white,
+
+          // Distance formula between each spot on the x-axis:
+          // deltaX = xMax - xMin
+          // ((x - minX) / deltaX) * canvaSize
+
           spots: const [
             FlSpot(0, 50.5),
-            FlSpot(2, 52),
-            FlSpot(4, 54),
-            FlSpot(8, 53),
-            FlSpot(10, 55),
-            FlSpot(12, 56.5),
-            FlSpot(14, 58.5),
-            FlSpot(16, 56.5),
-            FlSpot(20, 56.5),
-            FlSpot(24, 56.5),
-            FlSpot(26, 56.5),
-            FlSpot(28, 56.5),
+            FlSpot(10, 52),
+            FlSpot(20, 54),
+            FlSpot(30, 53),
+            FlSpot(40, 55),
+            FlSpot(50, 56.5),
+            FlSpot(60, 58.5),
+            FlSpot(70, 56.5),
           ],
+
           isCurved: true,
           barWidth: 1,
           isStrokeCapRound: true,
+          isStrokeJoinRound: true,
           dotData: const FlDotData(
             show: true,
           ),
@@ -116,4 +90,13 @@ class _ChartState extends State<Chart> {
       ],
     );
   }
+}
+
+/// Calculates the chart spots based on the given value.
+List<FlSpot> calculateChartSpots(dynamic value) {
+  List<FlSpot> spots = [];
+  for (int i = 0; i < value.length; i++) {
+    spots.add(FlSpot(i * 10, value[i] as double));
+  }
+  return spots;
 }

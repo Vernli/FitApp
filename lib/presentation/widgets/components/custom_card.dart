@@ -4,16 +4,19 @@ class CustomCard extends StatelessWidget {
   const CustomCard({
     super.key,
     required this.child,
+    this.margin = const EdgeInsets.all(0),
     this.controller,
   });
 
   final dynamic controller;
   final Widget child;
+  final EdgeInsetsGeometry margin;
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: margin,
       width: MediaQuery.of(context).size.width / 1.03,
-      height: MediaQuery.of(context).size.height / 3.8,
+      height: MediaQuery.of(context).size.height / 3.67,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.secondary.withOpacity(0.8),
         borderRadius: BorderRadius.circular(10),

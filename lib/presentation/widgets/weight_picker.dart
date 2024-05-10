@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:app/presentation/controllers/picker_controller.dart';
+import 'package:app/presentation/widgets/components/controllers/picker_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 
@@ -15,9 +15,6 @@ class WeightPicker extends StatefulWidget {
 class _WeightPickerState extends State<WeightPicker> {
   @override
   void initState() {
-    widget.controller.addListener(() {
-      setState(() {});
-    });
     super.initState();
   }
 
@@ -67,6 +64,7 @@ class _WeightPickerState extends State<WeightPicker> {
               fontWeight: FontWeight.w400,
             ),
             value: widget.controller.pickerValue,
+            haptics: true,
             minValue: 0,
             maxValue: 200,
             decimalPlaces: 2,

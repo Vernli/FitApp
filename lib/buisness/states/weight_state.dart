@@ -35,4 +35,19 @@ class WeightState {
       'curentWeightPickerValue': currentWeightPickerValue,
     }.toString();
   }
+
+  WeightState copyWith({
+    bool? isLoading,
+    Object? data,
+    Object? error,
+    double? currentWeightPickerValue,
+  }) {
+    return WeightState(
+      isLoading: isLoading ?? this.isLoading,
+      data: data ?? this.data,
+      error: error ?? this.error,
+      currentWeightPickerValue:
+          currentWeightPickerValue ?? this.currentWeightPickerValue,
+    );
+  }
 }

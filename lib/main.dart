@@ -1,7 +1,8 @@
+import 'package:app/buisness/action/weight_action.dart';
 import 'package:app/buisness/bloc/weight_bloc.dart';
 import 'package:app/config/theme/app_theme.dart';
-import 'package:app/presentation/components/tab_appbar.dart';
-import 'package:app/presentation/weight_screen.dart';
+import 'package:app/presentation/widgets/tab_appbar.dart';
+import 'package:app/presentation/screens/weight_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,20 +18,21 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: 'Dziennik Treningowy',
       theme: appTheme,
-      home: const HomePage(),
+      home: const MainPage(),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class MainPage extends StatelessWidget {
+  const MainPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<WeightBloc>(
-          create: (context) => WeightBloc(),
+          lazy: false,
+          create: (context) => WeightBloc()..add(const InitEvent()),
         ),
       ],
       child: DefaultTabController(
@@ -51,6 +53,7 @@ class HomePage extends StatelessWidget {
             ],
           ),
           body: const TabBarView(
+            physics: NeverScrollableScrollPhysics(),
             children: [
               Center(child: Text('Dieta')),
               Center(child: Text('Plan Treningowy')),
@@ -58,8 +61,8 @@ class HomePage extends StatelessWidget {
             ],
           ),
           extendBodyBehindAppBar: false,
+          // TODO - IMPLEMENTACJA FUNKCJONALNOŚCI
           floatingActionButton: FloatingActionButton(
-            // TODO - IMPLEMENTACJA FUNKCJONALNOŚCI
             onPressed: () => {},
             backgroundColor: Theme.of(context).colorScheme.primary,
             child: const Icon(Icons.bar_chart_rounded),
