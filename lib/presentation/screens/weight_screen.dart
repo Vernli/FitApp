@@ -3,6 +3,7 @@ import 'package:app/presentation/widgets/chart_card.dart';
 import 'package:app/presentation/widgets/weight_add_card.dart';
 import 'package:flutter/material.dart';
 
+/// A screen that displays a chart card and a weight add card.
 class WeightScreen<T extends WeightBloc> extends StatelessWidget {
   const WeightScreen({super.key});
 

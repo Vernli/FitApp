@@ -31,7 +31,6 @@ class MainPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<WeightBloc>(
-          lazy: false,
           create: (context) => WeightBloc()..add(const InitEvent()),
         ),
       ],

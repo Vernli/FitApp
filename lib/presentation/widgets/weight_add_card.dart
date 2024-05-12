@@ -8,7 +8,6 @@ import 'package:app/presentation/widgets/components/controllers/picker_controlle
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-/// A card widget used for adding weight.
 class WeightAddCard extends StatelessWidget {
   WeightAddCard({
     super.key,
@@ -39,6 +38,7 @@ class WeightAddCard extends StatelessWidget {
           CustomButton(
             text: 'Dodaj',
             color: Theme.of(context).colorScheme.primary,
+            onPressedColor: Theme.of(context).colorScheme.primaryContainer,
             onPressed: () {
               Map<String, String> date = getDate();
               context.read<WeightBloc>().add(
@@ -59,12 +59,10 @@ class WeightAddCard extends StatelessWidget {
   }
 }
 
-// TODO MOVE TO DIFFERENT FILE
-
-/// Returns the current date and time as a formatted string.
 Map<String, String> getDate() {
   final DateTime now = DateTime.now();
-  final String formattedDate = '${now.year}-${now.month}-${now.day}';
+  final String formattedDate =
+      '${now.year}-${now.month.toString().length == 1 ? '0${now.month}' : now.month}-${now.day}';
   final String formattedTime = '${now.hour}:${now.minute}:${now.second}';
   return {
     'date': formattedDate,

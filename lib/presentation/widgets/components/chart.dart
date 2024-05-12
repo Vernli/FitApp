@@ -1,10 +1,12 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 /// A widget that displays a line chart.
 class Chart extends StatefulWidget {
-  const Chart({super.key});
-
+  const Chart({super.key, required this.weightList});
+  final List<double> weightList;
   @override
   State<Chart> createState() => _ChartState();
 }
@@ -33,27 +35,16 @@ class _ChartState extends State<Chart> {
       borderData: FlBorderData(show: false),
       minX: 0,
       maxX: 20,
-      minY: 50,
-      maxY: 60,
+      minY: widget.weightList.reduce(min) - 40,
+      maxY: widget.weightList.reduce(max) + 20,
       lineBarsData: [
         LineChartBarData(
-          // color: Theme.of(context).colorScheme.onPrimary,
           color: Colors.white,
 
           // Distance formula between each spot on the x-axis:
           // deltaX = xMax - xMin
           // ((x - minX) / deltaX) * canvaSize
-
-          spots: const [
-            FlSpot(0, 50.5),
-            FlSpot(10, 52),
-            FlSpot(20, 54),
-            FlSpot(30, 53),
-            FlSpot(40, 55),
-            FlSpot(50, 56.5),
-            FlSpot(60, 58.5),
-            FlSpot(70, 56.5),
-          ],
+          spots: calculateChartSpots(widget.weightList),
 
           isCurved: true,
           barWidth: 1,
@@ -90,13 +81,13 @@ class _ChartState extends State<Chart> {
       ],
     );
   }
-}
 
-/// Calculates the chart spots based on the given value.
-List<FlSpot> calculateChartSpots(dynamic value) {
-  List<FlSpot> spots = [];
-  for (int i = 0; i < value.length; i++) {
-    spots.add(FlSpot(i * 10, value[i] as double));
+  /// Calculates the chart spots based on the given value.
+  List<FlSpot> calculateChartSpots(dynamic value) {
+    List<FlSpot> spots = [];
+    for (int i = 0; i < value.length; i++) {
+      spots.add(FlSpot(i * 10, value[i] as double));
+    }
+    return spots;
   }
-  return spots;
 }

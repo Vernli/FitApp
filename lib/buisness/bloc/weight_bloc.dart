@@ -40,12 +40,12 @@ class WeightBloc extends Bloc<BaseAction, WeightState> {
           time: event.time,
         ),
       );
+      List<Map<String, dynamic>> weightList =
+          await _weightRepository.getAllWeights();
       emit(
         WeightState(
           isLoading: false,
-          data: [
-            [event.weight, event.date],
-          ],
+          data: weightList,
           error: null,
           currentWeightPickerValue: event.weight,
         ),
