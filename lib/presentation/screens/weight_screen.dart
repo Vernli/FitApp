@@ -10,7 +10,7 @@ class WeightScreen<T extends WeightBloc> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         const ChartCard(),
         WeightAddCard(),

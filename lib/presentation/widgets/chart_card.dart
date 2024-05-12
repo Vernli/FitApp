@@ -114,7 +114,7 @@ class _ChartCardState extends State<ChartCard> {
                 //TODO CHANGE DATA ON SCROLLING
                 child: SizedBox(
                   width: 500,
-                  height: 50,
+                  height: 40,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [

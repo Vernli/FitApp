@@ -16,7 +16,7 @@ class CustomCard extends StatelessWidget {
     return Container(
       margin: margin,
       width: MediaQuery.of(context).size.width / 1.03,
-      height: MediaQuery.of(context).size.height / 3.67,
+      height: MediaQuery.of(context).size.height / 3.80,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.secondary.withOpacity(0.8),
         borderRadius: BorderRadius.circular(10),
