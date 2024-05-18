@@ -1,7 +1,8 @@
 import 'package:app/buisness/action/weight_action.dart';
 import 'package:app/buisness/bloc/weight_bloc.dart';
 import 'package:app/config/theme/app_theme.dart';
-import 'package:app/presentation/widgets/tab_appbar.dart';
+import 'package:app/presentation/screens/plan_screen.dart';
+import 'package:app/presentation/widgets/weight_widgets/tab_appbar.dart';
 import 'package:app/presentation/screens/weight_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,7 +56,7 @@ class MainPage extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             children: [
               Center(child: Text('Dieta')),
-              Center(child: Text('Plan Treningowy')),
+              Center(child: PlanScreen()),
               Center(child: WeightScreen<WeightBloc>()),
             ],
           ),

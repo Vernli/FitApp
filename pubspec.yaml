@@ -19,6 +19,7 @@ dependencies:
   # Components
   numberpicker: ^2.1.2
   fl_chart: ^0.67.0
+  custom_radio_grouped_button: ^2.2.1
 
 
   async: any

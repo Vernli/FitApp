@@ -1,6 +1,6 @@
 import 'package:app/buisness/bloc/weight_bloc.dart';
 import 'package:app/buisness/states/weight_state.dart';
-import 'package:app/presentation/widgets/chart_box.dart';
+import 'package:app/presentation/widgets/weight_widgets/chart_box.dart';
 import 'package:app/presentation/widgets/components/custom_card.dart';
 import 'package:app/presentation/widgets/components/triangle_pointer.dart';
 import 'package:flutter/material.dart';
@@ -95,26 +95,19 @@ class _ChartCardState extends State<ChartCard> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  border: const BorderDirectional(
+                // padding: const EdgeInsets.all(2),
+                decoration: const BoxDecoration(
+                  color: Colors.black26,
+                  border: BorderDirectional(
                     top: BorderSide(
                       color: Colors.black,
                       width: 1,
                     ),
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 1,
-                      spreadRadius: 2,
-                    ),
-                  ],
                 ),
-                //TODO CHANGE DATA ON SCROLLING
                 child: SizedBox(
                   width: 500,
-                  height: 40,
+                  height: 48,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [

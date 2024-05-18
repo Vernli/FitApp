@@ -1,7 +1,7 @@
 import 'package:app/buisness/action/weight_action.dart';
 import 'package:app/buisness/bloc/weight_bloc.dart';
 import 'package:app/buisness/states/weight_state.dart';
-import 'package:app/presentation/widgets/weight_picker.dart';
+import 'package:app/presentation/widgets/weight_widgets/weight_picker.dart';
 import 'package:app/presentation/widgets/components/custom_button.dart';
 import 'package:app/presentation/widgets/components/custom_card.dart';
 import 'package:app/presentation/widgets/components/controllers/picker_controller.dart';

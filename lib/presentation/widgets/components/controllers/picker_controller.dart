@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PickerContoller extends ChangeNotifier {
-  double pickerValue;
+  dynamic pickerValue;
   PickerContoller({required this.pickerValue});
 
   setPickerValue(double value) {

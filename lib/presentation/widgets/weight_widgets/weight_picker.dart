@@ -65,7 +65,7 @@ class _WeightPickerState extends State<WeightPicker> {
             ),
             value: widget.controller.pickerValue,
             haptics: true,
-            minValue: 0,
+            minValue: 1,
             maxValue: 200,
             decimalPlaces: 2,
             onChanged: (value) => {

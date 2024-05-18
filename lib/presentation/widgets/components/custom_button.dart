@@ -34,10 +34,10 @@ class _CustomButtonState extends State<CustomButton> {
         widget.onPressed();
         setState(() {
           wasPressed = !wasPressed;
-          Future.delayed(const Duration(milliseconds: 250), () {
-            setState(() {
-              wasPressed = !wasPressed;
-            });
+        });
+        Future.delayed(const Duration(milliseconds: 250), () {
+          setState(() {
+            wasPressed = !wasPressed;
           });
         });
       },

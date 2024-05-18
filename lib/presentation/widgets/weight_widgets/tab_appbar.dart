@@ -19,9 +19,16 @@ class TabAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary,
-            borderRadius:
-                const BorderRadius.vertical(bottom: Radius.circular(20)),),
+          color: Theme.of(context).colorScheme.primary,
+          borderRadius:
+              const BorderRadius.vertical(bottom: Radius.circular(20)),
+          boxShadow: const [
+            BoxShadow(
+              blurRadius: 5,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
         child: Column(
           children: [
             // Przestrzeń
@@ -36,6 +43,9 @@ class TabAppBar extends StatelessWidget implements PreferredSizeWidget {
                   color: Theme.of(context).colorScheme.primaryContainer,
                   border: Border.all(color: Colors.black38, width: 2),
                   borderRadius: BorderRadius.circular(20),
+                  boxShadow: const [
+                    BoxShadow(blurRadius: 2, offset: Offset(0, 0)),
+                  ],
                 ),
                 child: TabBar(
                   labelColor: Colors.white,
@@ -43,9 +53,16 @@ class TabAppBar extends StatelessWidget implements PreferredSizeWidget {
                   indicatorSize: TabBarIndicatorSize.tab,
                   padding: const EdgeInsets.all(0),
                   indicator: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.4),
+                        blurRadius: 2,
+                        offset: const Offset(0, 0),
+                      ),
+                    ],
                     color: Theme.of(context).colorScheme.primary,
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.black.withOpacity(0.5)),
+                    border: Border.all(color: Colors.black.withOpacity(0.6)),
                   ),
                   tabs: tabs,
                 ),
