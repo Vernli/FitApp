@@ -39,6 +39,7 @@ class MainPage extends StatelessWidget {
         length: 3,
         initialIndex: 1,
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           appBar: const TabAppBar(
             tabs: [
               Tab(

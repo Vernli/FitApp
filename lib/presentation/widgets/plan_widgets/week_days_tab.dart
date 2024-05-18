@@ -5,13 +5,17 @@ import 'package:flutter/material.dart';
 class WeekDaysTab extends StatefulWidget {
   final List<String> weekDays;
   final List<Widget> tabBarPages;
-  final Function(int, PlanExercises) onAddExercise;
+  final bool isBottomButton;
+  final double contentHeight;
+  final Function(int, PlanExercises)? onAddExercise;
 
   const WeekDaysTab({
     super.key,
     required this.weekDays,
     required this.tabBarPages,
-    required this.onAddExercise,
+    required this.isBottomButton,
+    this.onAddExercise,
+    required this.contentHeight,
   });
 
   @override
@@ -72,30 +76,39 @@ class _WeekDaysState extends State<WeekDaysTab> with TickerProviderStateMixin {
               )
               .toList(),
         ),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.onSecondary.withOpacity(0.98),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black,
-                blurRadius: 2,
-                offset: Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Center(
-            child: AddExerciesButton(
-              onAddExercise: (value) {
-                widget.onAddExercise(_tabController!.index, value);
-              },
-            ),
-          ),
-        ),
+        widget.isBottomButton
+            ? Container(
+                width: double.infinity,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSecondary
+                      .withOpacity(0.98),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 2,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: AddExerciesButton(
+                    onAddExercise: (value) {
+                      if (widget.onAddExercise == null) {
+                        throw Exception('onAddExercise is null');
+                      }
+                      widget.onAddExercise!(_tabController!.index, value);
+                    },
+                  ),
+                ),
+              )
+            : const SizedBox(),
         Container(
           width: MediaQuery.of(context).size.width,
-          height: (MediaQuery.of(context).size.height * 0.75 - 88),
+          height: widget.contentHeight,
           color: Colors.black26,
           child: TabBarView(
             controller: _tabController,

@@ -5,8 +5,13 @@ import 'package:app/presentation/widgets/plan_widgets/plan_dialogs/widgets/add_p
 import 'package:flutter/material.dart';
 
 class AddExerciseDialog extends StatefulWidget {
+  final String exerciseName;
   final Function onAddExercise;
-  const AddExerciseDialog({super.key, required this.onAddExercise});
+  const AddExerciseDialog({
+    super.key,
+    required this.exerciseName,
+    required this.onAddExercise,
+  });
   final int _maxSeries = 14;
   final int _maxReps = 31;
 
@@ -15,7 +20,6 @@ class AddExerciseDialog extends StatefulWidget {
 }
 
 class _AddExerciseDialogState extends State<AddExerciseDialog> {
-  final TextEditingController _textController = TextEditingController();
   final PickerContoller seriesPicker = PickerContoller(pickerValue: 1);
   final PickerContoller minRepsPicker = PickerContoller(pickerValue: 1);
   final PickerContoller maxRepsPicker = PickerContoller(pickerValue: 1);
@@ -29,8 +33,6 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
 
   @override
   void dispose() {
-    _textController.dispose();
-
     super.dispose();
   }
 
@@ -64,10 +66,10 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                   top: Radius.circular(20),
                 ),
               ),
-              child: const Center(
+              child: Center(
                 child: Text(
-                  'Dodawanie ćwiczenia',
-                  style: TextStyle(
+                  widget.exerciseName,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                   ),
@@ -82,20 +84,6 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    AddExerciseCard(
-                      child: TextField(
-                        controller: _textController,
-                        keyboardType: TextInputType.text,
-                        cursorColor: Colors.white,
-                        decoration: const InputDecoration(
-                          hintText: 'Nazwa ćwiczenia',
-                          hintStyle: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
                     // Series picker
                     AddExerciseCard(
                       child: AddPlanPicker(
@@ -105,14 +93,6 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                       ),
                     ),
                     // Min reps picker
-                    AddExerciseCard(
-                      child: AddPlanPicker(
-                        contoller: minRepsPicker,
-                        maxPickerValue: currentMaxValue,
-                        title: 'Min. ilość powtórzeń',
-                      ),
-                    ),
-                    // Max reps picker
                     AddExerciseCard(
                       child: AddPlanPicker(
                         contoller: maxRepsPicker,
@@ -125,6 +105,14 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                         title: 'Max. ilość pwotórzeń',
                       ),
                     ),
+                    AddExerciseCard(
+                      child: AddPlanPicker(
+                        contoller: minRepsPicker,
+                        maxPickerValue: currentMaxValue,
+                        title: 'Min. ilość powtórzeń',
+                      ),
+                    ),
+                    // Max reps picker
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 42.0),
                       child: Container(
@@ -142,26 +130,15 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                         child: ElevatedButton(
                           onPressed: () {
                             // Check if the text field is empty or contains only whitespaces
-                            if (_textController.text.isEmpty ||
-                                _textController.text.trim().isEmpty) {
-                              setState(() {
-                                isTextEmpty = true;
-                                _textController.clear();
-                              });
-                              return;
-                            } else {
-                              widget.onAddExercise(
-                                PlanExercises(
-                                  exerciseName: _textController.text,
-                                  series: seriesPicker.pickerValue,
-                                  minReps: minRepsPicker.pickerValue,
-                                  maxReps: maxRepsPicker.pickerValue,
-                                ),
-                              );
-                              Navigator.pop(context);
-
-                              return;
-                            }
+                            widget.onAddExercise(
+                              PlanExercises(
+                                exerciseName: widget.exerciseName,
+                                series: seriesPicker.pickerValue,
+                                minReps: minRepsPicker.pickerValue,
+                                maxReps: maxRepsPicker.pickerValue,
+                              ),
+                            );
+                            Navigator.pop(context);
                           },
                           child: const Text(
                             'Dodaj  ',

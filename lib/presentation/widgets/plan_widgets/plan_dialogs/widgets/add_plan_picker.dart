@@ -78,7 +78,7 @@ class _AddPlanPickerState extends State<AddPlanPicker> {
                   ),
                   onChanged: (_) => {
                     if (widget.onChanged != null)
-                      {widget.onChanged!.call(widget.contoller.pickerValue)}
+                      {widget.onChanged!.call(widget.contoller.pickerValue)},
                   },
                 ),
               ),

@@ -18,6 +18,7 @@ class StartupPlanPage extends StatelessWidget {
               builder: (context) {
                 return const SetPlanNameDialog();
               },
+              barrierDismissible: true,
             );
           },
         ),

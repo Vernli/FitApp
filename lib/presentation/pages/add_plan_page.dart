@@ -26,6 +26,16 @@ class _AddPlanPageState extends State<AddPlanPage> {
   List<List<PlanExercises>> exercises = List.generate(7, (index) => []);
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Map<String, double> safeAreaPadding = {
       'paddingTop': MediaQuery.of(context).padding.top,
@@ -86,6 +96,9 @@ class _AddPlanPageState extends State<AddPlanPage> {
                             ),
                           )
                           .toList(),
+                      contentHeight:
+                          (MediaQuery.of(context).size.height * 0.75 - 88),
+                      isBottomButton: true,
                       onAddExercise: (index, value) {
                         setState(() {
                           exercises[index].add(value);

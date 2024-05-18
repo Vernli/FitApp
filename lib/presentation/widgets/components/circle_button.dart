@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 class CircleButton extends StatefulWidget {
@@ -22,15 +21,16 @@ class _CircleButtonState extends State<CircleButton> {
       width: !wasPressed ? widget.size : (widget.size * 0.98),
       height: !wasPressed ? widget.size : (widget.size * 0.98),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          border: Border.all(color: Colors.black.withOpacity(0.6)),
-          color: Theme.of(context).colorScheme.primaryContainer,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.6),
-              blurRadius: 2,
-            ),
-          ]),
+        borderRadius: BorderRadius.circular(100),
+        border: Border.all(color: Colors.black.withOpacity(0.6)),
+        color: Theme.of(context).colorScheme.primaryContainer,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.6),
+            blurRadius: 2,
+          ),
+        ],
+      ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.all(0),

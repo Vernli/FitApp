@@ -1,4 +1,5 @@
 import 'package:app/presentation/widgets/plan_widgets/plan_dialogs/add_exercise_dialog.dart';
+import 'package:app/presentation/widgets/plan_widgets/plan_dialogs/custom_text_dialog.dart';
 import 'package:flutter/material.dart';
 
 class AddExerciesButton extends StatelessWidget {
@@ -27,9 +28,20 @@ class AddExerciesButton extends StatelessWidget {
         onPressed: () {
           showDialog(
             context: context,
-            builder: ((context) => AddExerciseDialog(
-                  onAddExercise: (value) {
-                    onAddExercise(value);
+            builder: ((context) => CustomTextDialog(
+                  title: 'Dodawanie ćwiczenia',
+                  hintText: 'Nazwa ćwiczenia',
+                  errorMessage: 'Nazwa planu nie może być pusta!',
+                  onPressed: (value) {
+                    showDialog(
+                      context: context,
+                      builder: ((context) {
+                        return AddExerciseDialog(
+                          exerciseName: value,
+                          onAddExercise: onAddExercise,
+                        );
+                      }),
+                    );
                   },
                 )),
           );
