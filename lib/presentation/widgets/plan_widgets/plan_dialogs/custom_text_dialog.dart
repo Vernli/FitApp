@@ -81,7 +81,7 @@ class _CustomTextDialogState extends State<CustomTextDialog> {
               ),
             ),
 
-            // Text field for plan name with limit of 24 characters
+            // Text field for plan name with limit of 18 characters
             SingleChildScrollView(
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               child: Padding(

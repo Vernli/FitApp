@@ -12,7 +12,7 @@ class AddExerciseDialog extends StatefulWidget {
     required this.exerciseName,
     required this.onAddExercise,
   });
-  final int _maxSeries = 14;
+  final int _maxSets = 6;
   final int _maxReps = 31;
 
   @override
@@ -79,7 +79,6 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: SizedBox(
-                // height = total_dialog_height - titlebar - padding
                 height: 500 - 48 - 16,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -88,7 +87,7 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                     AddExerciseCard(
                       child: AddPlanPicker(
                         contoller: seriesPicker,
-                        maxPickerValue: widget._maxSeries,
+                        maxPickerValue: widget._maxSets,
                         title: 'Ilość serii',
                       ),
                     ),

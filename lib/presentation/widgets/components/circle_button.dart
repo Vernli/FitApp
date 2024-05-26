@@ -26,7 +26,7 @@ class _CircleButtonState extends State<CircleButton> {
         color: Theme.of(context).colorScheme.primaryContainer,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.6),
+            color: Colors.black.withOpacity(0.2),
             blurRadius: 2,
           ),
         ],
@@ -50,7 +50,7 @@ class _CircleButtonState extends State<CircleButton> {
         child: Icon(
           Icons.add,
           color: Colors.white,
-          size: widget.size * 0.3,
+          size: widget.size * 0.6,
         ),
       ),
     );

@@ -53,7 +53,6 @@ class _PlanAddTabPageState extends State<PlanAddTabPage> {
                   ),
                   key: ValueKey(exercise),
                   child: ListTile(
-                    // key: ValueKey(tile),
                     title: Text(
                       exercise.exerciseName,
                       style: const TextStyle(

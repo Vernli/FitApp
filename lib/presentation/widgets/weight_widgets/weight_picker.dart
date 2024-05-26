@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:app/presentation/widgets/components/controllers/picker_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class WeightPicker extends StatefulWidget {
@@ -42,7 +43,7 @@ class _WeightPickerState extends State<WeightPicker> {
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.6),
-                        blurRadius: 2,
+                        blurRadius: 0,
                       ),
                     ],
                   ),
@@ -51,8 +52,9 @@ class _WeightPickerState extends State<WeightPicker> {
             ),
           ),
           DecimalNumberPicker(
-            integerTextMapper: (numberText) => '$numberText kg',
-            decimalTextMapper: (numberText) => '. $numberText g',
+            integerTextMapper: (numberText) => '$numberText',
+            decimalTextMapper: (numberText) => '$numberText',
+            itemWidth: 64,
             selectedTextStyle: const TextStyle(
               color: Colors.white,
               fontSize: 20,
@@ -66,24 +68,31 @@ class _WeightPickerState extends State<WeightPicker> {
             value: widget.controller.pickerValue,
             haptics: true,
             minValue: 1,
-            maxValue: 200,
+            maxValue: 999,
             decimalPlaces: 2,
             onChanged: (value) => {
               setState(() => widget.controller.setPickerValue(value)),
             },
+          ),
+          const Positioned(
+              right: 125,
+              bottom: 61,
+              child: Text(
+                '.',
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              )),
+
+          /// A positioned widget that displays the unit 'kg' at a specific location.
+          const Positioned(
+            right: 38,
+            bottom: 61,
+            child: Text(
+              'kg',
+              style: TextStyle(color: Colors.white, fontSize: 18),
+            ),
           ),
         ],
       ),
     );
   }
 }
-
-
-// Base Button (main styling) <- WeightButton (functions) -> onPress add
-// Weight Card <- required BaeButton 
-// On Press chart is loading and show new chart 
-// WeightBloc -> WeightScreen
-
-/*
-|| ADD BUTTON ---> WEIGHT UPDATE ---> CHANGE CURRENT WEIGHT || 
-*/

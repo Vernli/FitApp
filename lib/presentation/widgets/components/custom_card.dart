@@ -20,14 +20,14 @@ class CustomCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.secondary.withOpacity(0.8),
         borderRadius: BorderRadius.circular(10),
-        border: Border(
-          bottom: BorderSide(color: Colors.black.withOpacity(0.5), width: 2),
+        border: const Border(
+          bottom: BorderSide(color: Colors.black, width: 2),
         ),
         boxShadow: const [
           BoxShadow(
-            blurRadius: 2,
-            spreadRadius: 1,
-            offset: Offset(0, 4),
+            blurRadius: 1,
+            color: Colors.black,
+            offset: Offset(0, 2),
           ),
         ],
       ),

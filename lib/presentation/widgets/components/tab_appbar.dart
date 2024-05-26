@@ -43,9 +43,6 @@ class TabAppBar extends StatelessWidget implements PreferredSizeWidget {
                   color: Theme.of(context).colorScheme.primaryContainer,
                   border: Border.all(color: Colors.black38, width: 2),
                   borderRadius: BorderRadius.circular(20),
-                  boxShadow: const [
-                    BoxShadow(blurRadius: 2, offset: Offset(0, 0)),
-                  ],
                 ),
                 child: TabBar(
                   labelColor: Colors.white,
@@ -55,8 +52,8 @@ class TabAppBar extends StatelessWidget implements PreferredSizeWidget {
                   indicator: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.4),
-                        blurRadius: 2,
+                        color: Colors.black.withOpacity(0.6),
+                        blurRadius: 1,
                         offset: const Offset(0, 0),
                       ),
                     ],
