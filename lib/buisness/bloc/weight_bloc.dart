@@ -9,7 +9,7 @@ class WeightBloc extends Bloc<BaseAction, WeightState> {
   final WeightRepository _weightRepository = WeightRepository();
 
   WeightBloc() : super(const WeightState.loading()) {
-    on<InitEvent>((event, emit) async {
+    on<InitWeightAction>((event, emit) async {
       emit(const WeightState.loading());
       List<Map<String, dynamic>> weightList =
           await _weightRepository.getAllWeights();

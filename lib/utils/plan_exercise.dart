@@ -1,12 +1,12 @@
-class PlanExercises {
+class PlanExercise {
   final String exerciseName;
-  final int series;
+  final int sets;
   final int minReps;
   final int maxReps;
 
-  PlanExercises({
+  PlanExercise({
     required this.exerciseName,
-    required this.series,
+    required this.sets,
     required this.minReps,
     required this.maxReps,
   });

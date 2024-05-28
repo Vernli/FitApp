@@ -1,6 +1,8 @@
+import 'package:app/buisness/bloc/plan_bloc.dart';
+import 'package:app/presentation/pages/add_plan_page.dart';
 import 'package:app/presentation/widgets/components/circle_button.dart';
-import 'package:app/presentation/widgets/plan_widgets/plan_dialogs/set_plan_name_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class StartupPlanPage extends StatelessWidget {
   const StartupPlanPage({super.key});
@@ -13,12 +15,13 @@ class StartupPlanPage extends StatelessWidget {
         CircleButton(
           size: 140,
           onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return const SetPlanNameDialog();
-              },
-              barrierDismissible: true,
+            return Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => BlocProvider.value(
+                  value: BlocProvider.of<PlanBloc>(context),
+                  child: const AddPlanPage(),
+                ),
+              ),
             );
           },
         ),

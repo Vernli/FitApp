@@ -31,7 +31,7 @@ class AddExerciesButton extends StatelessWidget {
             builder: ((context) => CustomTextDialog(
                   title: 'Dodawanie ćwiczenia',
                   hintText: 'Nazwa ćwiczenia',
-                  errorMessage: 'Nazwa planu nie może być pusta!',
+                  errorMessage: 'Nazwa ćwiczenia nie może być pusta!',
                   onPressed: (value) {
                     showDialog(
                       context: context,

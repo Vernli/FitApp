@@ -1,8 +1,11 @@
-import 'package:app/presentation/widgets/plan_widgets/exerscie_tile.dart';
+import 'package:app/buisness/bloc/plan_bloc.dart';
+import 'package:app/buisness/states/plan_state.dart';
+import 'package:app/presentation/pages/add_plan_page.dart';
+import 'package:app/presentation/widgets/plan_widgets/exercises/exerscie_tile.dart';
 import 'package:app/presentation/widgets/plan_widgets/plan_button.dart';
-import 'package:app/presentation/widgets/plan_widgets/plan_dialogs/set_plan_name_dialog.dart';
 import 'package:app/presentation/widgets/plan_widgets/week_days_tab.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlanPage extends StatelessWidget {
   const PlanPage({super.key});
@@ -21,7 +24,29 @@ class PlanPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                PlanButton(text: 'Zmień plan', onPressed: () {}),
+                // TODO
+                PlanButton(
+                  text: 'Zmień plan',
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Dialog(
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                child: TextButton(
+                                  onPressed: () {},
+                                  child: const Text('Plan'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
                 Align(
                   alignment: Alignment.topCenter,
                   child: Container(
@@ -39,62 +64,110 @@ class PlanPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: const Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Workout 1',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
+                    child: BlocBuilder<PlanBloc, PlanState>(
+                      builder: (context, state) {
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              state.planName.toString(),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
                 PlanButton(
                   text: 'Dodaj plan',
                   onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const SetPlanNameDialog();
-                      },
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => BlocProvider.value(
+                          value: BlocProvider.of<PlanBloc>(context),
+                          child: const AddPlanPage(),
+                        ),
+                      ),
                     );
                   },
                 ),
               ],
             ),
           ),
-          WeekDaysTab(
-            weekDays: const ['Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob', 'Nie'],
-            tabBarPages: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: const SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ExerciseTile(
-                        exerciseName: 'Podciąganie',
-                        sets: 4,
-                        maxReps: 12,
-                        minReps: 7,
+          BlocBuilder<PlanBloc, PlanState>(
+            builder: (context, state) {
+              int maxDayId = 0;
+              Map<int, List<Map<String, dynamic>>> exercises =
+                  _unwrapExercises(state.exercises!);
+              for (int i = 0; i < state.exercises!.length; i++) {
+                if (state.exercises![i]['day_id'] > maxDayId) {
+                  maxDayId = state.exercises![i]['day_id'];
+                }
+              }
+              maxDayId = maxDayId < 6 ? 5 : 7;
+
+              return WeekDaysTab(
+                weekDays: maxDayId < 6
+                    ? ['Pon', 'Wt', 'Śr', 'Czw', 'Pt']
+                    : ['Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob', 'Nie'],
+                tabLength: maxDayId,
+                tabBarPages: [
+                  for (int i = 1; i <= maxDayId; i++)
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            if (exercises.containsKey(i))
+                              for (var exercise in exercises[i]!)
+                                ExerciseTile(
+                                  exerciseName: exercise['exercise_name'],
+                                  sets: exercise['sets'],
+                                  maxReps: exercise['max_reps'],
+                                  minReps: exercise['min_reps'],
+                                  exerciseDay: i,
+                                ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              const Center(child: Text('Wt')),
-              const Center(child: Text('Śr')),
-              const Center(child: Text('Czw')),
-              const Center(child: Text('Pt')),
-              const Center(child: Text('Sob')),
-              const Center(child: Text('Nie')),
-            ],
-            isBottomButton: false,
-            contentHeight: (MediaQuery.of(context).size.height * 0.75 - 22),
+                    ),
+                ],
+                isBottomButton: false,
+                contentHeight: (MediaQuery.of(context).size.height * 0.75 - 22),
+              );
+            },
           ),
         ],
       ),
     );
+  }
+
+  Map<int, List<Map<String, dynamic>>> _unwrapExercises(
+    List<dynamic> exercisesData,
+  ) {
+    Map<int, List<Map<String, dynamic>>> exercises = {};
+    for (var exercise in exercisesData) {
+      int dayID = exercise['day_id'];
+      if (exercises.containsKey(dayID)) {
+        exercises[dayID]!.add({
+          'exercise_name': exercise['exercise_name'],
+          'min_reps': exercise['min_reps'],
+          'max_reps': exercise['max_reps'],
+          'sets': exercise['sets'],
+        });
+      } else {
+        exercises[dayID] = [
+          {
+            'exercise_name': exercise['exercise_name'],
+            'min_reps': exercise['min_reps'],
+            'max_reps': exercise['max_reps'],
+            'sets': exercise['sets'],
+          }
+        ];
+      }
+    }
+    return exercises;
   }
 }

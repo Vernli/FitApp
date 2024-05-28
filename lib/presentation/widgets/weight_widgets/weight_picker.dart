@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:app/presentation/widgets/components/controllers/picker_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class WeightPicker extends StatefulWidget {
@@ -52,8 +51,8 @@ class _WeightPickerState extends State<WeightPicker> {
             ),
           ),
           DecimalNumberPicker(
-            integerTextMapper: (numberText) => '$numberText',
-            decimalTextMapper: (numberText) => '$numberText',
+            integerTextMapper: (numberText) => numberText,
+            decimalTextMapper: (numberText) => numberText,
             itemWidth: 64,
             selectedTextStyle: const TextStyle(
               color: Colors.white,
@@ -75,12 +74,13 @@ class _WeightPickerState extends State<WeightPicker> {
             },
           ),
           const Positioned(
-              right: 125,
-              bottom: 61,
-              child: Text(
-                '.',
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              )),
+            right: 125,
+            bottom: 61,
+            child: Text(
+              '.',
+              style: TextStyle(color: Colors.white, fontSize: 18),
+            ),
+          ),
 
           /// A positioned widget that displays the unit 'kg' at a specific location.
           const Positioned(

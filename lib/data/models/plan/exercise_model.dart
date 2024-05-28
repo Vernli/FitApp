@@ -1,16 +1,14 @@
 import 'package:app/data/models/base_model.dart';
 
 class ExerciseModel extends BaseModel {
-  final int exerciseID;
-  final int workoutDayID;
+  final String day;
   final String exerciseName;
   final int sets;
   final int minReps;
   final int maxReps;
 
   ExerciseModel({
-    required this.exerciseID,
-    required this.workoutDayID,
+    required this.day,
     required this.exerciseName,
     required this.sets,
     required this.minReps,
@@ -19,6 +17,16 @@ class ExerciseModel extends BaseModel {
 
   @override
   String toString() {
-    return 'ExerciseModel {exerciseID: $exerciseID, workoutDayID: $workoutDayID, exerciseName: $exerciseName, sets: $sets, minReps: $minReps, maxReps: $maxReps}';
+    return 'ExerciseModel {day: $day, exerciseName: $exerciseName, sets: $sets, minReps: $minReps, maxReps: $maxReps}';
+  }
+
+  factory ExerciseModel.fromMap(Map<String, dynamic> map) {
+    return ExerciseModel(
+      day: map['day_id'],
+      exerciseName: map['exercise_name'],
+      sets: map['sets'],
+      minReps: map['min_reps'],
+      maxReps: map['max_reps'],
+    );
   }
 }

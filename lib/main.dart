@@ -1,4 +1,6 @@
+import 'package:app/buisness/action/plan_action.dart';
 import 'package:app/buisness/action/weight_action.dart';
+import 'package:app/buisness/bloc/plan_bloc.dart';
 import 'package:app/buisness/bloc/weight_bloc.dart';
 import 'package:app/config/theme/app_theme.dart';
 import 'package:app/presentation/screens/plan_screen.dart';
@@ -32,7 +34,14 @@ class MainPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<WeightBloc>(
-          create: (context) => WeightBloc()..add(const InitEvent()),
+          lazy: true,
+          create: (BuildContext context) =>
+              WeightBloc()..add(const InitWeightAction()),
+        ),
+        BlocProvider(
+          lazy: true,
+          create: (BuildContext context) =>
+              PlanBloc()..add(const InitPlanAction()),
         ),
       ],
       child: DefaultTabController(
@@ -57,7 +66,7 @@ class MainPage extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             children: [
               Center(child: Text('Dieta')),
-              Center(child: PlanScreen()),
+              Center(child: PlanScreen<PlanBloc>()),
               Center(child: WeightScreen<WeightBloc>()),
             ],
           ),

@@ -1,14 +1,16 @@
-import 'package:app/presentation/widgets/plan_widgets/progress_box.dart';
-
 import 'package:app/presentation/widgets/plan_widgets/exercise_value_box.dart';
+import 'package:app/presentation/widgets/plan_widgets/exercises/progress_box.dart';
+
 import 'package:flutter/material.dart';
 
 class ExerciseTileContent extends StatelessWidget {
-  const ExerciseTileContent({Key? key});
+  const ExerciseTileContent({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       children: [
         SizedBox(
           width: 220,

@@ -17,11 +17,9 @@ class WeightSetAction implements BaseAction {
 @immutable
 class WeightGetAction implements BaseAction {
   const WeightGetAction();
-
-  // get weight => null;
 }
 
 @immutable
-class InitEvent implements BaseAction {
-  const InitEvent();
+class InitWeightAction implements BaseAction {
+  const InitWeightAction();
 }

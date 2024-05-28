@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:app/data/database/table/plan_tables.dart';
 import 'package:app/data/database/table/weight_table.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' show join;
@@ -44,6 +45,7 @@ class AppDatabase {
 
   Future<void> _createDB(Database database, int version) async {
     WeightTable.createTable(database, version);
+    PlanTables.createTable(database, version);
   }
 }
 

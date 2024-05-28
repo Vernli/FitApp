@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class PlanAddAppbar extends StatefulWidget {
-  final String title;
   final double paddingTop;
+  final TextEditingController? textController;
+  final String? title;
   const PlanAddAppbar({
     super.key,
-    required this.title,
+    this.title,
+    this.textController,
     required this.paddingTop,
   });
 
@@ -14,6 +16,16 @@ class PlanAddAppbar extends StatefulWidget {
 }
 
 class _PlanAddAppbarState extends State<PlanAddAppbar> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -53,20 +65,46 @@ class _PlanAddAppbarState extends State<PlanAddAppbar> {
                   ),
                 ),
               ),
-              Center(
-                child: SizedBox(
-                  width: 250,
-                  child: Text(
-                    widget.title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.5,
+              widget.textController != null
+                  ? SizedBox(
+                      width: 264,
+                      child: TextField(
+                        controller: widget.textController,
+                        textAlign: TextAlign.center,
+                        cursorColor: Colors.white60,
+                        cursorHeight: 20,
+                        maxLength: 18,
+                        decoration: const InputDecoration(
+                          counterText: '',
+                          hintText: 'Wprowadź nazwę planu',
+                          hintStyle: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.white24,
+                            ),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.white30,
+                            ),
+                          ),
+                        ),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                    )
+                  : SizedBox(
+                      child: Text(
+                        widget.title != null ? widget.title! : '',
+                        style:
+                            const TextStyle(fontSize: 24, color: Colors.white),
+                      ),
                     ),
-                  ),
-                ),
-              ),
             ],
           ),
         ),

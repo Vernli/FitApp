@@ -1,18 +1,22 @@
-import 'package:app/presentation/widgets/components/plan_exercises.dart';
+import 'package:app/buisness/action/plan_action.dart';
+import 'package:app/buisness/bloc/plan_bloc.dart';
+import 'package:app/utils/current_date.dart';
+import 'package:app/utils/plan_exercise.dart';
 import 'package:app/presentation/widgets/plan_widgets/plan_add_tab_page.dart';
 import 'package:app/presentation/widgets/plan_widgets/plan_appbar.dart';
 import 'package:app/presentation/widgets/plan_widgets/week_days_tab.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddPlanPage extends StatefulWidget {
-  final String planName;
-  const AddPlanPage({super.key, required this.planName});
+  const AddPlanPage({super.key});
 
   @override
   State<AddPlanPage> createState() => _AddPlanPageState();
 }
 
 class _AddPlanPageState extends State<AddPlanPage> {
+  TextEditingController textController = TextEditingController();
   List<String> weekDays = [
     'Pon',
     'Wt',
@@ -23,7 +27,9 @@ class _AddPlanPageState extends State<AddPlanPage> {
     'Nie',
   ];
 
-  List<List<PlanExercises>> exercises = List.generate(7, (index) => []);
+  /// Generates an empty list of exercises for each day of the week.
+  List<List<PlanExercise>> exercises = List.generate(7, (index) => []);
+  bool isExersiceEmpty = true;
 
   @override
   void initState() {
@@ -32,6 +38,9 @@ class _AddPlanPageState extends State<AddPlanPage> {
 
   @override
   void dispose() {
+    exercises.clear();
+    weekDays.clear();
+    textController.dispose();
     super.dispose();
   }
 
@@ -46,7 +55,6 @@ class _AddPlanPageState extends State<AddPlanPage> {
         safeAreaPadding['paddingTop']! -
         safeAreaPadding['paddingBottom']! -
         106;
-
     return Material(
       child: Container(
         height: MediaQuery.of(context).size.height,
@@ -54,8 +62,8 @@ class _AddPlanPageState extends State<AddPlanPage> {
         child: Column(
           children: [
             PlanAddAppbar(
-              title: widget.planName,
               paddingTop: safeAreaPadding['paddingTop']!,
+              textController: textController,
             ),
             Container(
               width: MediaQuery.of(context).size.width,
@@ -69,6 +77,7 @@ class _AddPlanPageState extends State<AddPlanPage> {
                   const SizedBox(height: 10),
                   Center(
                     child: WeekDaysTab(
+                      tabLength: 7,
                       weekDays: [...weekDays],
                       tabBarPages: weekDays
                           .map(
@@ -91,6 +100,7 @@ class _AddPlanPageState extends State<AddPlanPage> {
                                 int index = weekDays.indexOf(day);
                                 setState(() {
                                   exercises[index].remove(value);
+                                  isExersiceEmpty = checkIsExerciseEmpty();
                                 });
                               },
                             ),
@@ -102,6 +112,7 @@ class _AddPlanPageState extends State<AddPlanPage> {
                       onAddExercise: (index, value) {
                         setState(() {
                           exercises[index].add(value);
+                          isExersiceEmpty = false;
                         });
                       },
                     ),
@@ -113,7 +124,37 @@ class _AddPlanPageState extends State<AddPlanPage> {
               width: double.infinity,
               height: 48,
               child: ElevatedButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () {
+                  if (isExersiceEmpty) {
+                    // TODO MODIFY SHOWDIALOG
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Nie można dodać pustego planu'),
+                        content: const Text('Dodaj ćwiczenia do planu'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    context.read<PlanBloc>().add(
+                          PlanAddAction(
+                            planName: textController.text,
+                            exercises: getExercises(),
+                            date: CurrentDate.getDate()['date']!,
+                            time: CurrentDate.getDate()['time']!,
+                          ),
+                        );
+
+                    Navigator.pop(context, true);
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
@@ -139,5 +180,24 @@ class _AddPlanPageState extends State<AddPlanPage> {
         ),
       ),
     );
+  }
+
+  bool checkIsExerciseEmpty() {
+    for (int i = 0; i < weekDays.length; i++) {
+      if (exercises[i].isNotEmpty) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  Map<int, List<PlanExercise>> getExercises() {
+    Map<int, List<PlanExercise>> exercisesMap = {};
+    for (int i = 0; i < weekDays.length; i++) {
+      if (exercises[i].isNotEmpty) {
+        exercisesMap[i + 1] = exercises[i];
+      }
+    }
+    return exercisesMap;
   }
 }

@@ -5,6 +5,7 @@ import 'package:app/presentation/widgets/weight_widgets/weight_picker.dart';
 import 'package:app/presentation/widgets/components/custom_button.dart';
 import 'package:app/presentation/widgets/components/custom_card.dart';
 import 'package:app/presentation/widgets/components/controllers/picker_controller.dart';
+import 'package:app/utils/current_date.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,7 +41,7 @@ class WeightAddCard extends StatelessWidget {
             color: Theme.of(context).colorScheme.primary,
             onPressedColor: Theme.of(context).colorScheme.primaryContainer,
             onPressed: () {
-              Map<String, String> date = getDate();
+              Map<String, String> date = CurrentDate.getDate();
               context.read<WeightBloc>().add(
                     WeightSetAction(
                       weight: double.parse(
@@ -57,15 +58,4 @@ class WeightAddCard extends StatelessWidget {
       ),
     );
   }
-}
-
-Map<String, String> getDate() {
-  final DateTime now = DateTime.now();
-  final String formattedDate =
-      '${now.year}-${now.month.toString().length == 1 ? '0${now.month}' : now.month}-${now.day}';
-  final String formattedTime = '${now.hour}:${now.minute}:${now.second}';
-  return {
-    'date': formattedDate,
-    'time': formattedTime,
-  };
 }

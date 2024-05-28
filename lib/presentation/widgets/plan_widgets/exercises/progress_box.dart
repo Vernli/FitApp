@@ -22,8 +22,10 @@ class ProgressBox extends StatelessWidget {
   }
 
   // TODO calculate progress
-  double getProgress(List<Map<String, dynamic>> currentExercises,
-      List<Map<String, dynamic>> previousExercises) {
+  double getProgress(
+    List<Map<String, dynamic>> currentExercises,
+    List<Map<String, dynamic>> previousExercises,
+  ) {
     return 0;
   }
 }

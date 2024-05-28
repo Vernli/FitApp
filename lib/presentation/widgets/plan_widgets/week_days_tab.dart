@@ -1,4 +1,4 @@
-import 'package:app/presentation/widgets/components/plan_exercises.dart';
+import 'package:app/utils/plan_exercise.dart';
 import 'package:app/presentation/widgets/plan_widgets/add_exercise_button.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +7,8 @@ class WeekDaysTab extends StatefulWidget {
   final List<Widget> tabBarPages;
   final bool isBottomButton;
   final double contentHeight;
-  final Function(int, PlanExercises)? onAddExercise;
+  final int tabLength;
+  final Function(int, PlanExercise)? onAddExercise;
 
   const WeekDaysTab({
     super.key,
@@ -16,6 +17,7 @@ class WeekDaysTab extends StatefulWidget {
     required this.isBottomButton,
     this.onAddExercise,
     required this.contentHeight,
+    required this.tabLength,
   });
 
   @override
@@ -23,14 +25,14 @@ class WeekDaysTab extends StatefulWidget {
 }
 
 class _WeekDaysState extends State<WeekDaysTab> with TickerProviderStateMixin {
-  List<List<PlanExercises>> exercises = [];
+  List<List<PlanExercise>> exercises = [];
 
   late TabController? _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 7, vsync: this);
+    _tabController = TabController(length: widget.tabLength, vsync: this);
   }
 
   @override

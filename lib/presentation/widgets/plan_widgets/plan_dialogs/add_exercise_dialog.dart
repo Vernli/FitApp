@@ -1,5 +1,5 @@
 import 'package:app/presentation/widgets/components/controllers/picker_controller.dart';
-import 'package:app/presentation/widgets/components/plan_exercises.dart';
+import 'package:app/utils/plan_exercise.dart';
 import 'package:app/presentation/widgets/plan_widgets/add_exercise_card.dart';
 import 'package:app/presentation/widgets/plan_widgets/plan_dialogs/widgets/add_plan_picker.dart';
 import 'package:flutter/material.dart';
@@ -118,21 +118,22 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                         width: double.infinity,
                         height: 48,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black,
-                                blurRadius: 1,
-                                offset: Offset(0, 2),
-                              ),
-                            ]),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 1,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
                         child: ElevatedButton(
                           onPressed: () {
                             // Check if the text field is empty or contains only whitespaces
                             widget.onAddExercise(
-                              PlanExercises(
+                              PlanExercise(
                                 exerciseName: widget.exerciseName,
-                                series: seriesPicker.pickerValue,
+                                sets: seriesPicker.pickerValue,
                                 minReps: minRepsPicker.pickerValue,
                                 maxReps: maxRepsPicker.pickerValue,
                               ),

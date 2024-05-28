@@ -23,6 +23,17 @@ class _ChartCardState extends State<ChartCard> {
   ScrollController? scrollController;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    scrollController?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomCard(
       margin: const EdgeInsets.only(top: 30),

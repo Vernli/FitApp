@@ -1,11 +1,11 @@
-import 'package:app/presentation/widgets/components/plan_exercises.dart';
+import 'package:app/utils/plan_exercise.dart';
 import 'package:flutter/material.dart';
 
 class PlanAddTabPage extends StatefulWidget {
   final String day;
-  final List<PlanExercises> exercises;
+  final List<PlanExercise> exercises;
   final Function(int, int) onOrderChanged;
-  final Function(PlanExercises) onRemoveExercise;
+  final Function(PlanExercise) onRemoveExercise;
   const PlanAddTabPage({
     super.key,
     required this.day,
@@ -61,17 +61,11 @@ class _PlanAddTabPageState extends State<PlanAddTabPage> {
                       ),
                     ),
                     subtitle: Text(
-                      '${exercise.series}x${exercise.minReps}/${exercise.maxReps}',
+                      '${exercise.sets}x${exercise.minReps}/${exercise.maxReps}',
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        IconButton(
-                          icon: const Icon(Icons.edit),
-                          onPressed: () {
-                            // TODO Add edit logic
-                          },
-                        ),
                         IconButton(
                           icon: const Icon(Icons.delete),
                           onPressed: () {
