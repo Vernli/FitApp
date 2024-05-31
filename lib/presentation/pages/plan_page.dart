@@ -1,9 +1,12 @@
+import 'package:app/buisness/bloc/exercise_bloc.dart';
 import 'package:app/buisness/bloc/plan_bloc.dart';
 import 'package:app/buisness/states/plan_state.dart';
 import 'package:app/presentation/pages/add_plan_page.dart';
+import 'package:app/presentation/widgets/plan_widgets/exercises/exercise_builder.dart';
 import 'package:app/presentation/widgets/plan_widgets/exercises/exerscie_tile.dart';
 import 'package:app/presentation/widgets/plan_widgets/plan_button.dart';
 import 'package:app/presentation/widgets/plan_widgets/week_days_tab.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -107,37 +110,38 @@ class PlanPage extends StatelessWidget {
               }
               maxDayId = maxDayId < 6 ? 5 : 7;
 
-              return WeekDaysTab(
-                weekDays: maxDayId < 6
-                    ? ['Pon', 'Wt', 'Śr', 'Czw', 'Pt']
-                    : ['Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob', 'Nie'],
-                tabLength: maxDayId,
-                tabBarPages: [
-                  for (int i = 1; i <= maxDayId; i++)
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            if (exercises.containsKey(i))
-                              for (var exercise in exercises[i]!)
-                                ExerciseTile(
-                                  exerciseName: exercise['exercise_name'],
-                                  sets: exercise['sets'],
-                                  maxReps: exercise['max_reps'],
-                                  minReps: exercise['min_reps'],
-                                  exerciseDay: i,
+              return BlocProvider(
+                create: (context) => ExerciseBloc(),
+                child: WeekDaysTab(
+                  weekDays: maxDayId < 6
+                      ? ['Pon', 'Wt', 'Śr', 'Czw', 'Pt']
+                      : ['Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob', 'Nie'],
+                  tabLength: maxDayId,
+                  tabBarPages: [
+                    for (int day = 1; day <= maxDayId; day++)
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              if (exercises.containsKey(day))
+                                ExerciseBuilder(
+                                  exercises: exercises[day],
+                                  day: day,
                                 ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                ],
-                isBottomButton: false,
-                contentHeight: (MediaQuery.of(context).size.height * 0.75 - 22),
+                  ],
+                  isBottomButton: false,
+                  contentHeight:
+                      (MediaQuery.of(context).size.height * 0.75 - 22),
+                ),
               );
             },
+            buildWhen: (previous, current) => previous != current,
           ),
         ],
       ),

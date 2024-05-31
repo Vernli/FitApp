@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-class RepetitionsWeightBox extends StatelessWidget {
+class ExerciseValuesBox extends StatelessWidget {
   final List<dynamic>? repetitions;
-  final List<dynamic>? weights;
-  const RepetitionsWeightBox({
+
+  const ExerciseValuesBox({
     super.key,
     required this.repetitions,
-    required this.weights,
   });
 
   @override
@@ -17,7 +16,7 @@ class RepetitionsWeightBox extends StatelessWidget {
       children: [
         for (int i = 0; i < repetitions!.length; i++)
           Container(
-            width: 86,
+            width: 40,
             height: 40,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.secondary,
@@ -35,15 +34,7 @@ class RepetitionsWeightBox extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    '${repetitions![i]}',
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  const Text(
-                    'x',
-                    style: TextStyle(color: Colors.white70),
-                  ),
-                  Text(
-                    '${weights![i]} kg',
+                    '${repetitions![i]}x',
                     style: const TextStyle(color: Colors.white),
                   ),
                 ],

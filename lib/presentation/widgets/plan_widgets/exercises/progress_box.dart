@@ -1,31 +1,36 @@
 import 'package:flutter/material.dart';
 
 class ProgressBox extends StatelessWidget {
-  const ProgressBox({super.key});
+  final double percentageProgress;
+  const ProgressBox({
+    super.key,
+    required this.percentageProgress,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 40,
+      width: 70,
       height: 40,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
+        color: percentageProgress < 0
+            ? const Color(0xFF5A1F1F)
+            : Theme.of(context).colorScheme.primary,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black,
+            blurRadius: 2,
+            offset: Offset(0, 2),
+          ),
+        ],
       ),
-      child: const Center(
+      child: Center(
         child: Text(
-          '14%',
-          style: TextStyle(color: Colors.white),
+          '$percentageProgress %',
+          style: const TextStyle(color: Colors.white),
         ),
       ),
     );
-  }
-
-  // TODO calculate progress
-  double getProgress(
-    List<Map<String, dynamic>> currentExercises,
-    List<Map<String, dynamic>> previousExercises,
-  ) {
-    return 0;
   }
 }

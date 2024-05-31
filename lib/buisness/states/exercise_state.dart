@@ -1,46 +1,10 @@
-import 'package:flutter/foundation.dart';
+sealed class ExerciseState {}
 
-@immutable
-class ExerciseState {
-  final bool isLoading; // when add is Loading? Yes when it is inserted to db
-  final Object? exerciseData;
-  final Error? error; // error
+final class InitExerciseState extends ExerciseState {}
 
-  const ExerciseState({
-    required this.isLoading,
-    required this.exerciseData,
-    this.error,
-  });
-  @override
-  const ExerciseState.loading()
-      : isLoading = true,
-        exerciseData = null,
-        error = null;
+final class LoadingExerciseState extends ExerciseState {}
 
-  @override
-  const ExerciseState.empty()
-      : exerciseData = null,
-        isLoading = false,
-        error = null;
-
-  @override
-  String toString() {
-    return {
-      'isLoading': isLoading,
-      'exerciseData': exerciseData,
-      'error': error,
-    }.toString();
-  }
-
-  ExerciseState copyWith({
-    bool? isLoading,
-    Object? exerciseData,
-    Error? error,
-  }) {
-    return ExerciseState(
-      isLoading: isLoading ?? this.isLoading,
-      exerciseData: exerciseData ?? this.exerciseData,
-      error: error ?? this.error,
-    );
-  }
+final class GetExerciseState extends ExerciseState {
+  final Map<int, Map<String, List<dynamic>>> exerciseData;
+  GetExerciseState(this.exerciseData);
 }

@@ -1,4 +1,6 @@
+import 'package:app/buisness/action/exercise_action.dart';
 import 'package:app/buisness/action/plan_action.dart';
+import 'package:app/buisness/bloc/exercise_bloc.dart';
 import 'package:app/buisness/bloc/plan_bloc.dart';
 import 'package:app/presentation/widgets/components/controllers/picker_controller.dart';
 import 'package:app/presentation/widgets/plan_widgets/plan_appbar.dart';
@@ -94,7 +96,7 @@ class _AddProgressPageState extends State<AddProgressPage> {
                       onPressed: () {
                         if (_scrollController.position.maxScrollExtent != 0) {
                           _scrollController.animateTo(
-                            (_scrollController.position.maxScrollExtent + 100),
+                            (_scrollController.position.maxScrollExtent + 125),
                             duration: const Duration(milliseconds: 300),
                             curve: Curves.easeOut,
                           );
@@ -168,24 +170,26 @@ class _AddProgressPageState extends State<AddProgressPage> {
             Container(
               height: 12,
               decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                colors: [Colors.transparent, Colors.black],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              )),
+                gradient: LinearGradient(
+                  colors: [Colors.transparent, Colors.black],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
             ),
             SizedBox(
               height: 48,
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  context.read<PlanBloc>().add(
-                        PlanSetSessionAction(
+                  context.read<ExerciseBloc>().add(
+                        ExerciseSetSessionAction(
                           exerciseName: widget.exerciseName,
                           exerciseReps: setsList,
                           excerciseDay: widget.exerciseDay,
                         ),
                       );
+
                   Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(

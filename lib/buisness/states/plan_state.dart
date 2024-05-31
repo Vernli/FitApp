@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 
 @immutable
 class PlanState {
-  final bool isLoading; // when add is Loading? Yes when it is inserted to db
+  final bool isLoading;
   final String? planName; // planName
   final List? exercises; // data
   final Error? error; // error

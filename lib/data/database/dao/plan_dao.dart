@@ -58,16 +58,6 @@ class PlanDAO {
     return planID[0]['plan_id'];
   }
 
-  Future<int> _getExerciseID(String exerciseName, int day) async {
-    final database = await dbProvider.database;
-    final List<Map<String, dynamic>> exercises = await database.query(
-      'exercises',
-      where: 'exercise_name = ? AND day_id = ?',
-      whereArgs: [exerciseName, day],
-    );
-    return exercises[0]['exercise_id'];
-  }
-
   Future<Map<String, dynamic>> getLastPlan() async {
     final Database database = await dbProvider.database;
     final DateTime currentTime = DateTime.now();
@@ -99,62 +89,5 @@ class PlanDAO {
       'plan': lastPlan[0],
       'exercises': exercises,
     };
-  }
-
-  Future<int> _getTrainingSessionID(int exerciseID) async {
-    final Database database = await dbProvider.database;
-    final List<Map<String, dynamic>> sessionID = await database.query(
-      'training_sessions',
-      where: 'exercise_id = ?',
-      whereArgs: [exerciseID],
-    );
-    return sessionID.last['session_id'];
-  }
-
-  Future<void> setTrainingSession(String exerciseName, int day) async {
-    final Database database = await dbProvider.database;
-
-    final int exerciseID = await _getExerciseID(exerciseName, day);
-    database.insert('training_sessions', {
-      'exercise_id': exerciseID,
-    });
-  }
-
-  Future<void> setExerciseRepetitions(
-    String exerciseName,
-    int day,
-    int reps,
-    double weight,
-  ) async {
-    final Database database = await dbProvider.database;
-    final int exerciseID = await _getExerciseID(exerciseName, day);
-    final int sessionID = await _getTrainingSessionID(exerciseID);
-
-    await database.insert(
-      'repetitions',
-      {
-        'session_id': sessionID,
-        'reps': reps,
-        'weight': weight,
-      },
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-  }
-
-  Future<List<Map<String, dynamic>>> getExerciseRepetitions(
-    String exerciseName,
-    int day,
-  ) async {
-    final Database database = await dbProvider.database;
-    final int exerciseID = await _getExerciseID(exerciseName, day);
-    final int sessionID = await _getTrainingSessionID(exerciseID);
-
-    final List<Map<String, dynamic>> repetitions = await database.query(
-      'repetitions',
-      where: 'session_id = ?',
-      whereArgs: [sessionID],
-    );
-
-    return repetitions;
   }
 }

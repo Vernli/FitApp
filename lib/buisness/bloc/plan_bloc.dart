@@ -44,21 +44,5 @@ class PlanBloc extends Bloc<BaseAction, PlanState> {
         );
       }
     });
-
-    on<PlanSetSessionAction>((event, emit) async {
-      await _planRepository.setTrainingSession(
-        event.exerciseName,
-        event.excerciseDay,
-      );
-
-      for (List<dynamic> element in event.exerciseReps) {
-        await _planRepository.setExerciseRepetitions(
-          event.exerciseName,
-          event.excerciseDay,
-          element[0],
-          element[1],
-        );
-      }
-    });
   }
 }
