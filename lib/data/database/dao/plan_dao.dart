@@ -64,11 +64,9 @@ class PlanDAO {
     final lastPlan = await database.rawQuery(
       '''
       SELECT plan_id, plan_name, created_date, created_time FROM plans
-      WHERE created_date <= ?
       ORDER BY created_date DESC, created_time DESC
       LIMIT 1
     ''',
-      [currentTime.toString()],
     );
 
     if (lastPlan.isEmpty) {
@@ -89,5 +87,27 @@ class PlanDAO {
       'plan': lastPlan[0],
       'exercises': exercises,
     };
+  }
+
+  // DELETE PLAN
+  Future<bool> deletePlan(int planID) async {
+    final database = await dbProvider.database;
+    final int result = await database.delete(
+      'plans',
+      where: 'plan_id = ?',
+      whereArgs: [planID],
+    );
+    return result != 0;
+  }
+
+  // CHECK IF PLAN EXISTS
+  Future<bool> checkIfPlanExists(String planName) async {
+    final database = await dbProvider.database;
+    final List<Map<String, dynamic>> result = await database.query(
+      'plans',
+      where: 'plan_name = ?',
+      whereArgs: [planName],
+    );
+    return result.isNotEmpty;
   }
 }

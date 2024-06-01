@@ -9,6 +9,7 @@ class WeekDaysTab extends StatefulWidget {
   final double contentHeight;
   final int tabLength;
   final Function(int, PlanExercise)? onAddExercise;
+  final Function? checkIsExerciseExists;
 
   const WeekDaysTab({
     super.key,
@@ -18,6 +19,7 @@ class WeekDaysTab extends StatefulWidget {
     this.onAddExercise,
     required this.contentHeight,
     required this.tabLength,
+    this.checkIsExerciseExists,
   });
 
   @override
@@ -98,6 +100,15 @@ class _WeekDaysState extends State<WeekDaysTab> with TickerProviderStateMixin {
                 ),
                 child: Center(
                   child: AddExerciesButton(
+                    checkIsExerciseExists: (value) {
+                      if (widget.checkIsExerciseExists == null) {
+                        throw Exception('checkIsExerciseExists is null');
+                      }
+                      return widget.checkIsExerciseExists!(
+                        _tabController!.index,
+                        value,
+                      );
+                    },
                     onAddExercise: (value) {
                       if (widget.onAddExercise == null) {
                         throw Exception('onAddExercise is null');

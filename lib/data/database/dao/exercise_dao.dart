@@ -52,17 +52,12 @@ class ExerciseDAO {
       'SELECT repetitions.session_id, repetitions.reps, repetitions.weight FROM repetitions JOIN training_sessions ON repetitions.session_id = training_sessions.session_id JOIN exercises ON training_sessions.exercise_id = exercises.exercise_id WHERE exercises.exercise_name = ?',
       [exerciseName],
     );
-
-    return sessions;
-  }
-
-  Future<dynamic> getTrainingSessions(String exerciseName, int count) async {
-    final Database database = await dbProvider.database;
-    final List<Map<String, dynamic>> sessions = await database.rawQuery(
-      'SELECT repetitions.session_id, repetitions.reps, repetitions.weight FROM repetitions JOIN training_sessions ON repetitions.session_id = training_sessions.session_id JOIN exercises ON training_sessions.exercise_id = exercises.exercise_id WHERE exercises.exercise_name = ? ORDER BY repetitions.session_id',
+    final List<Map<String, dynamic>> test = await database.rawQuery(
+      'SELECT * FROM repetitions JOIN training_sessions ON repetitions.session_id = training_sessions.session_id JOIN exercises ON training_sessions.exercise_id = exercises.exercise_id JOIN days ON exercises.day_id = days.day_id JOIN plans ON exercises.plan_id = plans.plan_id WHERE exercises.exercise_name = ?',
       [exerciseName],
     );
-    return SQLResultFormatter.sessionResultFormat(sessions);
+    print(test);
+    return sessions;
   }
 
   //Setters
@@ -84,7 +79,6 @@ class ExerciseDAO {
     final Database database = await dbProvider.database;
     final int exerciseID = await _getExerciseID(exerciseName, day);
     final int sessionID = await _getTrainingSessionID(exerciseID);
-    print(sessionID);
 
     await database.insert(
       'repetitions',

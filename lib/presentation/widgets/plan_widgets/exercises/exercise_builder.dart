@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 
 class ExerciseBuilder extends StatefulWidget {
   final int day;
+  final String planName;
   final List<Map<String, dynamic>>? exercises;
   const ExerciseBuilder({
     super.key,
     required this.exercises,
     required this.day,
+    required this.planName,
   });
 
   @override
@@ -27,6 +29,7 @@ class _ExerciseBuilderState extends State<ExerciseBuilder> {
         final exercise = widget.exercises![index].values.toList();
         return ExerciseTile(
           key: Key(index.toString()),
+          planName: widget.planName,
           exerciseName: exercise[0],
           exerciseDay: widget.day,
           sets: exercise[3],

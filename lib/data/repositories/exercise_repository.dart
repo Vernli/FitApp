@@ -30,11 +30,4 @@ class ExerciseRepository {
   ) async {
     return await _exerciseDAO.getAllTrainingSessions(exerciseName);
   }
-
-  Future<List<Map<String, dynamic>>> getTrainingSessions(
-    String exerciseName,
-    int count,
-  ) async {
-    return await _exerciseDAO.getTrainingSessions(exerciseName, count);
-  }
 }

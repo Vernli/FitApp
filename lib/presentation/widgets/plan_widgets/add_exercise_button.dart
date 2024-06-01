@@ -4,7 +4,12 @@ import 'package:flutter/material.dart';
 
 class AddExerciesButton extends StatelessWidget {
   final Function onAddExercise;
-  const AddExerciesButton({super.key, required this.onAddExercise});
+  final Function checkIsExerciseExists;
+  const AddExerciesButton({
+    super.key,
+    required this.onAddExercise,
+    required this.checkIsExerciseExists,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +37,9 @@ class AddExerciesButton extends StatelessWidget {
                   title: 'Dodawanie ćwiczenia',
                   hintText: 'Nazwa ćwiczenia',
                   errorMessage: 'Nazwa ćwiczenia nie może być pusta!',
+                  errorMessage2: 'Ćwiczenie o podanej nazwie już istnieje!',
+                  checkIsExerciseExists: (value) =>
+                      checkIsExerciseExists(value),
                   onPressed: (value) {
                     showDialog(
                       context: context,

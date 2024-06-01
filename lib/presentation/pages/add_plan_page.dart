@@ -1,5 +1,9 @@
+import 'dart:math';
+
 import 'package:app/buisness/action/plan_action.dart';
 import 'package:app/buisness/bloc/plan_bloc.dart';
+import 'package:app/buisness/states/plan_state.dart';
+import 'package:app/presentation/widgets/components/custom_alert_dialog.dart';
 import 'package:app/utils/current_date.dart';
 import 'package:app/utils/plan_exercise.dart';
 import 'package:app/presentation/widgets/plan_widgets/plan_add_tab_page.dart';
@@ -109,6 +113,14 @@ class _AddPlanPageState extends State<AddPlanPage> {
                       contentHeight:
                           (MediaQuery.of(context).size.height * 0.75 - 88),
                       isBottomButton: true,
+                      checkIsExerciseExists: (index, value) {
+                        for (var element in exercises[index]) {
+                          if (element.exerciseName == value) {
+                            return true;
+                          }
+                        }
+                        return false;
+                      },
                       onAddExercise: (index, value) {
                         setState(() {
                           exercises[index].add(value);
@@ -123,51 +135,55 @@ class _AddPlanPageState extends State<AddPlanPage> {
             SizedBox(
               width: double.infinity,
               height: 48,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (isExersiceEmpty) {
-                    // TODO MODIFY SHOWDIALOG
+              child: BlocListener<PlanBloc, PlanState>(
+                listener: (context, state) {
+                  if (state is AddFailurePlanState) {
                     showDialog(
                       context: context,
-                      builder: (context) => AlertDialog(
-                        title: const Text('Nie można dodać pustego planu'),
-                        content: const Text('Dodaj ćwiczenia do planu'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('OK'),
-                          ),
-                        ],
+                      builder: (context) => const CustomAlertDialog(
+                        title: 'Nie można dodać planu',
+                        subtitle: 'Plan o podanej nazwie już istnieje!',
                       ),
                     );
-                  } else {
-                    context.read<PlanBloc>().add(
-                          PlanAddAction(
-                            planName: textController.text,
-                            exercises: getExercises(),
-                            date: CurrentDate.getDate()['date']!,
-                            time: CurrentDate.getDate()['time']!,
-                          ),
-                        );
-
-                    Navigator.pop(context, true);
+                  } else if (state is AddSuccessPlanState) {
+                    Navigator.pop(context);
                   }
                 },
-                style: ElevatedButton.styleFrom(
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (isExersiceEmpty || textController.text.isEmpty) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => const CustomAlertDialog(
+                          title: 'Nie można dodać pustego planu',
+                          subtitle: 'Dodaj ćwiczenie lub nazwę planu!',
+                        ),
+                      );
+                    } else {
+                      context.read<PlanBloc>().add(
+                            PlanAddAction(
+                              planName: textController.text,
+                              exercises: getExercises(),
+                              date: CurrentDate.getDate()['date']!,
+                              time: CurrentDate.getDate()['time']!,
+                            ),
+                          );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
+                      ),
                     ),
                   ),
-                ),
-                child: const Text(
-                  'Dodaj plan',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
+                  child: const Text(
+                    'Dodaj plan',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
               ),

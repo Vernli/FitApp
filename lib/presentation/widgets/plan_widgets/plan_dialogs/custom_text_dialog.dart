@@ -4,14 +4,18 @@ class CustomTextDialog extends StatefulWidget {
   final String title;
   final String hintText;
   final String errorMessage;
+  final String errorMessage2;
   final Function(String) onPressed;
+  final Function checkIsExerciseExists;
 
   const CustomTextDialog({
     super.key,
     required this.title,
     required this.hintText,
     required this.errorMessage,
+    required this.errorMessage2,
     required this.onPressed,
+    required this.checkIsExerciseExists,
   });
 
   @override
@@ -21,6 +25,7 @@ class CustomTextDialog extends StatefulWidget {
 class _CustomTextDialogState extends State<CustomTextDialog> {
   final TextEditingController _textController = TextEditingController();
   bool isTextEmpty = false;
+  bool isNameValid = true;
 
   @override
   void initState() {
@@ -85,7 +90,7 @@ class _CustomTextDialogState extends State<CustomTextDialog> {
             SingleChildScrollView(
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: TextField(
                   maxLength: 18,
                   autocorrect: false,
@@ -102,11 +107,11 @@ class _CustomTextDialogState extends State<CustomTextDialog> {
               ),
             ),
             // show error message if the text field is empty
-            isTextEmpty
+            isTextEmpty || !isNameValid
                 ? SizedBox(
                     height: 24,
                     child: Text(
-                      widget.errorMessage,
+                      isNameValid ? widget.errorMessage : widget.errorMessage2,
                       style: TextStyle(
                         color: Colors.orange.shade300,
                       ),
@@ -130,6 +135,14 @@ class _CustomTextDialogState extends State<CustomTextDialog> {
               ),
               child: ElevatedButton(
                 onPressed: () {
+                  if (widget
+                          .checkIsExerciseExists(_textController.text.trim()) ==
+                      true) {
+                    setState(() {
+                      isNameValid = false;
+                    });
+                    return;
+                  }
                   // Check if the text field is empty or contains only whitespaces
                   if (_textController.text.isEmpty ||
                       _textController.text.trim().isEmpty) {
@@ -142,7 +155,7 @@ class _CustomTextDialogState extends State<CustomTextDialog> {
                     Navigator.pop(context);
                     // Send the value to the onPressed function
                     widget.onPressed(
-                      _textController.text,
+                      _textController.text.trim(),
                     );
                     return;
                   }

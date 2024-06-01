@@ -61,7 +61,7 @@ class _PlanAddTabPageState extends State<PlanAddTabPage> {
                       ),
                     ),
                     subtitle: Text(
-                      '${exercise.sets}x${exercise.minReps}/${exercise.maxReps}',
+                      '${exercise.sets}x${exercise.minReps != exercise.maxReps ? '${exercise.minReps}-${exercise.maxReps}' : exercise.minReps}',
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,

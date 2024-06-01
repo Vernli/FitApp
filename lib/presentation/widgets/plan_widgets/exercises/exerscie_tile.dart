@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:app/buisness/action/exercise_action.dart';
 import 'package:app/buisness/bloc/exercise_bloc.dart';
 import 'package:app/buisness/states/exercise_state.dart';
@@ -11,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ExerciseTile extends StatefulWidget {
+  final String planName;
   final String exerciseName;
   final int exerciseDay;
   final int sets;
@@ -27,6 +30,7 @@ class ExerciseTile extends StatefulWidget {
     required this.minReps,
     required this.initiallyExpanded,
     required this.onExpansionChanged,
+    required this.planName,
   });
 
   @override
@@ -34,6 +38,8 @@ class ExerciseTile extends StatefulWidget {
 }
 
 class _ExerciseTileState extends State<ExerciseTile> {
+  List<int> exerciseKeys = [];
+  int previousKey = -1;
   bool areAllElementsEqual = false;
   @override
   Widget build(BuildContext context) {
@@ -43,6 +49,7 @@ class _ExerciseTileState extends State<ExerciseTile> {
         if (value) {
           context.read<ExerciseBloc>().add(
                 ExerciseGetAllSessionsAction(
+                  planName: widget.planName,
                   exerciseName: widget.exerciseName,
                 ),
               );
@@ -64,6 +71,7 @@ class _ExerciseTileState extends State<ExerciseTile> {
                   builder: (_) => BlocProvider.value(
                     value: BlocProvider.of<ExerciseBloc>(context),
                     child: AddProgressPage(
+                      planName: widget.planName,
                       exerciseName: widget.exerciseName,
                       exerciseDay: widget.exerciseDay,
                     ),
@@ -91,7 +99,18 @@ class _ExerciseTileState extends State<ExerciseTile> {
                   ),
                 );
 
+              case InitExerciseState():
+                {
+                  return const SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: Text('Brak danych'),
+                    ),
+                  );
+                }
+
               case GetExerciseState(:final exerciseData):
+                exerciseKeys = exerciseData.keys.toList();
                 return Column(
                   children: [
                     for (var exerciseKey in exerciseData.keys)
@@ -135,18 +154,16 @@ class _ExerciseTileState extends State<ExerciseTile> {
                                               .toString(),
                                         )
                                       : const SizedBox(),
-                                  SizedBox(),
-                                  exerciseKey != 1
+                                  _isPreviousKey(exerciseKey)
                                       ? ProgressBox(
                                           percentageProgress: CalculateProgress
                                               .calculatePercentageChange(
-                                            exerciseData[exerciseKey - 1]![
-                                                'reps'],
-                                            exerciseData[exerciseKey - 1]![
-                                                'weights'],
-                                            exerciseData[exerciseKey]!['reps'],
-                                            exerciseData[exerciseKey]![
-                                                'weights'],
+                                            exerciseData[previousKey]?['reps'],
+                                            exerciseData[previousKey]
+                                                ?['weights'],
+                                            exerciseData[exerciseKey]?['reps'],
+                                            exerciseData[exerciseKey]
+                                                ?['weights'],
                                           ),
                                         )
                                       : const SizedBox(),
@@ -178,9 +195,6 @@ class _ExerciseTileState extends State<ExerciseTile> {
                     ),
                   ],
                 );
-
-              default:
-                return const SizedBox(child: Text('Brak danych'));
             }
           },
         ),
@@ -194,5 +208,14 @@ class _ExerciseTileState extends State<ExerciseTile> {
         listWeights.every((element) => element == listWeights.first);
 
     return areAllElementsEqual;
+  }
+
+  bool _isPreviousKey(int key) {
+    int index = exerciseKeys.indexOf(key);
+    if (index != 0) {
+      previousKey = exerciseKeys[index - 1];
+      return true;
+    }
+    return false;
   }
 }

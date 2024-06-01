@@ -14,7 +14,6 @@ class ExerciseBloc extends Bloc<BaseAction, ExerciseState> {
         event.exerciseName,
         event.excerciseDay,
       );
-
       for (List<dynamic> element in event.exerciseReps) {
         await _exerciseRepository.setExerciseRepetitions(
           event.exerciseName,
@@ -23,6 +22,12 @@ class ExerciseBloc extends Bloc<BaseAction, ExerciseState> {
           element[1],
         );
       }
+      emit(LoadingExerciseState());
+      final Map<int, Map<String, List<dynamic>>> trainingSessions =
+          SQLResultFormatter.sessionResultFormat(
+        await _exerciseRepository.getAllTrainingSessions(event.exerciseName),
+      );
+      emit(GetExerciseState(trainingSessions));
     });
     on<ExerciseGetAllSessionsAction>((event, emit) async {
       emit(LoadingExerciseState());
@@ -30,7 +35,6 @@ class ExerciseBloc extends Bloc<BaseAction, ExerciseState> {
           SQLResultFormatter.sessionResultFormat(
         await _exerciseRepository.getAllTrainingSessions(event.exerciseName),
       );
-
       emit(GetExerciseState(trainingSessions));
     });
   }

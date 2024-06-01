@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddProgressPage extends StatefulWidget {
+  final String planName;
   final String exerciseName;
   final int exerciseDay;
 
@@ -17,6 +18,7 @@ class AddProgressPage extends StatefulWidget {
     super.key,
     required this.exerciseName,
     required this.exerciseDay,
+    required this.planName,
   });
 
   @override
@@ -30,6 +32,7 @@ class _AddProgressPageState extends State<AddProgressPage> {
   late ScrollController _scrollController;
   late PickerContoller _repetitionsController;
   late PickerContoller _weightController;
+  final bool failed = false;
   @override
   void initState() {
     super.initState();
@@ -184,6 +187,7 @@ class _AddProgressPageState extends State<AddProgressPage> {
                 onPressed: () {
                   context.read<ExerciseBloc>().add(
                         ExerciseSetSessionAction(
+                          planName: widget.planName,
                           exerciseName: widget.exerciseName,
                           exerciseReps: setsList,
                           excerciseDay: widget.exerciseDay,

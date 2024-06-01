@@ -1,6 +1,7 @@
 class SQLResultFormatter {
   static Map<int, Map<String, List<dynamic>>> sessionResultFormat(
-      List<Map<String, dynamic>> rawData) {
+    List<Map<String, dynamic>> rawData,
+  ) {
     Map<int, Map<String, List<dynamic>>> formattedData = {};
     for (var value in rawData) {
       int sessionID = value['session_id'];
@@ -17,6 +18,3 @@ class SQLResultFormatter {
     return formattedData;
   }
 }
-// reps [] 
-// weights []
-

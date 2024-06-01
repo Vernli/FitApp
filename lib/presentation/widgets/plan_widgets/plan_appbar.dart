@@ -66,31 +66,37 @@ class _PlanAddAppbarState extends State<PlanAddAppbar> {
                 ),
               ),
               widget.textController != null
-                  ? SizedBox(
+                  ? Container(
                       width: 264,
+                      decoration: BoxDecoration(
+                        color: Colors.red[600]!.withOpacity(0.50),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 1,
+                        ),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black,
+                            blurRadius: 0,
+                            offset: Offset(0, 0),
+                          ),
+                        ],
+                      ),
                       child: TextField(
                         controller: widget.textController,
                         textAlign: TextAlign.center,
                         cursorColor: Colors.white60,
                         cursorHeight: 20,
-                        maxLength: 18,
+                        maxLength: 12,
                         decoration: const InputDecoration(
                           counterText: '',
                           hintText: 'Wprowadź nazwę planu',
                           hintStyle: TextStyle(
                             color: Colors.white,
-                            fontSize: 20,
+                            fontSize: 16,
                           ),
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white24,
-                            ),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white30,
-                            ),
-                          ),
+                          border: InputBorder.none,
                         ),
                         style: const TextStyle(
                           color: Colors.white,

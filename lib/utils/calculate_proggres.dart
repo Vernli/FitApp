@@ -5,8 +5,8 @@ class CalculateProgress {
     List? currentReps,
     List? currentWeight,
   ) {
-    double avgCurrentWeightPerRep = 0;
-    double avgPreviousWeightPerRep = 0;
+    double currentTotalWeight = 0;
+    double previousTotalWeight = 0;
 
     if (prevReps == null ||
         prevWeight == null ||
@@ -16,26 +16,28 @@ class CalculateProgress {
     }
 
     if (_checkEquality(currentWeight) && _checkEquality(prevWeight)) {
-      avgCurrentWeightPerRep = currentWeight[0];
-      avgPreviousWeightPerRep = prevWeight[0];
+      currentTotalWeight =
+          currentWeight[0] * currentReps.reduce((a, b) => a + b);
+      previousTotalWeight = prevWeight[0] * prevReps.reduce((a, b) => a + b);
     } else if (!_checkEquality(currentWeight) && !_checkEquality(prevWeight)) {
-      avgCurrentWeightPerRep = calculateAverage(currentReps, currentWeight);
-      avgPreviousWeightPerRep = calculateAverage(prevReps, prevWeight);
+      currentTotalWeight = calculateTotalWeight(currentReps, currentWeight);
+      previousTotalWeight = calculateTotalWeight(prevReps, prevWeight);
     } else if (_checkEquality(currentWeight) && !_checkEquality(prevWeight)) {
-      avgCurrentWeightPerRep = currentWeight[0];
-      avgPreviousWeightPerRep = calculateAverage(prevReps, prevWeight);
+      currentTotalWeight =
+          currentWeight[0] * currentReps.reduce((a, b) => a + b);
+      previousTotalWeight = calculateTotalWeight(prevReps, prevWeight);
     } else if (!_checkEquality(currentWeight) && _checkEquality(prevWeight)) {
-      avgCurrentWeightPerRep = calculateAverage(currentReps, currentWeight);
-      avgPreviousWeightPerRep = prevWeight[0];
+      currentTotalWeight = calculateTotalWeight(currentReps, currentWeight);
+      previousTotalWeight = prevWeight[0] * prevReps.reduce((a, b) => a + b);
     }
 
-    return (((avgCurrentWeightPerRep - avgPreviousWeightPerRep) /
-                avgPreviousWeightPerRep) *
+    return ((currentTotalWeight - previousTotalWeight) /
+            previousTotalWeight *
             100)
         .roundToDouble();
   }
 
-  static double calculateAverage(List? reps, List? weights) {
+  static double calculateTotalWeight(List? reps, List? weights) {
     if (reps == null || weights == null) {
       throw Exception('Reps and weights must not be null');
     }
@@ -43,12 +45,10 @@ class CalculateProgress {
       throw Exception('Weights and reps must have the same length');
     }
     double totalWeight = 0;
-    int totalReps = reps.reduce((prev, current) => prev + current);
-
     for (int i = 0; i < weights.length; i++) {
       totalWeight += weights[i] * reps[i];
     }
-    return totalWeight / totalReps;
+    return totalWeight;
   }
 
   static _checkEquality(List list) {

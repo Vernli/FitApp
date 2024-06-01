@@ -1,54 +1,29 @@
-import 'package:app/data/models/plan/exercise_model.dart';
-import 'package:flutter/foundation.dart';
+sealed class PlanState {}
 
-@immutable
-class PlanState {
-  final bool isLoading;
-  final String? planName; // planName
-  final List? exercises; // data
-  final Error? error; // error
+final class InitPlanState extends PlanState {}
 
-  const PlanState({
-    required this.isLoading,
-    required this.planName,
-    this.exercises,
-    this.error,
-  });
-  @override
-  const PlanState.loading()
-      : isLoading = true,
-        planName = null,
-        exercises = null,
-        error = null;
+final class LoadingPlanState extends PlanState {}
+
+final class GetPlanState extends PlanState {
+  final String planName;
+  final List exercisesList;
+  GetPlanState(this.planName, this.exercisesList);
 
   @override
-  const PlanState.empty()
-      : planName = null,
-        isLoading = false,
-        exercises = null,
-        error = null;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-  @override
-  String toString() {
-    return {
-      'isLoading': isLoading,
-      'planName': planName,
-      'exercise': exercises,
-      'error': error,
-    }.toString();
+    return other is GetPlanState &&
+        other.planName == planName &&
+        other.exercisesList == exercisesList;
   }
 
-  PlanState copyWith({
-    bool? isLoading,
-    String? planName,
-    List<ExerciseModel>? exercises,
-    Error? error,
-  }) {
-    return PlanState(
-      isLoading: isLoading ?? this.isLoading,
-      planName: planName ?? this.planName,
-      exercises: exercises ?? this.exercises,
-      error: error ?? this.error,
-    );
-  }
+  @override
+  int get hashCode => super.hashCode;
+}
+
+final class AddSuccessPlanState extends PlanState {}
+
+final class AddFailurePlanState extends PlanState {
+  AddFailurePlanState();
 }

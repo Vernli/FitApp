@@ -12,8 +12,8 @@ class AddExerciseDialog extends StatefulWidget {
     required this.exerciseName,
     required this.onAddExercise,
   });
-  final int _maxSets = 6;
-  final int _maxReps = 31;
+  final int _maxSets = 999;
+  final int _maxReps = 999;
 
   @override
   State<AddExerciseDialog> createState() => _AddExerciseDialogState();
@@ -129,7 +129,6 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                         ),
                         child: ElevatedButton(
                           onPressed: () {
-                            // Check if the text field is empty or contains only whitespaces
                             widget.onAddExercise(
                               PlanExercise(
                                 exerciseName: widget.exerciseName,

@@ -13,11 +13,13 @@ class ExerciseGetTrainingSessionAction implements BaseAction {
 
 @immutable
 class ExerciseSetSessionAction implements BaseAction {
+  final String planName;
   final String exerciseName;
   final int excerciseDay;
   final List<List<dynamic>> exerciseReps;
 
   const ExerciseSetSessionAction({
+    required this.planName,
     required this.exerciseName,
     required this.exerciseReps,
     required this.excerciseDay,
@@ -26,6 +28,10 @@ class ExerciseSetSessionAction implements BaseAction {
 
 @immutable
 class ExerciseGetAllSessionsAction implements BaseAction {
+  final String planName;
   final String exerciseName;
-  const ExerciseGetAllSessionsAction({required this.exerciseName});
+  const ExerciseGetAllSessionsAction({
+    required this.planName,
+    required this.exerciseName,
+  });
 }

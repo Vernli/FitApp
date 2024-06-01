@@ -3,18 +3,16 @@ import 'package:app/buisness/bloc/plan_bloc.dart';
 import 'package:app/buisness/states/plan_state.dart';
 import 'package:app/presentation/pages/add_plan_page.dart';
 import 'package:app/presentation/widgets/plan_widgets/exercises/exercise_builder.dart';
-import 'package:app/presentation/widgets/plan_widgets/exercises/exerscie_tile.dart';
 import 'package:app/presentation/widgets/plan_widgets/plan_button.dart';
 import 'package:app/presentation/widgets/plan_widgets/week_days_tab.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlanPage extends StatelessWidget {
   const PlanPage({super.key});
-
   @override
   Widget build(BuildContext context) {
+    String currentPlanName = '';
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Column(
@@ -69,15 +67,32 @@ class PlanPage extends StatelessWidget {
                     ),
                     child: BlocBuilder<PlanBloc, PlanState>(
                       builder: (context, state) {
-                        return Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              state.planName.toString(),
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        );
+                        switch (state) {
+                          case LoadingPlanState():
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          case InitPlanState():
+                            return const Center(
+                              child: Text(
+                                'Brak planu',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            );
+                          case GetPlanState(:final planName):
+                            currentPlanName = planName;
+                            return Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  planName,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            );
+                          default:
+                            return const SizedBox();
+                        }
                       },
                     ),
                   ),
@@ -100,46 +115,60 @@ class PlanPage extends StatelessWidget {
           ),
           BlocBuilder<PlanBloc, PlanState>(
             builder: (context, state) {
-              int maxDayId = 0;
-              Map<int, List<Map<String, dynamic>>> exercises =
-                  _unwrapExercises(state.exercises!);
-              for (int i = 0; i < state.exercises!.length; i++) {
-                if (state.exercises![i]['day_id'] > maxDayId) {
-                  maxDayId = state.exercises![i]['day_id'];
-                }
-              }
-              maxDayId = maxDayId < 6 ? 5 : 7;
+              switch (state) {
+                case LoadingPlanState():
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                case InitPlanState():
+                  return const Center(
+                    child: Text('Brak planu'),
+                  );
+                case GetPlanState(:final exercisesList):
+                  int maxDayId = 0;
+                  Map<int, List<Map<String, dynamic>>> exercises =
+                      _unwrapExercises(exercisesList);
+                  for (int i = 0; i < exercisesList.length; i++) {
+                    if (exercisesList[i]['day_id'] > maxDayId) {
+                      maxDayId = exercisesList[i]['day_id'];
+                    }
+                  }
+                  maxDayId = maxDayId < 6 ? 5 : 7;
 
-              return BlocProvider(
-                create: (context) => ExerciseBloc(),
-                child: WeekDaysTab(
-                  weekDays: maxDayId < 6
-                      ? ['Pon', 'Wt', 'Śr', 'Czw', 'Pt']
-                      : ['Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob', 'Nie'],
-                  tabLength: maxDayId,
-                  tabBarPages: [
-                    for (int day = 1; day <= maxDayId; day++)
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              if (exercises.containsKey(day))
-                                ExerciseBuilder(
-                                  exercises: exercises[day],
-                                  day: day,
-                                ),
-                            ],
+                  return BlocProvider(
+                    create: (context) => ExerciseBloc(),
+                    child: WeekDaysTab(
+                      weekDays: maxDayId < 6
+                          ? ['Pon', 'Wt', 'Śr', 'Czw', 'Pt']
+                          : ['Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob', 'Nie'],
+                      tabLength: maxDayId,
+                      tabBarPages: [
+                        for (int day = 1; day <= maxDayId; day++)
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height,
+                            width: MediaQuery.of(context).size.width,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  if (exercises.containsKey(day))
+                                    ExerciseBuilder(
+                                      planName: currentPlanName,
+                                      exercises: exercises[day],
+                                      day: day,
+                                    ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                  ],
-                  isBottomButton: false,
-                  contentHeight:
-                      (MediaQuery.of(context).size.height * 0.75 - 22),
-                ),
-              );
+                      ],
+                      isBottomButton: false,
+                      contentHeight:
+                          (MediaQuery.of(context).size.height * 0.75 - 22),
+                    ),
+                  );
+                default:
+                  return const SizedBox();
+              }
             },
             buildWhen: (previous, current) => previous != current,
           ),

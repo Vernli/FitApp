@@ -17,4 +17,8 @@ class PlanRepository {
     Map<String, dynamic> plan = await _planDAO.getLastPlan();
     return plan;
   }
+
+  Future<bool> checkIfPlanExists(String planName) async {
+    return _planDAO.checkIfPlanExists(planName);
+  }
 }
