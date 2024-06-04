@@ -1,5 +1,4 @@
 import 'package:app/data/database/app_database.dart';
-import 'package:app/data/sql_result_formatter.dart';
 import 'package:sqflite/sqflite.dart';
 
 class ExerciseDAO {
@@ -49,14 +48,9 @@ class ExerciseDAO {
   Future<dynamic> getAllTrainingSessions(String exerciseName) async {
     final Database database = await dbProvider.database;
     final List<Map<String, dynamic>> sessions = await database.rawQuery(
-      'SELECT repetitions.session_id, repetitions.reps, repetitions.weight FROM repetitions JOIN training_sessions ON repetitions.session_id = training_sessions.session_id JOIN exercises ON training_sessions.exercise_id = exercises.exercise_id WHERE exercises.exercise_name = ?',
-      [exerciseName],
-    );
-    final List<Map<String, dynamic>> test = await database.rawQuery(
       'SELECT * FROM repetitions JOIN training_sessions ON repetitions.session_id = training_sessions.session_id JOIN exercises ON training_sessions.exercise_id = exercises.exercise_id JOIN days ON exercises.day_id = days.day_id JOIN plans ON exercises.plan_id = plans.plan_id WHERE exercises.exercise_name = ?',
       [exerciseName],
     );
-    print(test);
     return sessions;
   }
 
@@ -89,5 +83,20 @@ class ExerciseDAO {
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+  }
+
+  Future getExerciseSessions(
+    String planName,
+    String exerciseName,
+    int day,
+  ) async {
+    final Database database = await dbProvider.database;
+
+    final List<Map<String, dynamic>> sessions = await database.rawQuery(
+      'SELECT repetitions.session_id, repetitions.reps, repetitions.weight FROM repetitions JOIN training_sessions ON repetitions.session_id = training_sessions.session_id JOIN exercises ON training_sessions.exercise_id = exercises.exercise_id JOIN days ON exercises.day_id = days.day_id JOIN plans ON exercises.plan_id = plans.plan_id WHERE exercises.exercise_name = ? AND days.day_id = ? AND plans.plan_name = ? ORDER BY repetitions.session_id DESC ',
+      [exerciseName, day, planName],
+    );
+
+    return sessions;
   }
 }

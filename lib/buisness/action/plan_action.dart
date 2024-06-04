@@ -41,12 +41,19 @@ class PlanGetTrainingSessionAction implements BaseAction {
 class PlanSetSessionAction implements BaseAction {
   final String exerciseName;
   final int excerciseDay;
-  //
   final List<List<dynamic>> exerciseReps;
 
   const PlanSetSessionAction({
     required this.exerciseName,
     required this.exerciseReps,
     required this.excerciseDay,
+  });
+}
+
+@immutable
+class ChangePlanAction implements BaseAction {
+  final String? planName;
+  const ChangePlanAction({
+    required this.planName,
   });
 }

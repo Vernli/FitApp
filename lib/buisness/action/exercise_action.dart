@@ -7,11 +7,6 @@ class InitExerciseAction implements BaseAction {
 }
 
 @immutable
-class ExerciseGetTrainingSessionAction implements BaseAction {
-  const ExerciseGetTrainingSessionAction();
-}
-
-@immutable
 class ExerciseSetSessionAction implements BaseAction {
   final String planName;
   final String exerciseName;
@@ -33,5 +28,17 @@ class ExerciseGetAllSessionsAction implements BaseAction {
   const ExerciseGetAllSessionsAction({
     required this.planName,
     required this.exerciseName,
+  });
+}
+
+@immutable
+class ExerciseGetSessionsAction implements BaseAction {
+  final String planName;
+  final String exerciseName;
+  final int day;
+  const ExerciseGetSessionsAction({
+    required this.planName,
+    required this.exerciseName,
+    required this.day,
   });
 }

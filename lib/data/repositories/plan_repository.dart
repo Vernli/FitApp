@@ -6,8 +6,7 @@ class PlanRepository {
 
   PlanRepository();
 
-  Future<List<Map<String, dynamic>>> getAllPlans() async =>
-      await _planDAO.getAllPlans();
+  Future<List<String>> getAllPlans() async => await _planDAO.getAllPlans();
 
   Future<void> insertPlan(PlanModel plan) async {
     await _planDAO.insertPlan(planModel: plan);
@@ -20,5 +19,9 @@ class PlanRepository {
 
   Future<bool> checkIfPlanExists(String planName) async {
     return _planDAO.checkIfPlanExists(planName);
+  }
+
+  Future<Map<String, dynamic>> getPlanByName(String planName) async {
+    return _planDAO.getPlanByName(planName);
   }
 }

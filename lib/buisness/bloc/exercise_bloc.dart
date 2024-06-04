@@ -29,13 +29,20 @@ class ExerciseBloc extends Bloc<BaseAction, ExerciseState> {
       );
       emit(GetExerciseState(trainingSessions));
     });
-    on<ExerciseGetAllSessionsAction>((event, emit) async {
+
+    on<ExerciseGetSessionsAction>((event, emit) async {
       emit(LoadingExerciseState());
-      final Map<int, Map<String, List<dynamic>>> trainingSessions =
-          SQLResultFormatter.sessionResultFormat(
-        await _exerciseRepository.getAllTrainingSessions(event.exerciseName),
+      final List<Map<String, dynamic>> lastThreeSessions =
+          await _exerciseRepository.getExerciseSessions(
+        event.planName,
+        event.exerciseName,
+        event.day,
       );
-      emit(GetExerciseState(trainingSessions));
+      final Map<int, Map<String, List<dynamic>>> formattedResult =
+          SQLResultFormatter.sessionResultFormat(
+        lastThreeSessions,
+      );
+      emit(GetExerciseState(formattedResult));
     });
   }
 }

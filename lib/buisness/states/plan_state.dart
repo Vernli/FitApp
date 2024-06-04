@@ -6,8 +6,9 @@ final class LoadingPlanState extends PlanState {}
 
 final class GetPlanState extends PlanState {
   final String planName;
+  final List<String> planNames;
   final List exercisesList;
-  GetPlanState(this.planName, this.exercisesList);
+  GetPlanState(this.planName, this.exercisesList, this.planNames);
 
   @override
   bool operator ==(Object other) {

@@ -108,7 +108,7 @@ class _PlanAddAppbarState extends State<PlanAddAppbar> {
                       child: Text(
                         widget.title != null ? widget.title! : '',
                         style:
-                            const TextStyle(fontSize: 24, color: Colors.white),
+                            const TextStyle(fontSize: 20, color: Colors.white),
                       ),
                     ),
             ],

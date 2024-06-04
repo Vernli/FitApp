@@ -30,4 +30,16 @@ class ExerciseRepository {
   ) async {
     return await _exerciseDAO.getAllTrainingSessions(exerciseName);
   }
+
+  Future getExerciseSessions(
+    String planName,
+    String exerciseName,
+    int day,
+  ) async {
+    return await _exerciseDAO.getExerciseSessions(
+      planName,
+      exerciseName,
+      day,
+    );
+  }
 }

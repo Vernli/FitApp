@@ -1,7 +1,5 @@
 import 'package:app/buisness/action/exercise_action.dart';
-import 'package:app/buisness/action/plan_action.dart';
 import 'package:app/buisness/bloc/exercise_bloc.dart';
-import 'package:app/buisness/bloc/plan_bloc.dart';
 import 'package:app/presentation/widgets/components/controllers/picker_controller.dart';
 import 'package:app/presentation/widgets/plan_widgets/plan_appbar.dart';
 import 'package:app/presentation/widgets/plan_widgets/progress/add_repetitions_picker.dart';

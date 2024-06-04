@@ -2,6 +2,7 @@ import 'package:app/buisness/bloc/exercise_bloc.dart';
 import 'package:app/buisness/bloc/plan_bloc.dart';
 import 'package:app/buisness/states/plan_state.dart';
 import 'package:app/presentation/pages/add_plan_page.dart';
+import 'package:app/presentation/widgets/plan_widgets/change_plan_button.dart';
 import 'package:app/presentation/widgets/plan_widgets/exercises/exercise_builder.dart';
 import 'package:app/presentation/widgets/plan_widgets/plan_button.dart';
 import 'package:app/presentation/widgets/plan_widgets/week_days_tab.dart';
@@ -9,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlanPage extends StatelessWidget {
-  const PlanPage({super.key});
+  final List<String> planNames;
+  const PlanPage({super.key, required this.planNames});
   @override
   Widget build(BuildContext context) {
     String currentPlanName = '';
@@ -25,28 +27,9 @@ class PlanPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                // TODO
-                PlanButton(
-                  text: 'Zmień plan',
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return Dialog(
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                child: TextButton(
-                                  onPressed: () {},
-                                  child: const Text('Plan'),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  },
+                ChangePlanButton(
+                  planNames: planNames,
+                  currentPlanName: currentPlanName,
                 ),
                 Align(
                   alignment: Alignment.topCenter,
@@ -83,7 +66,7 @@ class PlanPage extends StatelessWidget {
                             currentPlanName = planName;
                             return Center(
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(4.0),
                                 child: Text(
                                   planName,
                                   style: const TextStyle(color: Colors.white),
@@ -150,12 +133,23 @@ class PlanPage extends StatelessWidget {
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  if (exercises.containsKey(day))
-                                    ExerciseBuilder(
-                                      planName: currentPlanName,
-                                      exercises: exercises[day],
-                                      day: day,
-                                    ),
+                                  exercises.containsKey(day)
+                                      ? ExerciseBuilder(
+                                          planName: currentPlanName,
+                                          exercises: exercises[day],
+                                          day: day,
+                                        )
+                                      : SizedBox(
+                                          height: 48,
+                                          child: Center(
+                                            child: Text(
+                                              'Brak ćwiczeń',
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                 ],
                               ),
                             ),

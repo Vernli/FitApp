@@ -1,8 +1,10 @@
 import 'package:app/buisness/action/plan_action.dart';
 import 'package:app/buisness/action/weight_action.dart';
+import 'package:app/buisness/bloc/diet_bloc.dart';
 import 'package:app/buisness/bloc/plan_bloc.dart';
 import 'package:app/buisness/bloc/weight_bloc.dart';
 import 'package:app/config/theme/app_theme.dart';
+import 'package:app/presentation/screens/diet_screen.dart';
 import 'package:app/presentation/screens/plan_screen.dart';
 import 'package:app/presentation/widgets/components/tab_appbar.dart';
 import 'package:app/presentation/screens/weight_screen.dart';
@@ -38,7 +40,7 @@ class MainPage extends StatelessWidget {
           create: (BuildContext context) =>
               WeightBloc()..add(const InitWeightAction()),
         ),
-        BlocProvider(
+        BlocProvider<PlanBloc>(
           lazy: true,
           create: (BuildContext context) =>
               PlanBloc()..add(const InitPlanAction()),
@@ -51,27 +53,20 @@ class MainPage extends StatelessWidget {
           resizeToAvoidBottomInset: false,
           appBar: const TabAppBar(
             tabs: [
-              Tab(
-                text: 'Dieta',
-              ),
-              Tab(
-                text: 'Trening',
-              ),
-              Tab(
-                text: 'Waga',
-              ),
+              Tab(text: 'Dieta'),
+              Tab(text: 'Trening'),
+              Tab(text: 'Waga'),
             ],
           ),
           body: const TabBarView(
             physics: NeverScrollableScrollPhysics(),
             children: [
-              Center(child: Text('Dieta')),
+              Center(child: DietScreen<DietBloc>()),
               Center(child: PlanScreen<PlanBloc>()),
               Center(child: WeightScreen<WeightBloc>()),
             ],
           ),
           extendBodyBehindAppBar: false,
-          // TODO - IMPLEMENTACJA FUNKCJONALNOŚCI
           floatingActionButton: FloatingActionButton(
             onPressed: () => {},
             backgroundColor: Theme.of(context).colorScheme.primary,

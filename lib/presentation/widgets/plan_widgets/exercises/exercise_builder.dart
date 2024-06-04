@@ -24,6 +24,7 @@ class _ExerciseBuilderState extends State<ExerciseBuilder> {
     return ListView.builder(
       key: Key(selectedTile.toString()),
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: widget.exercises!.length,
       itemBuilder: (context, index) {
         final exercise = widget.exercises![index].values.toList();

@@ -12,14 +12,13 @@ class PlanScreen<T extends PlanBloc> extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PlanBloc, PlanState>(
       builder: (context, state) {
-        print(state);
         switch (state) {
           case InitPlanState():
             return const StartupPlanPage();
           case LoadingPlanState():
             return const CircularProgressIndicator();
-          case GetPlanState():
-            return const PlanPage();
+          case GetPlanState(:final planNames):
+            return PlanPage(planNames: planNames);
           case AddFailurePlanState():
             return const SizedBox();
           case AddSuccessPlanState():

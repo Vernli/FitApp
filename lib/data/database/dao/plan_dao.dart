@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:app/data/database/app_database.dart';
 import 'package:app/data/models/plan/plan_model.dart';
 import 'package:sqflite/sqflite.dart';
@@ -9,10 +10,11 @@ class PlanDAO {
   PlanDAO([AppDatabase? dbProvider])
       : dbProvider = dbProvider ?? AppDatabase.dbProvider;
 
-  Future<List<Map<String, dynamic>>> getAllPlans() async {
+  Future<List<String>> getAllPlans() async {
     final database = await dbProvider.database;
-    final List<Map<String, dynamic>> plansMaps = await database.query('plans');
-    return plansMaps;
+    final queryResult =
+        await database.rawQuery('''SELECT plan_name FROM plans''');
+    return queryResult.map((e) => e['plan_name'].toString()).toList();
   }
 
   Future<void> insertPlan({required PlanModel planModel}) async {
@@ -27,6 +29,7 @@ class PlanDAO {
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+
     int planID = await _getPlanID(planModel.planName);
     if (planModel.exercises != null) {
       for (var element in planModel.exercises!.keys) {
@@ -60,15 +63,12 @@ class PlanDAO {
 
   Future<Map<String, dynamic>> getLastPlan() async {
     final Database database = await dbProvider.database;
-    final DateTime currentTime = DateTime.now();
     final lastPlan = await database.rawQuery(
       '''
       SELECT plan_id, plan_name, created_date, created_time FROM plans
-      ORDER BY created_date DESC, created_time DESC
-      LIMIT 1
+      Order BY created_date, created_time DESC LIMIT 1
     ''',
     );
-
     if (lastPlan.isEmpty) {
       return {};
     }
@@ -82,9 +82,34 @@ class PlanDAO {
       ORDER BY day_id ASC
       ''',
     );
-
     return {
       'plan': lastPlan[0],
+      'exercises': exercises,
+    };
+  }
+
+  Future<Map<String, dynamic>> getPlanByName(String planName) async {
+    final Database database = await dbProvider.database;
+    final List<Map<String, dynamic>> plan = await database.query(
+      'plans',
+      where: 'plan_name = ?',
+      whereArgs: [planName],
+    );
+    if (plan.isEmpty) {
+      return {};
+    }
+
+    final int planID = int.parse(plan[0]['plan_id'].toString());
+
+    final List<Map<String, dynamic>> exercises = await database.rawQuery(
+      '''
+      SELECT day_id, exercise_name, min_reps, max_reps, sets FROM exercises
+      WHERE plan_id = $planID
+      ORDER BY day_id ASC
+      ''',
+    );
+    return {
+      'plan': plan[0],
       'exercises': exercises,
     };
   }

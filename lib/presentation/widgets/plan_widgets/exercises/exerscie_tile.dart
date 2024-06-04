@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:app/buisness/action/exercise_action.dart';
 import 'package:app/buisness/bloc/exercise_bloc.dart';
 import 'package:app/buisness/states/exercise_state.dart';
@@ -41,6 +39,7 @@ class _ExerciseTileState extends State<ExerciseTile> {
   List<int> exerciseKeys = [];
   int previousKey = -1;
   bool areAllElementsEqual = false;
+
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
@@ -48,9 +47,10 @@ class _ExerciseTileState extends State<ExerciseTile> {
       onExpansionChanged: (value) {
         if (value) {
           context.read<ExerciseBloc>().add(
-                ExerciseGetAllSessionsAction(
+                ExerciseGetSessionsAction(
                   planName: widget.planName,
                   exerciseName: widget.exerciseName,
+                  day: widget.exerciseDay,
                 ),
               );
           widget.onExpansionChanged(value);
@@ -61,7 +61,7 @@ class _ExerciseTileState extends State<ExerciseTile> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            '${widget.exerciseName} - ${widget.sets}x${widget.minReps}-${widget.maxReps}',
+            '${widget.exerciseName} - ${widget.sets}x${widget.minReps != widget.maxReps ? '${widget.minReps}-${widget.maxReps}' : widget.maxReps}',
           ),
           IconButton(
             onPressed: () {
@@ -111,89 +111,88 @@ class _ExerciseTileState extends State<ExerciseTile> {
 
               case GetExerciseState(:final exerciseData):
                 exerciseKeys = exerciseData.keys.toList();
-                return Column(
-                  children: [
-                    for (var exerciseKey in exerciseData.keys)
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.all(18),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.onSecondary,
-                          border: const Border(
-                            top: BorderSide(color: Colors.white38, width: 1),
+                return SingleChildScrollView(
+                  child: exerciseKeys.isNotEmpty
+                      ? Column(
+                          children: [
+                            for (var exerciseKey
+                                in exerciseData.keys.toList().reversed)
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                padding: const EdgeInsets.all(18),
+                                decoration: BoxDecoration(
+                                  color:
+                                      Theme.of(context).colorScheme.onSecondary,
+                                  border: const Border(
+                                    top: BorderSide(
+                                      color: Colors.white38,
+                                      width: 1,
+                                    ),
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 200,
+                                      child: _areAllElementsEqual(
+                                        exerciseData[exerciseKey]!['weights'],
+                                      )
+                                          ? ExerciseValuesBox(
+                                              repetitions: exerciseData[
+                                                  exerciseKey]!['reps'],
+                                            )
+                                          : RepetitionsWeightBox(
+                                              repetitions: exerciseData[
+                                                  exerciseKey]!['reps'],
+                                              weights: exerciseData[
+                                                  exerciseKey]!['weights'],
+                                            ),
+                                    ),
+                                    const Spacer(),
+                                    SizedBox(
+                                      width: 100,
+                                      child: Wrap(
+                                        runSpacing: 8,
+                                        children: [
+                                          areAllElementsEqual
+                                              ? CustomSquareBox(
+                                                  textValue: exerciseData[
+                                                              exerciseKey]![
+                                                          'weights']![0]
+                                                      .toString(),
+                                                )
+                                              : const SizedBox(),
+                                          _isPreviousKey(exerciseKey)
+                                              ? ProgressBox(
+                                                  percentageProgress:
+                                                      CalculateProgress
+                                                          .calculatePercentageChange(
+                                                    exerciseData[previousKey]
+                                                        ?['reps'],
+                                                    exerciseData[previousKey]
+                                                        ?['weights'],
+                                                    exerciseData[exerciseKey]
+                                                        ?['reps'],
+                                                    exerciseData[exerciseKey]
+                                                        ?['weights'],
+                                                  ),
+                                                )
+                                              : const SizedBox(),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                          ],
+                        )
+                      : SizedBox(
+                          height: 48,
+                          child: Text(
+                            'Brak danych',
+                            style: TextStyle(color: Colors.grey[600]),
                           ),
                         ),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 200,
-                              child: _areAllElementsEqual(
-                                exerciseData[exerciseKey]!['weights'],
-                              )
-                                  ? ExerciseValuesBox(
-                                      repetitions:
-                                          exerciseData[exerciseKey]!['reps'],
-                                    )
-                                  : RepetitionsWeightBox(
-                                      repetitions:
-                                          exerciseData[exerciseKey]!['reps'],
-                                      weights:
-                                          exerciseData[exerciseKey]!['weights'],
-                                    ),
-                            ),
-                            const Spacer(),
-                            SizedBox(
-                              width: 100,
-                              child: Wrap(
-                                runSpacing: 8,
-                                children: [
-                                  areAllElementsEqual
-                                      ? CustomSquareBox(
-                                          textValue: exerciseData[exerciseKey]![
-                                                  'weights']![0]
-                                              .toString(),
-                                        )
-                                      : const SizedBox(),
-                                  _isPreviousKey(exerciseKey)
-                                      ? ProgressBox(
-                                          percentageProgress: CalculateProgress
-                                              .calculatePercentageChange(
-                                            exerciseData[previousKey]?['reps'],
-                                            exerciseData[previousKey]
-                                                ?['weights'],
-                                            exerciseData[exerciseKey]?['reps'],
-                                            exerciseData[exerciseKey]
-                                                ?['weights'],
-                                          ),
-                                        )
-                                      : const SizedBox(),
-                                ],
-                              ),
-                            ),
-
-                            //TODO
-                            SizedBox(
-                              child: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.remove),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      color: Theme.of(context).colorScheme.onSecondary,
-                      child: TextButton(
-                        // TODO ON PRESSED MOVE TO NEW PAGE
-                        onPressed: () {},
-                        child: const Icon(
-                          Icons.more_horiz,
-                          color: Colors.white60,
-                        ),
-                      ),
-                    ),
-                  ],
                 );
             }
           },

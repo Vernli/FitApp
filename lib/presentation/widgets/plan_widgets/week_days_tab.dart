@@ -1,6 +1,8 @@
 import 'package:app/utils/plan_exercise.dart';
 import 'package:app/presentation/widgets/plan_widgets/add_exercise_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class WeekDaysTab extends StatefulWidget {
   final List<String> weekDays;

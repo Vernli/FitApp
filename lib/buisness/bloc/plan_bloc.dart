@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:app/buisness/action/base_action.dart';
 import 'package:app/buisness/action/plan_action.dart';
 import 'package:app/buisness/states/plan_state.dart';
@@ -20,11 +18,17 @@ class PlanBloc extends Bloc<BaseAction, PlanState> {
         emit(AddFailurePlanState());
 
         Map<String, dynamic> plan = await _planRepository.getLastPlan();
+
         if (plan.isEmpty) {
           emit(InitPlanState());
         } else {
+          List<String> planNames = await _planRepository.getAllPlans();
           emit(
-            GetPlanState(plan['plan']['plan_name'], plan['exercises']),
+            GetPlanState(
+              plan['plan']['plan_name'],
+              plan['exercises'],
+              planNames,
+            ),
           );
         }
         return;
@@ -38,61 +42,44 @@ class PlanBloc extends Bloc<BaseAction, PlanState> {
           createdTime: event.time,
         ),
       );
+
       Map<String, dynamic> plan = await _planRepository.getLastPlan();
+      List<String> planNames = await _planRepository.getAllPlans();
+      emit(
+        GetPlanState(plan['plan']['plan_name'], plan['exercises'], planNames),
+      );
+
       emit(AddSuccessPlanState());
       emit(
-        GetPlanState(plan['plan']['plan_name'], plan['exercises']),
+        GetPlanState(plan['plan']['plan_name'], plan['exercises'], planNames),
       );
     });
 
     on<InitPlanAction>((event, emit) async {
       emit(LoadingPlanState());
       Map<String, dynamic> plan = await _planRepository.getLastPlan();
+      List<String> planNames = await _planRepository.getAllPlans();
+
       if (plan.isEmpty) {
         emit(InitPlanState());
       } else {
         emit(
-          GetPlanState(plan['plan']['plan_name'], plan['exercises']),
+          GetPlanState(plan['plan']['plan_name'], plan['exercises'], planNames),
         );
       }
     });
+    on<ChangePlanAction>((event, emit) async {
+      emit(LoadingPlanState());
+      if (event.planName == null) {
+        emit(InitPlanState());
+        return;
+      }
+      Map<String, dynamic> plan =
+          await _planRepository.getPlanByName(event.planName!);
+      List<String> planNames = await _planRepository.getAllPlans();
+      emit(
+        GetPlanState(plan['plan']['plan_name'], plan['exercises'], planNames),
+      );
+    });
   }
-
-  // PlanBloc() : super(const PlanState.empty()) {
-  //   on<PlanAddAction>((event, emit) async {
-  //     emit(const PlanState.loading());
-  //     await _planRepository.insertPlan(
-  //       PlanModel(
-  //         planName: event.planName,
-  //         exercises: event.exercises,
-  //         createdDate: event.date,
-  //         createdTime: event.time,
-  //       ),
-  //     );
-  //     Map<String, dynamic> plan = await _planRepository.getLastPlan();
-  //     emit(
-  //       PlanState(
-  //         isLoading: false,
-  //         planName: plan['plan']['plan_name'],
-  //         exercises: plan['exercises'],
-  //       ),
-  //     );
-  //   });
-
-  //   on<InitPlanAction>((event, emit) async {
-  //     emit(const PlanState.loading());
-  //     Map<String, dynamic> plan = await _planRepository.getLastPlan();
-  //     if (plan.isEmpty) {
-  //       emit(const PlanState.empty());
-  //     } else {
-  //       emit(
-  //         PlanState(
-  //           isLoading: false,
-  //           planName: plan['plan']['plan_name'],
-  //           exercises: plan['exercises'],
-  //         ),
-  //       );
-  //     }
-  //   });
-  // }
 }

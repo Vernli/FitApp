@@ -1,0 +1,7 @@
+import 'package:app/buisness/action/base_action.dart';
+import 'package:app/buisness/states/diet_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class DietBloc extends Bloc<BaseAction, DietState> {
+  DietBloc() : super(InitDietState());
+}

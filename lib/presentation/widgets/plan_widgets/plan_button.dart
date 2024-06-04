@@ -10,7 +10,6 @@ class PlanButton extends StatelessWidget {
     return Container(
       height: 32,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.circular(16),
         boxShadow: const [
           BoxShadow(
@@ -22,7 +21,8 @@ class PlanButton extends StatelessWidget {
       ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Theme.of(context).colorScheme.secondary,
+          backgroundColor: Colors.grey[800],
+          // backgroundColor: Theme.of(context).colorScheme.secondary,
           shape: RoundedRectangleBorder(
             side: const BorderSide(
               color: Colors.black38,
