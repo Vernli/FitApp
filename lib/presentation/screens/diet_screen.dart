@@ -1,13 +1,17 @@
 import 'package:app/buisness/bloc/diet_bloc.dart';
-import 'package:flutter/material.dart';
+import 'package:app/presentation/pages/diet_page.dart';
+import 'package:flutter/widgets.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class DietScreen<T extends DietBloc> extends StatelessWidget {
   const DietScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting('pl_PL', null);
     return SizedBox(
-        // child: Center(child: Text(DataFormat.yMMMMd.format(DateTime.now()))));
-        );
+      height: MediaQuery.of(context).size.height,
+      child: const DietPage(),
+    );
   }
 }

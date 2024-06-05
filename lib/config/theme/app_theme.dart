@@ -19,3 +19,19 @@ final ThemeData appTheme = ThemeData(
   ),
   textTheme: GoogleFonts.latoTextTheme(),
 );
+
+TextStyle get dietTitleStyle => GoogleFonts.lato(
+      fontSize: 24,
+      fontWeight: FontWeight.bold,
+      color: Colors.grey[200],
+    );
+TextStyle get dietSubtitileStyle => GoogleFonts.lato(
+      fontSize: 20,
+      fontWeight: FontWeight.w500,
+      color: Colors.grey[300],
+    );
+
+TextStyle get dietTileSummary => GoogleFonts.lato(
+      fontSize: 12,
+      color: Colors.grey[300],
+    );

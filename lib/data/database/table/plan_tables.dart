@@ -53,14 +53,14 @@ class PlanTables {
 
   static const insertWeekDaysQuery = '''
     INSERT INTO $daysTable (day_name) VALUES
-    ('Monday'),
-    ('Tuesday'),
-    ('Wednesday'),
-    ('Thursday'),
-    ('Friday'),
-    ('Saturday'),
-    ('Sunday');
-  ''';
+    ('Poniedziałek'),
+    ('Wtorek'),
+    ('Środa'),
+    ('Czwartek'),
+    ('Piątek'),
+    ('Sobota'),
+    ('Niedziela');
+    ''';
 
   static void createTable(Database database, int version) async {
     await database.execute(createQuery[plansNameTable]!);

@@ -1,3 +1,4 @@
+import 'package:app/buisness/action/diet_action.dart';
 import 'package:app/buisness/action/plan_action.dart';
 import 'package:app/buisness/action/weight_action.dart';
 import 'package:app/buisness/bloc/diet_bloc.dart';
@@ -10,6 +11,7 @@ import 'package:app/presentation/widgets/components/tab_appbar.dart';
 import 'package:app/presentation/screens/weight_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(const MainApp());
@@ -45,20 +47,29 @@ class MainPage extends StatelessWidget {
           create: (BuildContext context) =>
               PlanBloc()..add(const InitPlanAction()),
         ),
+        BlocProvider<DietBloc>(
+          lazy: true,
+          create: (BuildContext context) => DietBloc()
+            ..add(
+              InitDietAction(
+                DateFormat('yyyy-MM-dd').format(DateTime.now()),
+              ),
+            ),
+        )
       ],
-      child: DefaultTabController(
+      child: const DefaultTabController(
         length: 3,
         initialIndex: 1,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: const TabAppBar(
+          appBar: TabAppBar(
             tabs: [
               Tab(text: 'Dieta'),
               Tab(text: 'Trening'),
               Tab(text: 'Waga'),
             ],
           ),
-          body: const TabBarView(
+          body: TabBarView(
             physics: NeverScrollableScrollPhysics(),
             children: [
               Center(child: DietScreen<DietBloc>()),
@@ -67,11 +78,6 @@ class MainPage extends StatelessWidget {
             ],
           ),
           extendBodyBehindAppBar: false,
-          floatingActionButton: FloatingActionButton(
-            onPressed: () => {},
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            child: const Icon(Icons.bar_chart_rounded),
-          ),
         ),
       ),
     );
