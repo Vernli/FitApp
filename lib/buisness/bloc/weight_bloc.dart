@@ -15,6 +15,7 @@ class WeightBloc extends Bloc<BaseAction, WeightState> {
           await _weightRepository.getAllWeights();
       if (weightList.isEmpty) {
         emit(const WeightState.empty());
+        return;
       }
       emit(
         WeightState(

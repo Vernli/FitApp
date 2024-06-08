@@ -1,10 +1,14 @@
+import 'package:app/config/theme/app_theme.dart';
+import 'package:app/presentation/widgets/diet_widgets/a_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class AddMealDialog extends StatefulWidget {
+class ProductDialog extends StatefulWidget {
   final String mealType;
   final String date; // DateFormat yyyy-MM-dd
   final Function onAdd;
-  const AddMealDialog({
+
+  const ProductDialog({
     super.key,
     required this.mealType,
     required this.date,
@@ -12,11 +16,10 @@ class AddMealDialog extends StatefulWidget {
   });
 
   @override
-  _AddMealDialogState createState() => _AddMealDialogState();
+  _ProductDialogState createState() => _ProductDialogState();
 }
 
-class _AddMealDialogState extends State<AddMealDialog> {
-  final _formKey = GlobalKey<FormState>();
+class _ProductDialogState extends State<ProductDialog> {
   final TextEditingController _controllerMealName = TextEditingController();
   final TextEditingController _controllerKcal = TextEditingController();
   final TextEditingController _controllerCarbs = TextEditingController();
@@ -72,7 +75,7 @@ class _AddMealDialogState extends State<AddMealDialog> {
                     ),
                     child: const Center(
                       child: Text(
-                        'Uzupełnij dane o posiłku',
+                        'Dane prodkutu',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -82,182 +85,323 @@ class _AddMealDialogState extends State<AddMealDialog> {
                       ),
                     ),
                   ),
-
-                  // Form
                   Padding(
                     padding: const EdgeInsets.all(16),
-                    child: SingleChildScrollView(
-                      key: _formKey,
-                      child: Form(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
+                    child: Column(
+                      children: [
+                        Text(
+                          'Wartości odżywcze [na 100 g/ml]:',
+                          style: dietTitleStyle,
+                        ),
+                        Row(
                           children: [
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                labelText: 'Nazwa posiłku',
-                              ),
-                              controller: _controllerMealName,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter a meal name';
-                                }
-                                return null;
-                              },
+                            Text(
+                              'Nazwa posiłku:',
+                              style: dietInputLabel,
                             ),
-                            TextFormField(
-                              decoration:
-                                  const InputDecoration(labelText: 'Kcal'),
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(
-                                decimal: true,
+                            const SizedBox(width: 30),
+                            Expanded(
+                              child: TextFormField(
+                                decoration: const InputDecoration(),
+                                controller: _controllerMealName,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter a meal name';
+                                  }
+                                  return null;
+                                },
+                                style: dietInputLabel,
+                                autocorrect: false,
                               ),
-                              controller: _controllerKcal,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter kcal';
-                                }
-                                return null;
-                              },
-                            ),
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                  labelText: 'Węglowodany (g)'),
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(
-                                decimal: true,
-                              ),
-                              controller: _controllerCarbs,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter carbs';
-                                }
-                                return null;
-                              },
-                            ),
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                  labelText: 'Białka (g)'),
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(
-                                decimal: true,
-                              ),
-                              controller: _controllerProtein,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter protein';
-                                }
-                                return null;
-                              },
-                            ),
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                labelText: 'Tłuszcze (g)',
-                              ),
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(
-                                decimal: true,
-                              ),
-                              controller: _controllerFat,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter fat';
-                                }
-                                return null;
-                              },
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          height: 40,
-                          width: 80,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primary,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                          ),
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text(
-                              'Anuluj',
-                              style: TextStyle(color: Colors.white),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Wartość energetyczna: ',
+                              style: dietInputLabel,
                             ),
-                          ),
+                            const SizedBox(width: 20),
+                            SizedBox(
+                              width: 80,
+                              child: TextFormField(
+                                maxLength: 3,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                    RegExp(r'[0-9]'),
+                                  ),
+                                ],
+                                style: dietInputLabel,
+                                autocorrect: false,
+                                decoration: InputDecoration(
+                                  suffixIcon: Text(
+                                    'kcal',
+                                    style: TextStyle(color: Colors.grey[300]),
+                                  ),
+                                  suffixIconConstraints: const BoxConstraints(
+                                    minWidth: 0,
+                                    minHeight: 0,
+                                  ),
+                                  counterText: '',
+                                ),
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                  decimal: true,
+                                ),
+                                controller: _controllerKcal,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter kcal';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Białka: ', style: dietInputLabel),
+                            const SizedBox(width: 20),
+                            SizedBox(
+                              width: 80,
+                              child: TextFormField(
+                                maxLength: 4,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                    RegExp(r'(^\d*\.?\d*)'),
+                                  ),
+                                ],
+                                style: dietInputLabel,
+                                autocorrect: false,
+                                decoration: InputDecoration(
+                                  suffixIcon: Text(
+                                    'g',
+                                    style: TextStyle(color: Colors.grey[300]),
+                                  ),
+                                  suffixIconConstraints: const BoxConstraints(
+                                    minWidth: 0,
+                                    minHeight: 0,
+                                  ),
+                                  counterText: '',
+                                ),
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                  decimal: true,
+                                ),
+                                controller: _controllerProtein,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter kcal';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Węglowodany: ', style: dietInputLabel),
+                            const SizedBox(width: 20),
+                            SizedBox(
+                              width: 80,
+                              child: TextFormField(
+                                style: dietInputLabel,
+                                autocorrect: false,
+                                maxLength: 4,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                    RegExp(r'(^\d*\.?\d*)'),
+                                  ),
+                                ],
+                                decoration: InputDecoration(
+                                  suffixIcon: Text(
+                                    'g',
+                                    style: TextStyle(color: Colors.grey[300]),
+                                  ),
+                                  suffixIconConstraints: const BoxConstraints(
+                                    minWidth: 0,
+                                    minHeight: 0,
+                                  ),
+                                  counterText: '',
+                                ),
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                  decimal: true,
+                                ),
+                                controller: _controllerCarbs,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter kcal';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Tłuszcze: ', style: dietInputLabel),
+                            const SizedBox(width: 20),
+                            SizedBox(
+                              width: 80,
+                              child: TextFormField(
+                                maxLength: 4,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                    RegExp(r'(^\d*\.?\d*)'),
+                                  ),
+                                ],
+                                style: dietInputLabel,
+                                autocorrect: false,
+                                decoration: InputDecoration(
+                                  suffixIcon: Text(
+                                    'g',
+                                    style: TextStyle(color: Colors.grey[300]),
+                                  ),
+                                  suffixIconConstraints: const BoxConstraints(
+                                    minWidth: 0,
+                                    minHeight: 0,
+                                  ),
+                                  counterText: '',
+                                ),
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                  decimal: true,
+                                ),
+                                controller: _controllerFat,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter kcal';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(
-                          width: 10,
+                          height: 12,
                         ),
-                        Container(
-                          height: 40,
-                          width: 80,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primary,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                          ),
-                          child: TextButton(
-                            onPressed: () {
-                              if (_controllerMealName.text.isEmpty ||
-                                  _controllerKcal.text.isEmpty ||
-                                  _controllerCarbs.text.isEmpty ||
-                                  _controllerProtein.text.isEmpty ||
-                                  _controllerFat.text.isEmpty) {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext builderContext) {
-                                    return AlertDialog(
-                                      title: const Text(
-                                        'Błąd',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      content: const Text(
-                                        'Prosze uzupełnić wszystkie pola',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      actions: [
-                                        Card(
-                                          child: TextButton(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.onSecondary,
+                              ),
+                              child: Text(
+                                'Anuluj',
+                                style: dietInputLabel,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            ElevatedButton(
+                              child: Text('Dalej', style: dietInputLabel),
+                              onPressed: () {
+                                //   TODO SHOW ALERTS
+                                if (_controllerMealName.text.isEmpty ||
+                                    _controllerKcal.text.isEmpty ||
+                                    _controllerCarbs.text.isEmpty ||
+                                    _controllerProtein.text.isEmpty ||
+                                    _controllerFat.text.isEmpty) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (newContext) {
+                                      return AlertDialog(
+                                        title: const Text(
+                                          'Błąd',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        content: const Text(
+                                          'Wartości nie mogą być puste!.',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        actions: [
+                                          ElevatedButton(
                                             onPressed: () {
-                                              Navigator.of(context).pop();
+                                              Navigator.pop(newContext);
                                             },
-                                            child: const Text(
+                                            child: Text(
                                               'OK',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              ),
+                                              style: dietInputLabel,
                                             ),
                                           ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
+                                double sumOfNutritions =
+                                    double.parse(_controllerCarbs.text) +
+                                        double.parse(_controllerProtein.text) +
+                                        double.parse(_controllerFat.text);
+                                if (sumOfNutritions > 100) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (newContext) {
+                                      return AlertDialog(
+                                        title: const Text(
+                                          'Błąd',
+                                          style: TextStyle(color: Colors.white),
                                         ),
-                                      ],
+                                        content: const Text(
+                                          'Suma wartości odżywczych przekracza 100g.',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        actions: [
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pop(newContext);
+                                            },
+                                            child: Text(
+                                              'OK',
+                                              style: dietInputLabel,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                  return;
+                                }
+
+                                Navigator.pop(context);
+
+                                showDialog(
+                                  context: context,
+                                  builder: (newContext) {
+                                    return ADialot(
+                                      productName: _controllerMealName.text,
+                                      productKcal:
+                                          double.parse(_controllerKcal.text),
+                                      productCarbs:
+                                          double.parse(_controllerCarbs.text),
+                                      productProteins: double.parse(
+                                        _controllerProtein.text,
+                                      ),
+                                      productFat:
+                                          double.parse(_controllerFat.text),
+                                      onAdd: widget.onAdd,
                                     );
                                   },
                                 );
-                              } else {
-                                widget.onAdd(
-                                  {
-                                    'mealName': _controllerMealName.text,
-                                    'kcal': _controllerKcal.text,
-                                    'carbs': _controllerCarbs.text,
-                                    'proteins': _controllerProtein.text,
-                                    'fat': _controllerFat.text,
-                                  },
-                                );
-                              }
-                            },
-                            child: const Text(
-                              'Dodaj',
-                              style: TextStyle(color: Colors.white),
+                              },
                             ),
-                          ),
+                          ],
                         ),
                       ],
                     ),

@@ -33,6 +33,51 @@ class DietDAO {
     return queryResult;
   }
 
+  Future<dynamic> getCalorieGoal() async {
+    final database = await dbProvider.database;
+    final queryResult = await database
+        .query(columns: ['proteins', 'carbs', 'fat', 'kcal'], 'calories_goal');
+
+    return queryResult;
+  }
+
+  Future<void> setCaloriesGoal({
+    required int proteins,
+    required int carbs,
+    required int fat,
+    required int kcal,
+  }) async {
+    final database = await dbProvider.database;
+    await database.insert(
+      'calories_goal',
+      {
+        'proteins': proteins,
+        'carbs': carbs,
+        'fat': fat,
+        'kcal': kcal,
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<void> updateCaloriesGoal({
+    required int kcal,
+    required int carbs,
+    required int proteins,
+    required int fat,
+  }) async {
+    final database = await dbProvider.database;
+    await database.update(
+      'calories_goal',
+      {
+        'kcal': kcal,
+        'carbs': carbs,
+        'proteins': proteins,
+        'fat': fat,
+      },
+    );
+  }
+
   Future<void> addMeal({
     required String mealName,
     required String mealType,

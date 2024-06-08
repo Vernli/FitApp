@@ -55,7 +55,7 @@ class MainPage extends StatelessWidget {
                 DateFormat('yyyy-MM-dd').format(DateTime.now()),
               ),
             ),
-        )
+        ),
       ],
       child: const DefaultTabController(
         length: 3,

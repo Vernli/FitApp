@@ -36,4 +36,47 @@ class DietRepository {
       fat: fat,
     );
   }
+
+  Future<void> setCalorieGoal({
+    required int proteins,
+    required int carbs,
+    required int fat,
+    required int kcal,
+  }) async {
+    await _dietDAO.setCaloriesGoal(
+      proteins: proteins,
+      carbs: carbs,
+      fat: fat,
+      kcal: kcal,
+    );
+  }
+
+  Future<dynamic> getCalorieGoal() async {
+    final rawCaloriesGoal = await _dietDAO.getCalorieGoal();
+    if (rawCaloriesGoal.isEmpty) {
+      return [];
+    }
+    final Map<String, int> caloriesGoal = {
+      'proteins': int.parse(rawCaloriesGoal[0]['proteins'].toString()),
+      'carbs': int.parse(rawCaloriesGoal[0]['carbs'].toString()),
+      'fat': int.parse(rawCaloriesGoal[0]['fat'].toString()),
+      'kcal': int.parse(rawCaloriesGoal[0]['kcal'].toString()),
+    };
+
+    return caloriesGoal;
+  }
+
+  Future<void> updateCalorieGoal({
+    required int proteins,
+    required int carbs,
+    required int fat,
+    required int kcal,
+  }) async {
+    await _dietDAO.updateCaloriesGoal(
+      kcal: kcal,
+      carbs: carbs,
+      proteins: proteins,
+      fat: fat,
+    );
+  }
 }

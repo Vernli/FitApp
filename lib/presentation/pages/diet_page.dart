@@ -34,7 +34,6 @@ class _DietPageState extends State<DietPage> {
         BlocBuilder<DietBloc, DietState>(
           buildWhen: (previous, current) => previous != current,
           builder: (context, state) {
-            print('state $state');
             switch (state) {
               case InitDietState():
                 return SingleChildScrollView(
@@ -45,13 +44,14 @@ class _DietPageState extends State<DietPage> {
                     ],
                   ),
                 );
-              case DietLoadedState():
+              case LoadedDietState():
                 Map<String, double> totalScore = {
                   'kcal': 0,
                   'proteins': 0,
                   'carbs': 0,
                   'fat': 0,
                 };
+                Map<String, int> goal = state.goal;
                 if (state.nutrientsScore.isNotEmpty) {
                   for (var score in state.nutrientsScore.values) {
                     totalScore['kcal'] =
@@ -74,11 +74,12 @@ class _DietPageState extends State<DietPage> {
                       ),
                       DietDayInfo(
                         totalScore: totalScore,
+                        goal: goal,
                       ),
                     ],
                   ),
                 );
-              case DietLoadingState():
+              case LoadingDietState():
                 return const Center(
                   child: CircularProgressIndicator(),
                 );

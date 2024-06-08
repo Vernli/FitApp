@@ -4,18 +4,23 @@ sealed class DietState {}
 
 final class InitDietState extends DietState {}
 
-final class DietLoadingState extends DietState {}
+final class LoadingDietState extends DietState {}
 
-final class DietLoadedState extends DietState {
+final class LoadedDietState extends DietState {
   final Map<String, List<MealModel>> meals;
   final Map<String, Map<String, double>> nutrientsScore;
-  DietLoadedState({required this.nutrientsScore, required this.meals});
+  final Map<String, int> goal;
+  LoadedDietState({
+    required this.nutrientsScore,
+    required this.meals,
+    required this.goal,
+  });
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is DietLoadedState &&
+    return other is LoadedDietState &&
         other.meals == meals &&
         other.nutrientsScore == nutrientsScore;
   }

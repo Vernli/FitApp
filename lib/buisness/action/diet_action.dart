@@ -35,3 +35,35 @@ class ReadMealAction implements BaseAction {
 
   const ReadMealAction({required this.date});
 }
+
+class SetCaloriesGoalAction implements BaseAction {
+  final int proteins;
+  final int carbs;
+  final int fat;
+  final int kcal;
+  final String date;
+
+  const SetCaloriesGoalAction({
+    required this.proteins,
+    required this.carbs,
+    required this.fat,
+    required this.kcal,
+    required this.date,
+  });
+}
+
+class UpdateCaloriesGoalAction implements BaseAction {
+  final int proteins;
+  final int carbs;
+  final int fat;
+  final int kcal;
+  final String date;
+
+  const UpdateCaloriesGoalAction({
+    required this.proteins,
+    required this.carbs,
+    required this.fat,
+    required this.kcal,
+    required this.date,
+  });
+}

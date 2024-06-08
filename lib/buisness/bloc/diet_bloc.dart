@@ -10,22 +10,46 @@ class DietBloc extends Bloc<BaseAction, DietState> {
 
   DietBloc() : super(InitDietState()) {
     on<InitDietAction>((event, emit) async {
-      emit(DietLoadingState());
+      emit(LoadingDietState());
 
-      Map<String, Map<String, double>> nutrientsScore =
-          await _dietRepository.getTotalNutrients(event.date);
-
-      if (nutrientsScore.isEmpty) {
+      dynamic goal = await _dietRepository.getCalorieGoal();
+      if (goal.isEmpty) {
         emit(InitDietState());
         return;
       }
-      Map<String, List<MealModel>> meals =
-          await _dietRepository.getAllMeals(event.date);
-      emit(DietLoadedState(nutrientsScore: nutrientsScore, meals: meals));
+
+      Map<String, dynamic> data = await loadData(event);
+
+      emit(
+        LoadedDietState(
+          nutrientsScore: data['nutrientsScore'],
+          meals: data['meals'],
+          goal: data['goal'],
+        ),
+      );
+    });
+
+    on<SetCaloriesGoalAction>((event, emit) async {
+      emit(LoadingDietState());
+      await _dietRepository.setCalorieGoal(
+        proteins: event.proteins,
+        carbs: event.carbs,
+        fat: event.fat,
+        kcal: event.kcal,
+      );
+      Map<String, dynamic> data = await loadData(event);
+
+      emit(
+        LoadedDietState(
+          nutrientsScore: data['nutrientsScore'],
+          meals: data['meals'],
+          goal: data['goal'],
+        ),
+      );
     });
 
     on<AddMealAction>((event, emit) async {
-      emit(DietLoadingState());
+      emit(LoadingDietState());
       await _dietRepository.addMeal(
         mealName: event.mealName,
         mealType: event.mealType,
@@ -35,21 +59,59 @@ class DietBloc extends Bloc<BaseAction, DietState> {
         protein: event.proteins,
         fat: event.fat,
       );
-      emit(DietLoadingState());
-      Map<String, Map<String, double>> nutrientsScore =
-          await _dietRepository.getTotalNutrients(event.date);
-      Map<String, List<MealModel>> meals =
-          await _dietRepository.getAllMeals(event.date);
-      emit(DietLoadedState(nutrientsScore: nutrientsScore, meals: meals));
+      emit(LoadingDietState());
+
+      Map<String, dynamic> data = await loadData(event);
+
+      emit(
+        LoadedDietState(
+          nutrientsScore: data['nutrientsScore'],
+          meals: data['meals'],
+          goal: data['goal'],
+        ),
+      );
     });
 
     on<ReadMealAction>((event, emit) async {
-      Map<String, Map<String, double>> nutrientsScore =
-          await _dietRepository.getTotalNutrients(event.date);
-      Map<String, List<MealModel>> meals =
-          await _dietRepository.getAllMeals(event.date);
+      emit(LoadingDietState());
+      Map<String, dynamic> data = await loadData(event);
 
-      emit(DietLoadedState(nutrientsScore: nutrientsScore, meals: meals));
+      emit(
+        LoadedDietState(
+          nutrientsScore: data['nutrientsScore'],
+          meals: data['meals'],
+          goal: data['goal'],
+        ),
+      );
     });
+
+    on<UpdateCaloriesGoalAction>((event, emit) async {
+      emit(LoadingDietState());
+      await _dietRepository.updateCalorieGoal(
+        proteins: event.proteins,
+        carbs: event.carbs,
+        fat: event.fat,
+        kcal: event.kcal,
+      );
+      Map<String, dynamic> data = await loadData(event);
+
+      emit(
+        LoadedDietState(
+          nutrientsScore: data['nutrientsScore'],
+          meals: data['meals'],
+          goal: data['goal'],
+        ),
+      );
+    });
+  }
+
+  Future<Map<String, dynamic>> loadData(event) async {
+    Map<String, int> goal = await _dietRepository.getCalorieGoal();
+
+    Map<String, Map<String, double>> nutrientsScore =
+        await _dietRepository.getTotalNutrients(event.date);
+    Map<String, List<MealModel>> meals =
+        await _dietRepository.getAllMeals(event.date);
+    return {'nutrientsScore': nutrientsScore, 'meals': meals, 'goal': goal};
   }
 }

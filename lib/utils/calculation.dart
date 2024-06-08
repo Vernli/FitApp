@@ -1,4 +1,4 @@
-class CalculateProgress {
+class Calculation {
   static double calculatePercentageChange(
     List? prevReps,
     List? prevWeight,
@@ -53,5 +53,9 @@ class CalculateProgress {
 
   static _checkEquality(List list) {
     return list.every((element) => element == list[0]);
+  }
+
+  static double calculateNutrinsPer100g(double weight, double value) {
+    return (value * weight / 100);
   }
 }

@@ -6,7 +6,7 @@ import 'package:app/presentation/widgets/components/custom_square_box.dart';
 import 'package:app/presentation/widgets/plan_widgets/exercise_values_box.dart';
 import 'package:app/presentation/widgets/plan_widgets/exercises/progress_box.dart';
 import 'package:app/presentation/widgets/plan_widgets/exercises/repetitions_weight_box.dart';
-import 'package:app/utils/calculate_proggres.dart';
+import 'package:app/utils/calculation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -164,9 +164,8 @@ class _ExerciseTileState extends State<ExerciseTile> {
                                               : const SizedBox(),
                                           _isPreviousKey(exerciseKey)
                                               ? ProgressBox(
-                                                  percentageProgress:
-                                                      CalculateProgress
-                                                          .calculatePercentageChange(
+                                                  percentageProgress: Calculation
+                                                      .calculatePercentageChange(
                                                     exerciseData[previousKey]
                                                         ?['reps'],
                                                     exerciseData[previousKey]

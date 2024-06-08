@@ -5,6 +5,7 @@ import 'package:app/data/models/diet/meal_model.dart';
 import 'package:app/presentation/widgets/diet_widgets/add_meal_dialog.dart';
 import 'package:app/presentation/widgets/diet_widgets/diet_tile.dart';
 import 'package:app/presentation/widgets/diet_widgets/diet_tile_content.dart';
+import 'package:app/presentation/widgets/diet_widgets/product_dialog.dart';
 import 'package:app/presentation/widgets/diet_widgets/tile_informations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,19 +58,19 @@ class _DietTileBuilderState extends State<DietTileBuilder> {
                   onAddButton: () {
                     showDialog(
                       context: context,
-                      builder: (dialogContext) => AddMealDialog(
-                        date: widget.date,
+                      builder: (dialogContext) => ProductDialog(
                         mealType: _mealNames[index],
+                        date: widget.date,
                         onAdd: (Map<String, dynamic> values) {
                           context.read<DietBloc>().add(
                                 AddMealAction(
                                   date: widget.date,
                                   mealName: values['mealName'],
                                   mealType: _mealNames[index],
-                                  kcal: double.parse(values['kcal']),
-                                  carbs: double.parse(values['proteins']),
-                                  proteins: double.parse(values['carbs']),
-                                  fat: double.parse(values['fat']),
+                                  kcal: values['kcal'],
+                                  carbs: values['proteins'],
+                                  proteins: values['carbs'],
+                                  fat: values['fat'],
                                 ),
                               );
                           Navigator.of(context).pop();

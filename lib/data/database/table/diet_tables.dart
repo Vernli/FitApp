@@ -4,6 +4,7 @@ class DietTables {
   static const String mealTypeTable = 'meal_type';
   static const String mealsTable = 'meal';
   static const String mealNutrientTable = 'meal_nutrition';
+  static const String goalTable = 'calories_goal';
 
   static const Map<String, String> createQuery = {
     mealTypeTable: '''
@@ -29,6 +30,14 @@ class DietTables {
       date TEXT NOT NULL,
       FOREIGN KEY (meal_type_id) REFERENCES $mealTypeTable(meal_type_id)
     );''',
+    goalTable: '''
+      CREATE TABLE IF NOT EXISTS $goalTable (
+      goal_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      proteins INTEGER NOT NULL,
+      carbs INTEGER NOT NULL,
+      fat INTEGER NOT NULL,
+      kcal INTEGER NOT NULL
+    );''',
   };
 
   static const insertMealTypesQuery = '''
@@ -46,6 +55,7 @@ class DietTables {
     await database.execute(createQuery[mealNutrientTable]!);
     await database.execute(createQuery[mealsTable]!);
     await database.execute(createQuery[mealNutrientTable]!);
+    await database.execute(createQuery[goalTable]!);
     await database.execute(insertMealTypesQuery);
   }
 }

@@ -21,7 +21,7 @@ final ThemeData appTheme = ThemeData(
 );
 
 TextStyle get dietTitleStyle => GoogleFonts.lato(
-      fontSize: 24,
+      fontSize: 16,
       fontWeight: FontWeight.bold,
       color: Colors.grey[200],
     );
@@ -34,4 +34,17 @@ TextStyle get dietSubtitileStyle => GoogleFonts.lato(
 TextStyle get dietTileSummary => GoogleFonts.lato(
       fontSize: 12,
       color: Colors.grey[300],
+    );
+
+TextStyle get dietInputLabel => GoogleFonts.lato(
+      fontSize: 16,
+      color: Colors.white,
+    );
+TextStyle get dietDialog => GoogleFonts.lato(
+      fontSize: 16,
+      color: Colors.white,
+    );
+TextStyle get dietInput => GoogleFonts.lato(
+      fontSize: 16,
+      color: Colors.white,
     );

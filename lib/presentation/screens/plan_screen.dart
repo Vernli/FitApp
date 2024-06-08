@@ -1,7 +1,8 @@
 import 'package:app/buisness/bloc/plan_bloc.dart';
 import 'package:app/buisness/states/plan_state.dart';
+import 'package:app/presentation/pages/add_plan_page.dart';
 import 'package:app/presentation/pages/plan_page.dart';
-import 'package:app/presentation/pages/startup_plan_page.dart';
+import 'package:app/presentation/pages/startup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,7 +15,18 @@ class PlanScreen<T extends PlanBloc> extends StatelessWidget {
       builder: (context, state) {
         switch (state) {
           case InitPlanState():
-            return const StartupPlanPage();
+            return StartupPage(
+                onPressed: () {
+                  return Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => BlocProvider.value(
+                        value: BlocProvider.of<PlanBloc>(context),
+                        child: const AddPlanPage(),
+                      ),
+                    ),
+                  );
+                },
+                labelTitle: 'Dodaj plan treningowy');
           case LoadingPlanState():
             return const CircularProgressIndicator();
           case GetPlanState(:final planNames):

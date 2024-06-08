@@ -22,19 +22,19 @@ class TileInformations extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Text(
-            '$kcal kcal',
+            '${kcal.round()} kcal',
             style: dietTileSummary,
           ),
           Text(
-            'B: ${proteins}g',
+            'B: ${proteins.round()}g',
             style: dietTileSummary,
           ),
           Text(
-            'T: ${fat}g',
+            'T: ${fat.round()}g',
             style: dietTileSummary,
           ),
           Text(
-            'W: ${carbs}g',
+            'W: ${carbs.round()}g',
             style: dietTileSummary,
           ),
         ],

@@ -1,23 +1,20 @@
+import 'package:app/config/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class AddMealDialog extends StatefulWidget {
-  final String mealType;
-  final String date; // DateFormat yyyy-MM-dd
+class DietGoalDialog extends StatefulWidget {
   final Function onAdd;
-  const AddMealDialog({
+  const DietGoalDialog({
     super.key,
-    required this.mealType,
-    required this.date,
     required this.onAdd,
   });
 
   @override
-  State<AddMealDialog> createState() => _AddMealDialogState();
+  State<DietGoalDialog> createState() => _DietGoalDialogState();
 }
 
-class _AddMealDialogState extends State<AddMealDialog> {
+class _DietGoalDialogState extends State<DietGoalDialog> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _controllerMealName = TextEditingController();
   final TextEditingController _controllerKcal = TextEditingController();
   final TextEditingController _controllerCarbs = TextEditingController();
   final TextEditingController _controllerProtein = TextEditingController();
@@ -25,7 +22,6 @@ class _AddMealDialogState extends State<AddMealDialog> {
 
   @override
   void dispose() {
-    _controllerMealName.dispose();
     _controllerKcal.dispose();
     _controllerCarbs.dispose();
     _controllerProtein.dispose();
@@ -72,7 +68,7 @@ class _AddMealDialogState extends State<AddMealDialog> {
                     ),
                     child: const Center(
                       child: Text(
-                        'Dodaj posiłek',
+                        'Dodaj cel',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -93,24 +89,18 @@ class _AddMealDialogState extends State<AddMealDialog> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             TextFormField(
+                              maxLength: 3,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
+                              style: dietInputLabel,
                               decoration: const InputDecoration(
-                                labelText: 'Nazwa posiłku',
+                                labelText: 'Kcal',
+                                labelStyle: TextStyle(
+                                  color: Colors.white,
+                                ),
                               ),
-                              controller: _controllerMealName,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter a meal name';
-                                }
-                                return null;
-                              },
-                            ),
-                            TextFormField(
-                              decoration:
-                                  const InputDecoration(labelText: 'Kcal'),
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(
-                                decimal: true,
-                              ),
+                              keyboardType: TextInputType.number,
                               controller: _controllerKcal,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -120,11 +110,17 @@ class _AddMealDialogState extends State<AddMealDialog> {
                               },
                             ),
                             TextFormField(
+                              maxLength: 3,
+                              keyboardType: TextInputType.number,
+                              style: dietInputLabel,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
                               decoration: const InputDecoration(
-                                  labelText: 'Węglowodany (g)'),
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(
-                                decimal: true,
+                                labelText: 'Węglowodany (g)',
+                                labelStyle: TextStyle(
+                                  color: Colors.white,
+                                ),
                               ),
                               controller: _controllerCarbs,
                               validator: (value) {
@@ -135,11 +131,17 @@ class _AddMealDialogState extends State<AddMealDialog> {
                               },
                             ),
                             TextFormField(
+                              maxLength: 3,
+                              keyboardType: TextInputType.number,
+                              style: dietInputLabel,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
                               decoration: const InputDecoration(
-                                  labelText: 'Białka (g)'),
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(
-                                decimal: true,
+                                labelText: 'Białka (g)',
+                                labelStyle: TextStyle(
+                                  color: Colors.white,
+                                ),
                               ),
                               controller: _controllerProtein,
                               validator: (value) {
@@ -150,12 +152,17 @@ class _AddMealDialogState extends State<AddMealDialog> {
                               },
                             ),
                             TextFormField(
+                              maxLength: 3,
+                              keyboardType: TextInputType.number,
+                              style: dietInputLabel,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
                               decoration: const InputDecoration(
                                 labelText: 'Tłuszcze (g)',
-                              ),
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(
-                                decimal: true,
+                                labelStyle: TextStyle(
+                                  color: Colors.white,
+                                ),
                               ),
                               controller: _controllerFat,
                               validator: (value) {
@@ -206,8 +213,7 @@ class _AddMealDialogState extends State<AddMealDialog> {
                           ),
                           child: TextButton(
                             onPressed: () {
-                              if (_controllerMealName.text.isEmpty ||
-                                  _controllerKcal.text.isEmpty ||
+                              if (_controllerKcal.text.isEmpty ||
                                   _controllerCarbs.text.isEmpty ||
                                   _controllerProtein.text.isEmpty ||
                                   _controllerFat.text.isEmpty) {
@@ -243,13 +249,10 @@ class _AddMealDialogState extends State<AddMealDialog> {
                                 );
                               } else {
                                 widget.onAdd(
-                                  {
-                                    'mealName': _controllerMealName.text,
-                                    'kcal': _controllerKcal.text,
-                                    'carbs': _controllerCarbs.text,
-                                    'proteins': _controllerProtein.text,
-                                    'fat': _controllerFat.text,
-                                  },
+                                  int.parse(_controllerKcal.text),
+                                  int.parse(_controllerCarbs.text),
+                                  int.parse(_controllerProtein.text),
+                                  int.parse(_controllerFat.text),
                                 );
                               }
                             },

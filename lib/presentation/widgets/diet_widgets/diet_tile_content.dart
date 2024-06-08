@@ -24,16 +24,16 @@ class _DietTileContentState extends State<DietTileContent> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('${widget.nutirents[0].kcal} kcal'),
+          Text('${widget.nutirents[0].kcal.round()} kcal'),
         ],
       ),
       trailing: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text('Białka: ${widget.nutirents[0].proteins}g'),
-          Text('Węglowodany: ${widget.nutirents[0].carbs}g'),
-          Text('Tłuszcze: ${widget.nutirents[0].fat}g'),
+          Text('Białka: ${widget.nutirents[0].proteins.round()}g'),
+          Text('Węglowodany: ${widget.nutirents[0].carbs.round()}g'),
+          Text('Tłuszcze: ${widget.nutirents[0].fat.round()}g'),
         ],
       ),
     );
