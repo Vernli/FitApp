@@ -20,6 +20,7 @@ final class GetPlanState extends PlanState {
   }
 
   @override
+  // ignore: unnecessary_overrides
   int get hashCode => super.hashCode;
 }
 

@@ -17,25 +17,26 @@ class _ChartsPageState extends State<ChartsPage> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-        providers: [
-          BlocProvider<PlanBloc>(
-            lazy: true,
-            create: (BuildContext context) =>
-                PlanBloc()..add(const InitPlanAction()),
-          ),
-          BlocProvider<DietBloc>(
-            lazy: true,
-            create: (BuildContext context) => DietBloc()
-              ..add(
-                InitDietAction(
-                  DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                ),
+      providers: [
+        BlocProvider<PlanBloc>(
+          lazy: true,
+          create: (BuildContext context) =>
+              PlanBloc()..add(const InitPlanAction()),
+        ),
+        BlocProvider<DietBloc>(
+          lazy: true,
+          create: (BuildContext context) => DietBloc()
+            ..add(
+              InitDietAction(
+                DateFormat('yyyy-MM-dd').format(DateTime.now()),
               ),
-          ),
-        ],
-        child: SizedBox(
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height,
-        ));
+            ),
+        ),
+      ],
+      child: SizedBox(
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height,
+      ),
+    );
   }
 }

@@ -106,7 +106,8 @@ class _ADialotState extends State<ADialot> {
                                       child: TextField(
                                         inputFormatters: [
                                           FilteringTextInputFormatter.allow(
-                                              RegExp(r'(^\d*\.?\d*)'))
+                                            RegExp(r'(^\d*\.?\d*)'),
+                                          ),
                                         ],
                                         style: dietInputLabel,
                                         autocorrect: false,
@@ -298,7 +299,6 @@ class _ADialotState extends State<ADialot> {
                             const SizedBox(width: 12),
                             ElevatedButton(
                               onPressed: () {
-                                // TODO SHOW ALERTS
                                 if (weight == 0) {
                                   return;
                                 }

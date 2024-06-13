@@ -4,7 +4,6 @@ import 'package:app/presentation/widgets/weight_widgets/chart_box.dart';
 import 'package:app/presentation/widgets/components/custom_card.dart';
 import 'package:app/presentation/widgets/components/triangle_pointer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// A card widget that displays a chart with weight data.

@@ -1,11 +1,7 @@
-import 'dart:math';
-
 import 'package:app/buisness/action/plan_action.dart';
 import 'package:app/buisness/bloc/plan_bloc.dart';
 import 'package:app/buisness/states/plan_state.dart';
 import 'package:app/presentation/widgets/components/custom_alert_dialog.dart';
-import 'package:app/presentation/widgets/plan_widgets/plan_dialogs/add_exercise_dialog.dart';
-import 'package:app/presentation/widgets/plan_widgets/plan_dialogs/custom_text_dialog.dart';
 import 'package:app/utils/current_date.dart';
 import 'package:app/utils/plan_exercise.dart';
 import 'package:app/presentation/widgets/plan_widgets/plan_add_tab_page.dart';

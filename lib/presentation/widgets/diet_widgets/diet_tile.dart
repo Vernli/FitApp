@@ -78,7 +78,6 @@ class DietTile extends StatelessWidget {
               ),
             ],
           ),
-          // TODO LOAD CONTENT WHEN EXPANDED
           children: children,
         ),
       ),

@@ -6,7 +6,6 @@ class CurrentDate {
         '${now.year}-${addLeadingZeros(now.month)}-${addLeadingZeros(now.day)}';
     final String formattedTime =
         '${addLeadingZeros(now.hour)}:${addLeadingZeros(now.minute)}:${addLeadingZeros(now.second)}';
-    print(formattedTime);
     return {
       'date': formattedDate,
       'time': formattedTime,

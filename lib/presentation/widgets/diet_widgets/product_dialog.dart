@@ -16,7 +16,7 @@ class ProductDialog extends StatefulWidget {
   });
 
   @override
-  _ProductDialogState createState() => _ProductDialogState();
+  State<ProductDialog> createState() => _ProductDialogState();
 }
 
 class _ProductDialogState extends State<ProductDialog> {
@@ -312,7 +312,6 @@ class _ProductDialogState extends State<ProductDialog> {
                             ElevatedButton(
                               child: Text('Dalej', style: dietInputLabel),
                               onPressed: () {
-                                //   TODO SHOW ALERTS
                                 if (_controllerMealName.text.isEmpty ||
                                     _controllerKcal.text.isEmpty ||
                                     _controllerCarbs.text.isEmpty ||

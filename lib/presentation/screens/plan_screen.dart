@@ -16,17 +16,18 @@ class PlanScreen<T extends PlanBloc> extends StatelessWidget {
         switch (state) {
           case InitPlanState():
             return StartupPage(
-                onPressed: () {
-                  return Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => BlocProvider.value(
-                        value: BlocProvider.of<PlanBloc>(context),
-                        child: const AddPlanPage(),
-                      ),
+              onPressed: () {
+                return Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => BlocProvider.value(
+                      value: BlocProvider.of<PlanBloc>(context),
+                      child: const AddPlanPage(),
                     ),
-                  );
-                },
-                labelTitle: 'Dodaj plan treningowy');
+                  ),
+                );
+              },
+              labelTitle: 'Dodaj plan treningowy',
+            );
           case LoadingPlanState():
             return const CircularProgressIndicator();
           case GetPlanState(:final planNames):

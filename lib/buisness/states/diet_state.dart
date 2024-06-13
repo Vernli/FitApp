@@ -26,5 +26,6 @@ final class LoadedDietState extends DietState {
   }
 
   @override
+  // ignore: unnecessary_overrides
   int get hashCode => super.hashCode;
 }

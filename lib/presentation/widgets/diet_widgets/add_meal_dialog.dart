@@ -121,7 +121,8 @@ class _AddMealDialogState extends State<AddMealDialog> {
                             ),
                             TextFormField(
                               decoration: const InputDecoration(
-                                  labelText: 'Węglowodany (g)'),
+                                labelText: 'Węglowodany (g)',
+                              ),
                               keyboardType:
                                   const TextInputType.numberWithOptions(
                                 decimal: true,
@@ -136,7 +137,8 @@ class _AddMealDialogState extends State<AddMealDialog> {
                             ),
                             TextFormField(
                               decoration: const InputDecoration(
-                                  labelText: 'Białka (g)'),
+                                labelText: 'Białka (g)',
+                              ),
                               keyboardType:
                                   const TextInputType.numberWithOptions(
                                 decimal: true,

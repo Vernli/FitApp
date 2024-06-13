@@ -1,8 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:app/buisness/action/diet_action.dart';
 import 'package:app/buisness/bloc/diet_bloc.dart';
 import 'package:app/data/models/diet/meal_model.dart';
-import 'package:app/presentation/widgets/diet_widgets/add_meal_dialog.dart';
 import 'package:app/presentation/widgets/diet_widgets/diet_tile.dart';
 import 'package:app/presentation/widgets/diet_widgets/diet_tile_content.dart';
 import 'package:app/presentation/widgets/diet_widgets/product_dialog.dart';
@@ -37,7 +35,7 @@ class _DietTileBuilderState extends State<DietTileBuilder> {
     'Obiad',
     'Podwieczorek',
     'Kolacja',
-    'Przekąska'
+    'Przekąska',
   ];
   @override
   Widget build(BuildContext context) {

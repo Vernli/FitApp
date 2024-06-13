@@ -8,7 +8,6 @@ import 'package:app/presentation/widgets/plan_widgets/exercises/progress_box.dar
 import 'package:app/presentation/widgets/plan_widgets/exercises/repetitions_weight_box.dart';
 import 'package:app/utils/calculation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ExerciseTile extends StatefulWidget {

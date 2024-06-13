@@ -16,5 +16,6 @@ final class GetExerciseState extends ExerciseState {
   }
 
   @override
+  // ignore: unnecessary_overrides
   int get hashCode => super.hashCode;
 }
