@@ -81,5 +81,27 @@ class PlanBloc extends Bloc<BaseAction, PlanState> {
         GetPlanState(plan['plan']['plan_name'], plan['exercises'], planNames),
       );
     });
+
+    on<PlanCheckPlanAction>((event, emit) async {
+      emit(LoadingPlanState());
+      bool isPlanExist =
+          await _planRepository.checkIfPlanExists(event.planName);
+      if (isPlanExist) {
+        emit(AddFailurePlanState());
+        Map<String, dynamic> plan = await _planRepository.getLastPlan();
+        List<String> planNames = await _planRepository.getAllPlans();
+        emit(
+          GetPlanState(plan['plan']['plan_name'], plan['exercises'], planNames),
+        );
+        return;
+      }
+      emit(AddSuccessPlanState());
+
+      Map<String, dynamic> plan = await _planRepository.getLastPlan();
+      List<String> planNames = await _planRepository.getAllPlans();
+      emit(
+        GetPlanState(plan['plan']['plan_name'], plan['exercises'], planNames),
+      );
+    });
   }
 }

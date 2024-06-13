@@ -4,6 +4,7 @@ import 'package:app/presentation/widgets/weight_widgets/chart_box.dart';
 import 'package:app/presentation/widgets/components/custom_card.dart';
 import 'package:app/presentation/widgets/components/triangle_pointer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// A card widget that displays a chart with weight data.
@@ -29,14 +30,20 @@ class _ChartCardState extends State<ChartCard> {
 
   @override
   void dispose() {
+    scrollSpace.clear();
+    weightList.clear();
+    weightDate.clear();
     scrollController?.dispose();
+    isPositionLoaded = false;
+    scrollController = null;
+    position = 0;
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomCard(
-      margin: const EdgeInsets.only(top: 30),
+      margin: const EdgeInsets.only(top: 20),
       child: BlocBuilder<WeightBloc, WeightState>(
         builder: (context, state) {
           /// Generates scroll space, weight list, and weight date based on the provided data.
@@ -91,7 +98,7 @@ class _ChartCardState extends State<ChartCard> {
                         child: Text(
                           'Brak danych',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 16,
                             color: Colors.white,
                           ),
                         ),
@@ -106,7 +113,8 @@ class _ChartCardState extends State<ChartCard> {
                 ),
               ),
               Container(
-                // padding: const EdgeInsets.all(2),
+                height: 48,
+                width: double.infinity,
                 decoration: const BoxDecoration(
                   color: Colors.black26,
                   border: BorderDirectional(
@@ -116,29 +124,25 @@ class _ChartCardState extends State<ChartCard> {
                     ),
                   ),
                 ),
-                child: SizedBox(
-                  width: 500,
-                  height: 48,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        informations?['weight'] ?? 'Brak danych',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      informations?['weight'] ?? '',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Text(
-                        informations?['date'] ?? 'Brak danych',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                        ),
+                    ),
+                    Text(
+                      informations?['date'] ?? '',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],

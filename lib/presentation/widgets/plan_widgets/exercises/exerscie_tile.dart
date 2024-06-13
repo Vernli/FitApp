@@ -8,6 +8,7 @@ import 'package:app/presentation/widgets/plan_widgets/exercises/progress_box.dar
 import 'package:app/presentation/widgets/plan_widgets/exercises/repetitions_weight_box.dart';
 import 'package:app/utils/calculation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ExerciseTile extends StatefulWidget {
@@ -60,8 +61,11 @@ class _ExerciseTileState extends State<ExerciseTile> {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            '${widget.exerciseName} - ${widget.sets}x${widget.minReps != widget.maxReps ? '${widget.minReps}-${widget.maxReps}' : widget.maxReps}',
+          Flexible(
+            child: Text(
+              '${widget.exerciseName} - ${widget.sets}x${widget.minReps != widget.maxReps ? '${widget.minReps}-${widget.maxReps}' : widget.maxReps}',
+              style: const TextStyle(color: Colors.white, fontSize: 16),
+            ),
           ),
           IconButton(
             onPressed: () {

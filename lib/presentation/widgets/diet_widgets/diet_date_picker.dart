@@ -18,9 +18,9 @@ class _DietDatePickerState extends State<DietDatePicker> {
   final DatePickerController _controller = DatePickerController();
   @override
   Widget build(BuildContext context) {
-    // selectedDate == DateFormat.yMMMMd('pl_PL').format(DateTime.now())
-    // ? jumpToToday()
-    // : null;
+    selectedDate == DateFormat.yMMMMd('pl_PL').format(DateTime.now())
+        ? jumpToToday()
+        : null;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       decoration: BoxDecoration(
@@ -86,9 +86,9 @@ class _DietDatePickerState extends State<DietDatePicker> {
   }
 
   // // WARNING - This method can still be improved
-  // Future<void> jumpToToday() async {
-  //   await Future.delayed(const Duration(milliseconds: 200), () {
-  //     _controller.jumpToSelection();
-  //   });
-  // }
+  Future<void> jumpToToday() async {
+    await Future.delayed(const Duration(milliseconds: 200), () {
+      _controller.jumpToSelection();
+    });
+  }
 }

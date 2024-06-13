@@ -92,7 +92,7 @@ class _CustomTextDialogState extends State<CustomTextDialog> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: TextField(
-                  maxLength: 18,
+                  maxLength: 48,
                   autocorrect: false,
                   controller: _textController,
                   keyboardType: TextInputType.text,
@@ -107,11 +107,24 @@ class _CustomTextDialogState extends State<CustomTextDialog> {
               ),
             ),
             // show error message if the text field is empty
-            isTextEmpty || !isNameValid
+            !isNameValid
                 ? SizedBox(
                     height: 24,
                     child: Text(
-                      isNameValid ? widget.errorMessage : widget.errorMessage2,
+                      widget.errorMessage2,
+                      style: TextStyle(
+                        color: Colors.orange.shade300,
+                      ),
+                    ),
+                  )
+                : const SizedBox(
+                    height: 0,
+                  ),
+            isTextEmpty
+                ? SizedBox(
+                    height: 24,
+                    child: Text(
+                      widget.errorMessage,
                       style: TextStyle(
                         color: Colors.orange.shade300,
                       ),

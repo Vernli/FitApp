@@ -3,7 +3,7 @@ import 'package:sqflite/sqflite.dart';
 class DietTables {
   static const String mealTypeTable = 'meal_type';
   static const String mealsTable = 'meal';
-  static const String mealNutrientTable = 'meal_nutrition';
+  static const String mealNutrientTable = 'meal_nutrient';
   static const String goalTable = 'calories_goal';
 
   static const Map<String, String> createQuery = {
@@ -15,7 +15,7 @@ class DietTables {
     mealNutrientTable: '''
       CREATE TABLE IF NOT EXISTS $mealNutrientTable (
       nutrient_id INTEGER PRIMARY KEY AUTOINCREMENT,
-      meal_id INTEGER NOT NULL,
+      meal_id INTEGER NOT NULL UNIQUE,
       proteins REAL NOT NULL,
       carbs REAL NOT NULL,
       fat REAL NOT NULL,

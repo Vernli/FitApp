@@ -23,6 +23,14 @@ class PlanAddAction implements BaseAction {
 }
 
 @immutable
+class PlanCheckPlanAction implements BaseAction {
+  final String planName;
+  const PlanCheckPlanAction({
+    required this.planName,
+  });
+}
+
+@immutable
 class PlanGetAction implements BaseAction {
   const PlanGetAction();
 }

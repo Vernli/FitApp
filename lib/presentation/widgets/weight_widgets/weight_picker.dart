@@ -19,6 +19,11 @@ class _WeightPickerState extends State<WeightPicker> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 150,
@@ -67,7 +72,7 @@ class _WeightPickerState extends State<WeightPicker> {
             value: widget.controller.pickerValue,
             haptics: true,
             minValue: 1,
-            maxValue: 999,
+            maxValue: 200,
             decimalPlaces: 2,
             onChanged: (value) => {
               setState(() => widget.controller.setPickerValue(value)),

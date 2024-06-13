@@ -89,7 +89,7 @@ class _DietGoalDialogState extends State<DietGoalDialog> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             TextFormField(
-                              maxLength: 3,
+                              maxLength: 4,
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly,
                               ],

@@ -13,11 +13,10 @@ class DietDAO {
     SELECT mt.meal_type_name, SUM(mn.proteins) as proteins, SUM(mn.carbs) as carbs, SUM(mn.fat) as fat, SUM(mn.kcal) as kcal
     FROM meal_type mt
     JOIN meal m ON mt.meal_type_id = m.meal_type_id
-    JOIN meal_nutrition mn ON m.meal_id = mn.meal_id
+    JOIN meal_nutrient mn ON m.meal_id = mn.meal_id
     WHERE m.date = '$date'
     GROUP BY mt.meal_type_name
 ''');
-
     return queryResult;
   }
 
@@ -27,7 +26,7 @@ class DietDAO {
     SELECT m.meal_name, mt.meal_type_name, mn.proteins, mn.carbs, mn.fat, mn.kcal
     FROM meal m
     JOIN meal_type mt ON m.meal_type_id = mt.meal_type_id
-    JOIN meal_nutrition mn ON m.meal_id = mn.meal_id
+    JOIN meal_nutrient mn ON m.meal_id = mn.meal_id
     WHERE m.date = '$date'
     ''');
     return queryResult;
@@ -101,8 +100,8 @@ class DietDAO {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
-    await database.insert('meal_nutrition', {
-      'meal_id': await getMealID(mealName),
+    await database.insert('meal_nutrient', {
+      'meal_id': await getMealID(mealName, date, mealTypeID),
       'proteins': protein,
       'carbs': carbs,
       'fat': fat,
@@ -121,13 +120,15 @@ class DietDAO {
     return mealTypeID[0]['meal_type_id'];
   }
 
-  Future<int> getMealID(String mealName) async {
+  Future<int> getMealID(String mealName, String date, int mealTypeID) async {
     final database = await dbProvider.database;
     final List<Map<String, dynamic>> mealID = await database.query(
       'meal',
-      where: 'meal_name = ?',
-      whereArgs: [mealName],
+      columns: ['meal_id'],
+      where: 'meal_name = ? AND date = ? AND meal_type_id = ?',
+      whereArgs: [mealName, date, mealTypeID],
     );
-    return mealID[0]['meal_id'];
+
+    return mealID.last['meal_id'];
   }
 }

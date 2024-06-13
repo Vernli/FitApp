@@ -95,7 +95,12 @@ class _AddPlanPickerState extends State<AddPlanPicker> {
                   });
                 }
               },
-              child: const Icon(Icons.add, color: Colors.white),
+              child: Icon(
+                Icons.add,
+                color: widget.contoller.pickerValue == widget.maxPickerValue
+                    ? Colors.transparent
+                    : Colors.white,
+              ),
             ),
           ],
         ),

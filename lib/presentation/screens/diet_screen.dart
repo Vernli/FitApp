@@ -40,7 +40,7 @@ class DietScreen<T extends DietBloc> extends StatelessWidget {
                     ),
                   );
                 },
-                labelTitle: 'Ustal cel treningowy',
+                labelTitle: 'Ustal cel kaloryczny',
               );
             case LoadingDietState():
               return const CircularProgressIndicator();
