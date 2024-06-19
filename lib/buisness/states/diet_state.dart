@@ -6,6 +6,12 @@ final class InitDietState extends DietState {}
 
 final class LoadingDietState extends DietState {}
 
+final class LoadedLastWeekState extends DietState {
+  final List<dynamic> data;
+
+  LoadedLastWeekState({required this.data});
+}
+
 final class LoadedDietState extends DietState {
   final Map<String, List<MealModel>> meals;
   final Map<String, Map<String, double>> nutrientsScore;

@@ -14,8 +14,15 @@ class ExerciseRepository {
     int day,
     int reps,
     double weight,
+    String date,
   ) async {
-    await _exerciseDAO.setExerciseRepetitions(exerciseName, day, reps, weight);
+    await _exerciseDAO.setExerciseRepetitions(
+      exerciseName,
+      day,
+      reps,
+      weight,
+      date,
+    );
   }
 
   Future<List<Map<String, dynamic>>> getExerciseRepetitions(
@@ -41,5 +48,9 @@ class ExerciseRepository {
       exerciseName,
       day,
     );
+  }
+
+  Future<List<Map<String, dynamic>>> getChartData() async {
+    return await _exerciseDAO.getChartData();
   }
 }

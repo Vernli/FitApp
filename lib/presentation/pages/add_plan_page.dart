@@ -61,6 +61,7 @@ class _AddPlanPageState extends State<AddPlanPage> {
     planTitle == ''
         ? Future.delayed(Duration.zero, () {
             showDialog(
+              barrierDismissible: false,
               context: context,
               builder: (newContext) => Dialog(
                 backgroundColor: Theme.of(context).colorScheme.secondary,
@@ -96,16 +97,31 @@ class _AddPlanPageState extends State<AddPlanPage> {
                             top: Radius.circular(20),
                           ),
                         ),
-                        child: const Center(
-                          child: Text(
-                            'Wprowadzanie planu',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.5,
+                        child: Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                // double pop to leave add_plan_page
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
+                            const Center(
+                              child: Text(
+                                'Wprowadzanie planu',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.5,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 

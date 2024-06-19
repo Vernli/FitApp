@@ -29,56 +29,57 @@ class WeekDaysTab extends StatefulWidget {
 class _WeekDaysState extends State<WeekDaysTab> with TickerProviderStateMixin {
   List<List<PlanExercise>> exercises = [];
 
-  late TabController? _tabController;
-
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: widget.tabLength, vsync: this);
   }
 
   @override
   void dispose() {
-    _tabController!.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    TabController? tabController =
+        TabController(length: widget.tabLength, vsync: this);
+
     return Column(
       children: [
-        TabBar(
-          controller: _tabController,
-          indicatorColor: Theme.of(context).colorScheme.primary,
-          indicatorSize: TabBarIndicatorSize.tab,
-          indicator: BoxDecoration(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-            ),
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.98),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black,
-                blurRadius: 2,
-                offset: Offset(0, -2),
+        SingleChildScrollView(
+          child: TabBar(
+            controller: tabController,
+            indicatorColor: Theme.of(context).colorScheme.primary,
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicator: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
               ),
-            ],
-          ),
-          dividerColor: Colors.black54,
-          tabs: widget.weekDays
-              .map(
-                (day) => Tab(
-                  child: Text(
-                    day,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.white,
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.98),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black,
+                  blurRadius: 2,
+                  offset: Offset(0, -2),
+                ),
+              ],
+            ),
+            dividerColor: Colors.black54,
+            tabs: widget.weekDays
+                .map(
+                  (day) => Tab(
+                    child: Text(
+                      day,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                ),
-              )
-              .toList(),
+                )
+                .toList(),
+          ),
         ),
         widget.isBottomButton
             ? Container(
@@ -105,7 +106,7 @@ class _WeekDaysState extends State<WeekDaysTab> with TickerProviderStateMixin {
                         throw Exception('checkIsExerciseExists is null');
                       }
                       return widget.checkIsExerciseExists!(
-                        _tabController!.index,
+                        tabController.index,
                         value,
                       );
                     },
@@ -113,7 +114,7 @@ class _WeekDaysState extends State<WeekDaysTab> with TickerProviderStateMixin {
                       if (widget.onAddExercise == null) {
                         throw Exception('onAddExercise is null');
                       }
-                      widget.onAddExercise!(_tabController!.index, value);
+                      widget.onAddExercise!(tabController.index, value);
                     },
                   ),
                 ),
@@ -124,7 +125,7 @@ class _WeekDaysState extends State<WeekDaysTab> with TickerProviderStateMixin {
           height: widget.contentHeight,
           color: Colors.black26,
           child: TabBarView(
-            controller: _tabController,
+            controller: tabController,
             children: widget.tabBarPages,
           ),
         ),

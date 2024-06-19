@@ -1,6 +1,6 @@
 import 'package:app/buisness/action/base_action.dart';
 import 'package:app/utils/plan_exercise.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show immutable;
 
 @immutable
 class InitPlanAction implements BaseAction {

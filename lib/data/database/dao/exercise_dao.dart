@@ -69,6 +69,7 @@ class ExerciseDAO {
     int day,
     int reps,
     double weight,
+    String date,
   ) async {
     final Database database = await dbProvider.database;
     final int exerciseID = await _getExerciseID(exerciseName, day);
@@ -80,6 +81,7 @@ class ExerciseDAO {
         'session_id': sessionID,
         'reps': reps,
         'weight': weight,
+        'date': date,
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -98,5 +100,14 @@ class ExerciseDAO {
     );
 
     return sessions;
+  }
+
+  Future getChartData() async {
+    final Database database = await dbProvider.database;
+
+    final List<Map<String, dynamic>> data = await database.rawQuery(
+      "SELECT repetitions.weight, repetitions.reps, repetitions.date FROM repetitions WHERE repetitions.date >= date('now', '-7 days')",
+    );
+    return data;
   }
 }

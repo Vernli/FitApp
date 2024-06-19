@@ -84,6 +84,7 @@ class _ChartCardState extends State<ChartCard> {
                         initialScrollOffset: scrollSpace.last.toDouble(),
                       ),
                       scrollSpace: scrollSpace,
+                      // weightList: weightList,
                       weightList: weightList,
                       onScrollEnd: (value) {
                         setState(() {

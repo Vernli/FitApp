@@ -85,6 +85,11 @@ class DietBloc extends Bloc<BaseAction, DietState> {
       );
     });
 
+    on<LoadLastWeekAction>((event, emit) async {
+      final rawResult = await _dietRepository.loadLastWeek();
+      emit(LoadedLastWeekState(data: rawResult));
+    });
+
     on<UpdateCaloriesGoalAction>((event, emit) async {
       emit(LoadingDietState());
       await _dietRepository.updateCalorieGoal(

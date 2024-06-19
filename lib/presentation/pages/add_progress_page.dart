@@ -6,6 +6,7 @@ import 'package:app/presentation/widgets/plan_widgets/progress/add_repetitions_p
 import 'package:app/presentation/widgets/plan_widgets/progress/add_weight_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class AddProgressPage extends StatefulWidget {
   final String planName;
@@ -189,6 +190,7 @@ class _AddProgressPageState extends State<AddProgressPage> {
                           exerciseName: widget.exerciseName,
                           exerciseReps: setsList,
                           excerciseDay: widget.exerciseDay,
+                          date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
                         ),
                       );
 

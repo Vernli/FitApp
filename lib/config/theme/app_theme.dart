@@ -48,3 +48,15 @@ TextStyle get dietInput => GoogleFonts.lato(
       fontSize: 16,
       color: Colors.white,
     );
+
+TextStyle get chartTiles => GoogleFonts.lato(
+      color: Colors.white,
+      fontSize: 14,
+      decoration: TextDecoration.none,
+    );
+
+TextStyle get chartSideTiles => GoogleFonts.lato(
+      color: Colors.white,
+      fontSize: 10,
+      decoration: TextDecoration.none,
+    );

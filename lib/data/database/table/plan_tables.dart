@@ -47,6 +47,7 @@ class PlanTables {
         session_id INTEGER NOT NULL,
         reps INT NOT NULL,
         weight REAL NOT NULL,
+        date TEXT NOT NULL,
         FOREIGN KEY (session_id) REFERENCES $sessionsTable(session_id)
     );''',
   };

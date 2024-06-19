@@ -20,6 +20,7 @@ class ExerciseBloc extends Bloc<BaseAction, ExerciseState> {
           event.excerciseDay,
           element[0],
           element[1],
+          event.date,
         );
       }
       emit(LoadingExerciseState());
@@ -43,6 +44,11 @@ class ExerciseBloc extends Bloc<BaseAction, ExerciseState> {
         lastThreeSessions,
       );
       emit(GetExerciseState(formattedResult));
+    });
+    on<ExerciseGetChartDataAction>((event, emit) async {
+      final List<Map<String, dynamic>> chartData =
+          await _exerciseRepository.getChartData();
+      emit(GetRepetitionsDataState(chartData));
     });
   }
 }

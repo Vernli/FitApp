@@ -28,7 +28,7 @@ class DietDayInfo extends StatelessWidget {
     };
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 6),
       width: double.maxFinite,
       height: 60,
       child: Row(
@@ -227,7 +227,9 @@ class DietDayInfo extends StatelessWidget {
                 ),
               );
             },
-            icon: const Icon(Icons.edit),
+            icon: const Icon(
+              Icons.edit,
+            ),
           ),
         ],
       ),

@@ -117,11 +117,10 @@ class PlanPage extends StatelessWidget {
                     }
                   }
                   maxDayId = maxDayId < 6 ? 5 : 7;
-
                   return BlocProvider(
                     create: (context) => ExerciseBloc(),
                     child: WeekDaysTab(
-                      weekDays: maxDayId < 6
+                      weekDays: maxDayId <= 6
                           ? ['Pon', 'Wt', 'Śr', 'Czw', 'Pt']
                           : ['Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob', 'Nie'],
                       tabLength: maxDayId,

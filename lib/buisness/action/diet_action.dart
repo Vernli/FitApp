@@ -67,3 +67,5 @@ class UpdateCaloriesGoalAction implements BaseAction {
     required this.date,
   });
 }
+
+class LoadLastWeekAction implements BaseAction {}

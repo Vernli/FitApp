@@ -46,6 +46,8 @@ class DietScreen<T extends DietBloc> extends StatelessWidget {
               return const CircularProgressIndicator();
             case LoadedDietState():
               return const DietPage();
+            case LoadedLastWeekState():
+              return const SizedBox();
           }
         },
         buildWhen: (previous, current) => previous != current,

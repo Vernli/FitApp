@@ -1,5 +1,6 @@
 import 'package:app/buisness/action/base_action.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show immutable;
+import 'package:flutter/material.dart';
 
 @immutable
 class InitExerciseAction implements BaseAction {
@@ -12,12 +13,14 @@ class ExerciseSetSessionAction implements BaseAction {
   final String exerciseName;
   final int excerciseDay;
   final List<List<dynamic>> exerciseReps;
+  final String date;
 
   const ExerciseSetSessionAction({
     required this.planName,
     required this.exerciseName,
     required this.exerciseReps,
     required this.excerciseDay,
+    required this.date,
   });
 }
 
@@ -41,4 +44,9 @@ class ExerciseGetSessionsAction implements BaseAction {
     required this.exerciseName,
     required this.day,
   });
+}
+
+@immutable
+class ExerciseGetChartDataAction implements BaseAction {
+  const ExerciseGetChartDataAction();
 }

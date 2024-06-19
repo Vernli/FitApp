@@ -83,6 +83,8 @@ class _DietPageState extends State<DietPage> {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
+              case LoadedLastWeekState():
+                return const SizedBox();
             }
           },
         ),

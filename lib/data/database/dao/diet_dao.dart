@@ -32,6 +32,23 @@ class DietDAO {
     return queryResult;
   }
 
+  Future<dynamic> loadLastWeek() async {
+    final database = await dbProvider.database;
+//     final queryResult = await database.rawQuery('''
+// // "SELECT repetitions.weight, repetitions.reps, repetitions.date FROM repetitions WHERE
+// //repetitions.date >= date('now', '-7 days')");
+
+// ''');
+    final queryResult = await database.rawQuery('''
+    SELECT kcal, date
+    FROM meal m
+    JOIN meal_type mt ON m.meal_type_id = mt.meal_type_id
+    JOIN meal_nutrient mn ON m.meal_id = mn.meal_id
+    WHERE m.date >= date('now', '-7 days')
+    ''');
+    return queryResult;
+  }
+
   Future<dynamic> getCalorieGoal() async {
     final database = await dbProvider.database;
     final queryResult = await database

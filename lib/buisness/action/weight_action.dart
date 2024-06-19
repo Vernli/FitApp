@@ -1,5 +1,5 @@
 import 'package:app/buisness/action/base_action.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show immutable;
 
 @immutable
 class WeightSetAction implements BaseAction {

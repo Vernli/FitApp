@@ -66,6 +66,11 @@ class DietRepository {
     return caloriesGoal;
   }
 
+  Future<dynamic> loadLastWeek() async {
+    final rawResult = await _dietDAO.loadLastWeek();
+    return rawResult;
+  }
+
   Future<void> updateCalorieGoal({
     required int proteins,
     required int carbs,

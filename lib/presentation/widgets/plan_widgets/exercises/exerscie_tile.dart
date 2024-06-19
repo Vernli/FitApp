@@ -111,6 +111,15 @@ class _ExerciseTileState extends State<ExerciseTile> {
                     ),
                   );
                 }
+              case GetRepetitionsDataState():
+                {
+                  return const SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: Text('Błąd stanu '),
+                    ),
+                  );
+                }
 
               case GetExerciseState(:final exerciseData):
                 exerciseKeys = exerciseData.keys.toList();
