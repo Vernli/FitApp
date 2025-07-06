@@ -35,11 +35,6 @@ class _WeekDaysState extends State<WeekDaysTab> with TickerProviderStateMixin {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     TabController? tabController =
         TabController(length: widget.tabLength, vsync: this);

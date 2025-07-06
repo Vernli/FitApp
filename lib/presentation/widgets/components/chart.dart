@@ -70,7 +70,7 @@ class _ChartState extends State<Chart> {
               colors: [
                 Theme.of(context).colorScheme.onPrimary.withOpacity(0.9),
                 Theme.of(context).colorScheme.primary.withOpacity(0.6),
-                Theme.of(context).colorScheme.background.withOpacity(0.3),
+                Theme.of(context).colorScheme.surface.withOpacity(0.3),
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,

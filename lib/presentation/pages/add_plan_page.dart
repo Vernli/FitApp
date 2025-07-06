@@ -37,6 +37,9 @@ class _AddPlanPageState extends State<AddPlanPage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _askForPlanName();
+    });
   }
 
   @override
@@ -58,150 +61,6 @@ class _AddPlanPageState extends State<AddPlanPage> {
         safeAreaPadding['paddingTop']! -
         safeAreaPadding['paddingBottom']! -
         106;
-    planTitle == ''
-        ? Future.delayed(Duration.zero, () {
-            showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (newContext) => Dialog(
-                backgroundColor: Theme.of(context).colorScheme.secondary,
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                  side: const BorderSide(
-                    color: Colors.black,
-                    width: 3,
-                  ),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                insetPadding: const EdgeInsets.all(0),
-                child: SizedBox(
-                  height: 224,
-                  width: 200,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Dialog title
-                      Container(
-                        width: double.infinity,
-                        height: 48,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary,
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black,
-                              blurRadius: 1,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(20),
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                // double pop to leave add_plan_page
-                                Navigator.pop(context);
-                                Navigator.pop(context);
-                              },
-                              icon: const Icon(
-                                Icons.arrow_back,
-                                color: Colors.white,
-                              ),
-                            ),
-                            const Center(
-                              child: Text(
-                                'Wprowadzanie planu',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.5,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      // Text field for plan name with limit of 18 characters
-                      SingleChildScrollView(
-                        keyboardDismissBehavior:
-                            ScrollViewKeyboardDismissBehavior.onDrag,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: TextField(
-                            maxLength: 48,
-                            autocorrect: false,
-                            controller: textController,
-                            keyboardType: TextInputType.text,
-                            cursorColor: Colors.white,
-                            decoration: const InputDecoration(
-                              hintText: 'Wprawadź nazwę planu',
-                            ),
-                            style: const TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      // show error message if the text field is empty
-                      Container(
-                        width: 120,
-                        height: 48,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(24),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black,
-                              blurRadius: 1,
-                              offset: Offset(0, 1),
-                            ),
-                          ],
-                        ),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (textController.text.isEmpty) {
-                              showDialog(
-                                context: context,
-                                builder: (newContext) =>
-                                    const CustomAlertDialog(
-                                  title: 'Nie można dodać pustego planu',
-                                  subtitle: 'Dodaj nazwę planu!',
-                                ),
-                              );
-                              return;
-                            }
-                            BlocProvider.of<PlanBloc>(context).add(
-                              PlanCheckPlanAction(
-                                planName: textController.text,
-                              ),
-                            );
-                            setState(() {
-                              planTitle = textController.text;
-                              textController.clear();
-                            });
-                            // Navigator.pop(context);
-                          },
-                          child: const Text(
-                            'Dalej',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-
-                      // Empty space at the bottom to align the button
-                      const SizedBox(
-                        height: 14,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          })
-        : '';
     return Material(
       child: Container(
         height: MediaQuery.of(context).size.height,
@@ -358,5 +217,147 @@ class _AddPlanPageState extends State<AddPlanPage> {
       }
     }
     return exercisesMap;
+  }
+
+  void _askForPlanName() {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (newContext) => Dialog(
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(
+            color: Colors.black,
+            width: 3,
+          ),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        insetPadding: const EdgeInsets.all(0),
+        child: SizedBox(
+          height: 224,
+          width: 200,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Dialog title
+              Container(
+                width: double.infinity,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 1,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        // double pop to leave add_plan_page
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const Center(
+                      child: Text(
+                        'Wprowadzanie planu',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Text field for plan name with limit of 18 characters
+              SingleChildScrollView(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: TextField(
+                    maxLength: 48,
+                    autocorrect: false,
+                    controller: textController,
+                    keyboardType: TextInputType.text,
+                    cursorColor: Colors.white,
+                    decoration: const InputDecoration(
+                      hintText: 'Wprawadź nazwę planu',
+                    ),
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              // show error message if the text field is empty
+              Container(
+                width: 120,
+                height: 48,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 1,
+                      offset: Offset(0, 1),
+                    ),
+                  ],
+                ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (textController.text.isEmpty) {
+                      showDialog(
+                        context: context,
+                        builder: (newContext) => const CustomAlertDialog(
+                          title: 'Nie można dodać pustego planu',
+                          subtitle: 'Dodaj nazwę planu!',
+                        ),
+                      );
+                      return;
+                    }
+                    BlocProvider.of<PlanBloc>(context).add(
+                      PlanCheckPlanAction(
+                        planName: textController.text,
+                      ),
+                    );
+                    setState(() {
+                      planTitle = textController.text;
+                      textController.clear();
+                    });
+                    // Navigator.pop(context);
+                  },
+                  child: const Text(
+                    'Dalej',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+
+              // Empty space at the bottom to align the button
+              const SizedBox(
+                height: 14,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

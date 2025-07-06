@@ -14,8 +14,8 @@ class TabAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return Theme(
       data: theme.copyWith(
-        colorScheme:
-            theme.colorScheme.copyWith(surfaceVariant: Colors.transparent),
+        colorScheme: theme.colorScheme
+            .copyWith(surfaceContainerHighest: Colors.transparent),
       ),
       child: Container(
         decoration: BoxDecoration(

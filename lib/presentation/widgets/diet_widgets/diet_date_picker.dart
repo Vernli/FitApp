@@ -3,24 +3,40 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DietDatePicker extends StatefulWidget {
-  final Function(DateTime) onDateChanged;
-  const DietDatePicker({
-    super.key,
-    required this.onDateChanged,
-  });
+  final ValueChanged<DateTime> onDateChanged;
+  final DateTime initialDate;
 
+  DietDatePicker({
+    Key? key,
+    required this.onDateChanged,
+    DateTime? initialDate,
+  })  : initialDate = initialDate ?? DateTime.now(),
+        super(key: key);
   @override
   State<DietDatePicker> createState() => _DietDatePickerState();
 }
 
 class _DietDatePickerState extends State<DietDatePicker> {
-  dynamic selectedDate = DateFormat.yMMMMd('pl_PL').format(DateTime.now());
-  final DatePickerController _controller = DatePickerController();
+  late DatePickerController _controller;
+  late DateTime _selectedDate;
+  @override
+  void initState() {
+    super.initState();
+
+    // 1) Inicjalizujemy controllera i stan z initialDate
+    _controller = DatePickerController();
+    _selectedDate = widget.initialDate;
+
+    // 2) Po pierwszym renderze wywołujemy jumpToSelection raz
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _controller.jumpToSelection();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    selectedDate == DateFormat.yMMMMd('pl_PL').format(DateTime.now())
-        ? jumpToToday()
-        : null;
+    final String selectedDateText =
+        DateFormat.yMMMMd('pl_PL').format(_selectedDate);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       decoration: BoxDecoration(
@@ -37,6 +53,7 @@ class _DietDatePickerState extends State<DietDatePicker> {
       ),
       child: Column(
         children: [
+          // nagłówek z wybraną datą
           Container(
             height: 30,
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -56,16 +73,18 @@ class _DietDatePickerState extends State<DietDatePicker> {
               ],
             ),
             child: Text(
-              selectedDate!,
+              selectedDateText,
               style: const TextStyle(color: Colors.white),
             ),
           ),
+
+          // sam DatePicker
           DatePicker(
-            DateTime(2024, 1, 1),
-            controller: _controller,
+            DateTime(2025, 1, 1), // zakres od
+            controller: _controller, // nasz controller
             height: 100,
             width: 72,
-            initialSelectedDate: DateTime.now(),
+            initialSelectedDate: _selectedDate, // ustawiamy initialDate
             selectionColor: Theme.of(context).colorScheme.primary,
             dayTextStyle: TextStyle(color: Colors.grey[200]),
             monthTextStyle: TextStyle(color: Colors.grey[200]),
@@ -73,22 +92,13 @@ class _DietDatePickerState extends State<DietDatePicker> {
             locale: 'pl_PL',
             onDateChange: (date) {
               setState(() {
-                selectedDate =
-                    DateFormat.yMMMMd('pl_PL').format(date).toString();
+                _selectedDate = date;
               });
               widget.onDateChanged(date);
-              // // New date selecte
             },
           ),
         ],
       ),
     );
-  }
-
-  // // WARNING - This method can still be improved
-  Future<void> jumpToToday() async {
-    await Future.delayed(const Duration(milliseconds: 200), () {
-      _controller.jumpToSelection();
-    });
   }
 }
