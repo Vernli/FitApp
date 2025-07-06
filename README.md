@@ -1,3 +1,1 @@
-# app
-
-A new Flutter project.
+Project description under development
