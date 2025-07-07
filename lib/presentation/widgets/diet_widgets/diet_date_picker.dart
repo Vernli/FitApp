@@ -7,11 +7,10 @@ class DietDatePicker extends StatefulWidget {
   final DateTime initialDate;
 
   DietDatePicker({
-    Key? key,
+    super.key,
     required this.onDateChanged,
     DateTime? initialDate,
-  })  : initialDate = initialDate ?? DateTime.now(),
-        super(key: key);
+  }) : initialDate = initialDate ?? DateTime.now();
   @override
   State<DietDatePicker> createState() => _DietDatePickerState();
 }

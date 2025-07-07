@@ -147,6 +147,9 @@ class _CustomTextDialogState extends State<CustomTextDialog> {
                 ],
               ),
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    elevation: 0),
                 onPressed: () {
                   if (widget
                           .checkIsExerciseExists(_textController.text.trim()) ==

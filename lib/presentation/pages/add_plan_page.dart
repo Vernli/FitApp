@@ -52,149 +52,160 @@ class _AddPlanPageState extends State<AddPlanPage> {
 
   @override
   Widget build(BuildContext context) {
+    const double bottomHeight = 64;
+
     Map<String, double> safeAreaPadding = {
       'paddingTop': MediaQuery.of(context).padding.top,
       'paddingBottom': MediaQuery.of(context).padding.bottom,
     };
-    // Calculate the free area for the content of the page
-    double safeAreaHeight = MediaQuery.of(context).size.height -
-        safeAreaPadding['paddingTop']! -
-        safeAreaPadding['paddingBottom']! -
-        106;
+
+    double safeAreaHeight =
+        safeAreaPadding['paddingTop']! + safeAreaPadding['paddingBottom']!;
+
+    double contentHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        MediaQuery.of(context).padding.bottom -
+        24 -
+        48 -
+        64 -
+        54;
+
     return Material(
       child: Container(
         height: MediaQuery.of(context).size.height,
         color: Theme.of(context).colorScheme.secondary,
-        child: Column(
-          children: [
-            PlanAddAppbar(
-              paddingTop: safeAreaPadding['paddingTop']!,
-              title: planTitle,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: safeAreaHeight,
-              margin: const EdgeInsets.only(
-                top: 8,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              PlanAddAppbar(
+                paddingTop: safeAreaPadding['paddingTop']!,
+                title: planTitle,
               ),
-              color: Theme.of(context).colorScheme.secondary,
-              child: Column(
-                children: [
-                  const SizedBox(height: 10),
-                  Center(
-                    child: WeekDaysTab(
-                      tabLength: 7,
-                      weekDays: [...weekDays],
-                      tabBarPages: weekDays
-                          .map(
-                            (day) => PlanAddTabPage(
-                              day: day,
-                              exercises: exercises[weekDays.indexOf(day)],
-                              onOrderChanged: (oldIndex, newIndex) {
-                                setState(() {
-                                  int index = weekDays.indexOf(day);
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height -
+                    safeAreaHeight -
+                    bottomHeight -
+                    24,
+                margin: const EdgeInsets.only(
+                  top: 8,
+                ),
+                color: Theme.of(context).colorScheme.secondary,
+                child: Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    Center(
+                      child: WeekDaysTab(
+                        tabLength: 7,
+                        weekDays: [...weekDays],
+                        tabBarPages: weekDays
+                            .map(
+                              (day) => PlanAddTabPage(
+                                day: day,
+                                exercises: exercises[weekDays.indexOf(day)],
+                                onOrderChanged: (oldIndex, newIndex) {
+                                  setState(() {
+                                    int index = weekDays.indexOf(day);
 
-                                  if (oldIndex < newIndex) {
-                                    newIndex--;
-                                  }
-                                  final exercise =
-                                      exercises[index].removeAt(oldIndex);
-                                  exercises[index].insert(newIndex, exercise);
-                                });
-                              },
-                              onRemoveExercise: (value) {
-                                int index = weekDays.indexOf(day);
-                                setState(() {
-                                  exercises[index].remove(value);
-                                  isExersiceEmpty = checkIsExerciseEmpty();
-                                });
-                              },
-                            ),
-                          )
-                          .toList(),
-                      contentHeight:
-                          (MediaQuery.of(context).size.height * 0.75 - 88),
-                      isBottomButton: true,
-                      checkIsExerciseExists: (index, value) {
-                        for (var element in exercises[index]) {
-                          if (element.exerciseName == value) {
-                            return true;
+                                    if (oldIndex < newIndex) {
+                                      newIndex--;
+                                    }
+                                    final exercise =
+                                        exercises[index].removeAt(oldIndex);
+                                    exercises[index].insert(newIndex, exercise);
+                                  });
+                                },
+                                onRemoveExercise: (value) {
+                                  int index = weekDays.indexOf(day);
+                                  setState(() {
+                                    exercises[index].remove(value);
+                                    isExersiceEmpty = checkIsExerciseEmpty();
+                                  });
+                                },
+                              ),
+                            )
+                            .toList(),
+                        contentHeight: contentHeight,
+                        isBottomButton: true,
+                        checkIsExerciseExists: (index, value) {
+                          for (var element in exercises[index]) {
+                            if (element.exerciseName == value) {
+                              return true;
+                            }
                           }
-                        }
-                        return false;
-                      },
-                      onAddExercise: (index, value) {
-                        setState(() {
-                          exercises[index].add(value);
-                          isExersiceEmpty = false;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              width: double.infinity,
-              height: 48,
-              child: BlocListener<PlanBloc, PlanState>(
-                listener: (context, state) {
-                  if (state is AddFailurePlanState) {
-                    showDialog(
-                      context: context,
-                      builder: (context) => const CustomAlertDialog(
-                        title: 'Nie można dodać planu',
-                        subtitle: 'Plan o podanej nazwie już istnieje!',
+                          return false;
+                        },
+                        onAddExercise: (index, value) {
+                          setState(() {
+                            exercises[index].add(value);
+                            isExersiceEmpty = false;
+                          });
+                        },
                       ),
-                    );
-                  } else if (state is AddSuccessPlanState) {
-                    Navigator.pop(context);
-                  }
-                },
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (isExersiceEmpty || planTitle.isEmpty) {
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: double.infinity,
+                height: bottomHeight,
+                child: BlocListener<PlanBloc, PlanState>(
+                  listener: (context, state) {
+                    if (state is AddFailurePlanState) {
                       showDialog(
                         context: context,
                         builder: (context) => const CustomAlertDialog(
-                          title: 'Nie można dodać pustego planu',
-                          subtitle: 'Dodaj ćwiczenie!',
+                          title: 'Nie można dodać planu',
+                          subtitle: 'Plan o podanej nazwie już istnieje!',
                         ),
                       );
-                    } else {
-                      context.read<PlanBloc>().add(
-                            PlanAddAction(
-                              planName: planTitle,
-                              exercises: getExercises(),
-                              date: CurrentDate.getDate()['date']!,
-                              time: CurrentDate.getDate()['time']!,
-                            ),
-                          );
+                    } else if (state is AddSuccessPlanState) {
+                      Navigator.pop(context);
                     }
                   },
-                  style: ElevatedButton.styleFrom(
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (isExersiceEmpty || planTitle.isEmpty) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => const CustomAlertDialog(
+                            title: 'Nie można dodać pustego planu',
+                            subtitle: 'Dodaj ćwiczenie!',
+                          ),
+                        );
+                      } else {
+                        context.read<PlanBloc>().add(
+                              PlanAddAction(
+                                planName: planTitle,
+                                exercises: getExercises(),
+                                date: CurrentDate.getDate()['date']!,
+                                time: CurrentDate.getDate()['time']!,
+                              ),
+                            );
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      elevation: 0,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        ),
                       ),
                     ),
-                  ),
-                  child: const Text(
-                    'Dodaj plan',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
+                    child: const Text(
+                      'Dodaj plan',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            Container(
-              height: safeAreaPadding['paddingBottom']!,
-              color: Theme.of(context).colorScheme.onSecondary,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -312,15 +323,12 @@ class _AddPlanPageState extends State<AddPlanPage> {
                 height: 48,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(24),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black,
-                      blurRadius: 1,
-                      offset: Offset(0, 1),
-                    ),
-                  ],
                 ),
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    backgroundColor: Theme.of(context).primaryColor,
+                  ),
                   onPressed: () {
                     if (textController.text.isEmpty) {
                       showDialog(

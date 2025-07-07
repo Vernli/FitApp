@@ -65,7 +65,6 @@ class MainPage extends StatelessWidget {
         length: 3,
         initialIndex: 1,
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
           appBar: const TabAppBar(
             tabs: [
               Tab(text: 'Kalorie'),
@@ -105,11 +104,6 @@ class MainPage extends StatelessWidget {
   }
 }
 
-/// Sets the preferred device orientations to portrait mode.
-///
-/// This function uses the `SystemChrome.setPreferredOrientations` method
-/// to set the preferred orientations to portrait mode, allowing the app
-/// to be displayed only in portrait orientation.
 Future setPortraitMode() async {
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],

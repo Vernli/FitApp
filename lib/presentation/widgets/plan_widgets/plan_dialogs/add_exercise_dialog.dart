@@ -128,6 +128,10 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                           ],
                         ),
                         child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(context).primaryColor,
+                            elevation: 0,
+                          ),
                           onPressed: () {
                             widget.onAddExercise(
                               PlanExercise(
@@ -140,7 +144,7 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                             Navigator.pop(context);
                           },
                           child: const Text(
-                            'Dodaj  ',
+                            'Dodaj',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),

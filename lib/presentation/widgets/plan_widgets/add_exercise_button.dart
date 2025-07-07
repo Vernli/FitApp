@@ -55,8 +55,7 @@ class AddExerciesButton extends StatelessWidget {
           );
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor:
-              Theme.of(context).colorScheme.primary.withOpacity(0.90),
+          backgroundColor: Theme.of(context).colorScheme.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
