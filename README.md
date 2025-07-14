@@ -18,6 +18,7 @@ This project reflects my interest in mobile development, clean architecture, and
 
 ## Flutter Project File Structure
 
+```plaintext
 lib/
 ├── buisness/                       # Business logic of the app (handling actions, BLoC, states)
 │   ├── action/                    # Definitions of actions triggered by the user or system
@@ -49,8 +50,7 @@ lib/
 │   ├── current_date.dart         # Date and time-related utility functions
 │   ├── plan_exercise.dart        # Logic for planning exercises (possibly DB-related)
 └── main.dart                      # Entry point of the Flutter application
-
-
-#Link to YouTube Presentation:
+```
+## Link to YouTube Presentation
 [![Presentation of FitApp](https://img.youtube.com/vi/QLSvFpT-Fds/maxresdefault.jpg)](https://www.youtube.com/watch?v=QLSvFpT-Fds)
 
