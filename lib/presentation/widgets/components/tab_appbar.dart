@@ -47,6 +47,7 @@ class TabAppBar extends StatelessWidget implements PreferredSizeWidget {
                 child: TabBar(
                   labelColor: Colors.white,
                   unselectedLabelColor: Colors.white,
+                  dividerColor: Colors.transparent,
                   indicatorSize: TabBarIndicatorSize.tab,
                   padding: const EdgeInsets.all(0),
                   indicator: BoxDecoration(

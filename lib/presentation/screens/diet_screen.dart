@@ -14,43 +14,45 @@ class DietScreen<T extends DietBloc> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     initializeDateFormatting('pl_PL', null);
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: BlocBuilder<DietBloc, DietState>(
-        builder: (context, state) {
-          switch (state) {
-            case InitDietState():
-              return StartupPage(
-                onPressed: () {
-                  return showDialog(
-                    context: context,
-                    builder: (dialogContext) => DietGoalDialog(
-                      onAdd: (kcal, carbs, proteins, fat) {
-                        context.read<DietBloc>().add(
-                              SetCaloriesGoalAction(
-                                proteins: proteins,
-                                carbs: carbs,
-                                fat: fat,
-                                kcal: kcal,
-                                date: DateTime.now().toString(),
-                              ),
-                            );
-                        Navigator.of(dialogContext).pop();
-                      },
-                    ),
-                  );
-                },
-                labelTitle: 'Ustal cel kaloryczny',
-              );
-            case LoadingDietState():
-              return const CircularProgressIndicator();
-            case LoadedDietState():
-              return const DietPage();
-            case LoadedLastWeekState():
-              return const SizedBox();
-          }
-        },
-        buildWhen: (previous, current) => previous != current,
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: BlocBuilder<DietBloc, DietState>(
+          builder: (context, state) {
+            switch (state) {
+              case InitDietState():
+                return StartupPage(
+                  onPressed: () {
+                    return showDialog(
+                      context: context,
+                      builder: (dialogContext) => DietGoalDialog(
+                        onAdd: (kcal, carbs, proteins, fat) {
+                          context.read<DietBloc>().add(
+                                SetCaloriesGoalAction(
+                                  proteins: proteins,
+                                  carbs: carbs,
+                                  fat: fat,
+                                  kcal: kcal,
+                                  date: DateTime.now().toString(),
+                                ),
+                              );
+                          Navigator.of(dialogContext).pop();
+                        },
+                      ),
+                    );
+                  },
+                  labelTitle: 'Ustal cel kaloryczny',
+                );
+              case LoadingDietState():
+                return const CircularProgressIndicator();
+              case LoadedDietState():
+                return const DietPage();
+              case LoadedLastWeekState():
+                return const SizedBox();
+            }
+          },
+          buildWhen: (previous, current) => previous != current,
+        ),
       ),
     );
   }

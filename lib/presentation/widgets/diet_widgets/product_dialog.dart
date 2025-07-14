@@ -310,6 +310,9 @@ class _ProductDialogState extends State<ProductDialog> {
                               width: 8,
                             ),
                             ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor),
                               child: Text('Dalej', style: dietInputLabel),
                               onPressed: () {
                                 if (_controllerMealName.text.isEmpty ||

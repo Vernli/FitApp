@@ -93,8 +93,11 @@ class _AddProgressPageState extends State<AddProgressPage> {
                     contoller: _weightController,
                   ),
                   SizedBox(
-                    height: 28,
+                    height: 32,
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary),
                       onPressed: () {
                         if (_scrollController.position.maxScrollExtent != 0) {
                           _scrollController.animateTo(
@@ -180,7 +183,7 @@ class _AddProgressPageState extends State<AddProgressPage> {
               ),
             ),
             SizedBox(
-              height: 48,
+              height: 64,
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
@@ -197,6 +200,7 @@ class _AddProgressPageState extends State<AddProgressPage> {
                   Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(20),
@@ -212,9 +216,6 @@ class _AddProgressPageState extends State<AddProgressPage> {
                   ),
                 ),
               ),
-            ),
-            Container(
-              height: safeAreaPadding['paddingBottom']!,
             ),
           ],
         ),

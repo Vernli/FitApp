@@ -101,7 +101,7 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                             currentMaxValue = value;
                           });
                         },
-                        title: 'Max. ilość pwotórzeń',
+                        title: 'Max. ilość powtórzeń',
                       ),
                     ),
                     AddExerciseCard(

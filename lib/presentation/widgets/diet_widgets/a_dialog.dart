@@ -90,6 +90,7 @@ class _ADialotState extends State<ADialot> {
                     child: Column(
                       children: [
                         Card(
+                          color: Theme.of(context).primaryColor,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
@@ -236,6 +237,7 @@ class _ADialotState extends State<ADialot> {
                           ),
                         ),
                         Card(
+                          color: Theme.of(context).primaryColor,
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Column(
@@ -298,6 +300,9 @@ class _ADialotState extends State<ADialot> {
                             ),
                             const SizedBox(width: 12),
                             ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.primary),
                               onPressed: () {
                                 if (weight == 0) {
                                   return;
